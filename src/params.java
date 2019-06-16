@@ -33,8 +33,8 @@ public class params {
 
     public params() {
 
-        runTime = 500;
-        Npatches = 4;
+        runTime = 100;
+        Npatches = 2;
         I = 5; // infected cells
         S = 25; // susceptible cells
         R = 0; // recovered cells
@@ -43,12 +43,12 @@ public class params {
         mig_blood_patch = 0.1 ; // migration rate
         //mig_patch_blood = 0.003; // migration rate
         //decay_in_blood = 0.2;
-        nu = 0.05; //patch extinction rate;
-        c = 0.02; // patch colonization rate;
+        nu = 0.01; //patch extinction rate;
+        c = 0.5; // patch colonization rate;
 
-        U = 0.1; // mutation rate
+        U = 0.05; // mutation rate
         seed = (int)Math.ceil(Math.random()*1000000000);
-        randomGenerator = new MersenneTwister(1000);
+        randomGenerator = new MersenneTwister(seed);
 
         extinctExpDist = new Exponential(0.05, randomGenerator);
         colonizeExpDist = new Exponential(0.1, randomGenerator);
