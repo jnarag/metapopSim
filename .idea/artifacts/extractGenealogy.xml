@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="extractGenealogy">
+    <output-path>$PROJECT_DIR$/out/artifacts/extractGenealogy</output-path>
+    <root id="archive" name="extractGenealogy.jar">
+      <element id="module-output" name="extractGenealogy" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../colt/lib/colt.jar" path-in-jar="/" />
+      <element id="module-output" name="metapopSim" />
+    </root>
+  </artifact>
+</component>

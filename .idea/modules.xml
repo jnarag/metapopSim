@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/extractGenealogy/extractGenealogy.iml" filepath="$PROJECT_DIR$/extractGenealogy/extractGenealogy.iml" />
       <module fileurl="file://$PROJECT_DIR$/metapopSim.iml" filepath="$PROJECT_DIR$/metapopSim.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../patchSim/patchSim.iml" filepath="$PROJECT_DIR$/../patchSim/patchSim.iml" />
     </modules>
   </component>
 </project>

@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="patchSim">
+    <output-path>$PROJECT_DIR$/out/artifacts/patchSim</output-path>
+    <root id="archive" name="patchSim.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="extracted-dir" path="$PROJECT_DIR$/../colt/lib/colt.jar" path-in-jar="/" />
+      <element id="module-output" name="metapopSim" />
+    </root>
+  </artifact>
+</component>
