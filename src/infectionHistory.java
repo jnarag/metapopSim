@@ -14,7 +14,6 @@ public class infectionHistory {
     List<List<Integer>> prevalence = null;
     List<Integer> patch = null;
     List<Double> fitness = null;
-    List<Integer> parentOrigin = null;
 
     public infectionHistory () {
 
@@ -25,7 +24,6 @@ public class infectionHistory {
         parent = new ArrayList<>();
         prevalence = new ArrayList<>();
         patch = new ArrayList<>();
-        parentOrigin = new ArrayList<>();
 
     }
 
@@ -64,10 +62,6 @@ public class infectionHistory {
 
 
 
-    public void logParentOrigin(Integer patchOrBlood) {
-        // 0 for patch; 1 for blood
-        this.parentOrigin.add(patchOrBlood);
-    }
 
     public void logPrevalence(Integer prevalence, int index) {
 

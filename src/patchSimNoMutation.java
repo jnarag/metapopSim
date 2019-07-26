@@ -238,8 +238,8 @@ public class patchSimNoMutation {
 
                     //extinction
 
-                    List<Integer> occupyPatchList_copy = deepCopy(occupyPatchList);
-                    List<Integer> emptyPatchList_copy = deepCopy(emptyPatchList);
+//                    List<Integer> occupyPatchList_copy = deepCopy(occupyPatchList);
+//                    List<Integer> emptyPatchList_copy = deepCopy(emptyPatchList);
 
 
                     int min = Math.min(num, occupyPatchList.size());
@@ -290,16 +290,16 @@ public class patchSimNoMutation {
                             genotype_curr_per_patch.get(patch_index).clear();
 
 
-                            occupyPatchList_copy.remove((Integer)patch_index);
-                            emptyPatchList_copy.add(patch_index);
+                            occupyPatchList.remove((Integer)patch_index);
+                            emptyPatchList.add(patch_index);
 
                         }
 
                         j++;
                     }
 
-                    occupyPatchList = deepCopy(occupyPatchList_copy);
-                    emptyPatchList = deepCopy(emptyPatchList_copy);
+//                    occupyPatchList = deepCopy(occupyPatchList_copy);
+//                    emptyPatchList = deepCopy(emptyPatchList_copy);
 
 
                 }
@@ -309,10 +309,10 @@ public class patchSimNoMutation {
 
                     j = 0;
 
-                    List<Integer> emptyPatchList_copy = deepCopy(emptyPatchList);
-                    List<Integer> occupyPatchList_copy = deepCopy(occupyPatchList);
+//                    List<Integer> emptyPatchList_copy = deepCopy(emptyPatchList);
+//                    List<Integer> occupyPatchList_copy = deepCopy(occupyPatchList);
 
-                    int min = Math.min(num, emptyPatchList_copy.size());
+                    int min = Math.min(num, emptyPatchList.size());
 
                     new_infected += min;
 
@@ -349,8 +349,8 @@ public class patchSimNoMutation {
                                 patch_history.prevalence.set(0,new_prevalence);
 
 
-                                emptyPatchList_copy.remove((Integer)patch_index);
-                                occupyPatchList_copy.add((Integer)(patch_index));
+                                emptyPatchList.remove((Integer)patch_index);
+                                occupyPatchList.add((Integer)(patch_index));
 
                            // }
 
@@ -359,8 +359,8 @@ public class patchSimNoMutation {
                         j++;
                     }
 
-                    occupyPatchList = deepCopy(occupyPatchList_copy);
-                    emptyPatchList = deepCopy(emptyPatchList_copy);
+//                    occupyPatchList = deepCopy(occupyPatchList_copy);
+//                    emptyPatchList = deepCopy(emptyPatchList_copy);
 
                 }
             }

@@ -12,6 +12,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
+
 public class patchSim {
 
     params params;
@@ -98,7 +99,6 @@ public class patchSim {
 
         double colonize = 0.0;
         double extinct = 0.0;
-        double mutate = 0.0;
         double death = 0.1;
 
 
@@ -156,11 +156,9 @@ public class patchSim {
             int total_infected = 0;
             int total_genotypes = 0;
 
-
             colonize = params.c;
             extinct = params.nu;
             death = 0.1;
-
 
             if(t_curr < 40) {
 
@@ -168,11 +166,9 @@ public class patchSim {
                 death = 0.0;
                 colonize = 0.1;
 
-
             }
 
             String sim = "ext_"+ extinct+"_col_"+colonize+"_Npatch_"+params.Npatches+"_PatchSize_"+(params.S+params.I);
-
 
             for(Integer patch: genotype_curr_per_patch.keySet()) {
 
@@ -258,8 +254,8 @@ public class patchSim {
 
                     //extinction
 
-                    List<Integer> occupyPatchList_copy = deepCopy(occupyPatchList);
-                    List<Integer> emptyPatchList_copy = deepCopy(emptyPatchList);
+//                    List<Integer> occupyPatchList_copy = deepCopy(occupyPatchList);
+//                    List<Integer> emptyPatchList_copy = deepCopy(emptyPatchList);
 
 
                     int min = Math.min(num, occupyPatchList.size());
@@ -310,16 +306,16 @@ public class patchSim {
                             genotype_curr_per_patch.get(patch_index).clear();
 
 
-                            occupyPatchList_copy.remove((Integer)patch_index);
-                            emptyPatchList_copy.add(patch_index);
+                            occupyPatchList.remove((Integer)patch_index);
+                            emptyPatchList.add(patch_index);
 
                         }
 
                         j++;
                     }
 
-                    occupyPatchList = deepCopy(occupyPatchList_copy);
-                    emptyPatchList = deepCopy(emptyPatchList_copy);
+//                    occupyPatchList = deepCopy(occupyPatchList_copy);
+//                    emptyPatchList = deepCopy(emptyPatchList_copy);
 
 
                 }
@@ -329,11 +325,11 @@ public class patchSim {
 
                     j = 0;
 
-                    List<Integer> emptyPatchList_copy = deepCopy(emptyPatchList);
-                    List<Integer> occupyPatchList_copy = deepCopy(occupyPatchList);
+//                    List<Integer> emptyPatchList_copy = deepCopy(emptyPatchList);
+//                    List<Integer> occupyPatchList_copy = deepCopy(occupyPatchList);
 
 
-                    int min = Math.min(num, emptyPatchList_copy.size());
+                    int min = Math.min(num, emptyPatchList.size());
 
                     while (j < min) {
 
@@ -382,50 +378,50 @@ public class patchSim {
                             double prob_colonize = 0.5;
 
 //
-                            if (rand < prob_colonize) {
+//                            if (rand < prob_colonize) {
 
-                                timeRefactory_curr_i[patch_index] = 0.0;
+                            timeRefactory_curr_i[patch_index] = 0.0;
 
-                                int newInfections = Uniform.staticNextIntFromTo(1, 3);
+                            int newInfections = Uniform.staticNextIntFromTo(1, 3);
 
-                                Y_curr_i[patch_index] = newInfections;
-                                X_curr_i[patch_index] -= newInfections;
+                            Y_curr_i[patch_index] = newInfections;
+                            X_curr_i[patch_index] -= newInfections;
 
-                                r = Uniform.staticNextIntFromTo(0, curr_in_body.size()-1);
-                                Integer colonizing_genotype = curr_in_body.get(r);
+                            r = Uniform.staticNextIntFromTo(0, curr_in_body.size()-1);
+                            Integer colonizing_genotype = curr_in_body.get(r);
 
 
-                                for (int i = 0; i < newInfections; i++) {
+                            for (int i = 0; i < newInfections; i++) {
 
-                                    genotype_curr_per_patch.get(patch_index).add(genotype);
-
-                                }
-                                patch_history.logBirth(t_curr);
-                                patch_history.logDeath(Double.POSITIVE_INFINITY);
-                                patch_history.logGenotype(genotype);
-                                patch_history.logMutations(0);
-                                patch_history.logParent(colonizing_genotype);
-                                patch_history.logPatch(patch_index);
-
-                                List<Integer> new_prevalence = new ArrayList<>(Arrays.asList(new Integer[(int) (t_max / tau)]));
-                                Collections.fill(new_prevalence, 0);
-                                new_prevalence.set(t, newInfections);
-                                patch_history.prevalence.add(new_prevalence);
-                                genotype++;
-                                //curr_in_body.clear();
-
-                                emptyPatchList_copy.remove((Integer)patch_index);
-                                occupyPatchList_copy.add((Integer)(patch_index));
+                                genotype_curr_per_patch.get(patch_index).add(genotype);
 
                             }
+                            patch_history.logBirth(t_curr);
+                            patch_history.logDeath(Double.POSITIVE_INFINITY);
+                            patch_history.logGenotype(genotype);
+                            patch_history.logMutations(0);
+                            patch_history.logParent(colonizing_genotype);
+                            patch_history.logPatch(patch_index);
+
+                            List<Integer> new_prevalence = new ArrayList<>(Arrays.asList(new Integer[(int) (t_max / tau)]));
+                            Collections.fill(new_prevalence, 0);
+                            new_prevalence.set(t, newInfections);
+                            patch_history.prevalence.add(new_prevalence);
+                            genotype++;
+                            //curr_in_body.clear();
+
+                            emptyPatchList.remove((Integer)patch_index);
+                            occupyPatchList.add((Integer)(patch_index));
 
                         }
 
-                        j++;
                     }
 
-                    occupyPatchList = deepCopy(occupyPatchList_copy);
-                    emptyPatchList = deepCopy(emptyPatchList_copy);
+                    j++;
+//                    }
+
+//                    occupyPatchList = deepCopy(occupyPatchList_copy);
+//                    emptyPatchList = deepCopy(emptyPatchList_copy);
 
                 }
             }
@@ -526,7 +522,7 @@ public class patchSim {
 
                         while (j < min) {
 
-                            Integer mutations = Poisson.staticNextInt(params.U); //double check if rate vs mean
+                            int mutations = Poisson.staticNextInt(params.U); //double check if rate vs mean
 
 
                             if(mutations == 0) {
@@ -572,7 +568,6 @@ public class patchSim {
                                 patch_history.logBirth(t_curr);
                                 patch_history.logDeath(Double.POSITIVE_INFINITY);
                                 patch_history.logPatch(patch_index);
-                                patch_history.logParentOrigin(0);
 
 //                                List<Integer> prevalence = new ArrayList<>();
 //                                prevalence.addAll(patch_history.prevalence.get(parent_index));
@@ -794,9 +789,9 @@ public class patchSim {
         Integer ancestor = commonAncestor(i1,i2);
         //if(ancestor.intValue() != (int)Double.NEGATIVE_INFINITY) {
 
-            double distA = patch_history.getMutationsFromParent(i1, ancestor);
-            double distB = patch_history.getMutationsFromParent(i2, ancestor);
-            return distA + distB;
+        double distA = patch_history.getMutationsFromParent(i1, ancestor);
+        double distB = patch_history.getMutationsFromParent(i2, ancestor);
+        return distA + distB;
 //        }
 //        else{
 //            return 0;
@@ -853,22 +848,22 @@ public class patchSim {
             Integer vB = genotype_curr.get(Uniform.staticNextIntFromTo(0, genotype_curr.size()-1));
 
             //if (vA.intValue() != (int)Double.NEGATIVE_INFINITY && vB.intValue() != (int)Double.NEGATIVE_INFINITY) {
-                double dist = distance(vA, vB);
-                double geneticDist = geneticDistance(vA, vB);
-                double div_a = patch_history.getMutationsFromParent(vA, 1);
-                double div_b = patch_history.getMutationsFromParent(vB, 1);
+            double dist = distance(vA, vB);
+            double geneticDist = geneticDistance(vA, vB);
+            double div_a = patch_history.getMutationsFromParent(vA, 1);
+            double div_b = patch_history.getMutationsFromParent(vB, 1);
 
-                diversity += dist;
-                geneticDiversity += geneticDist;
-                divergence += div_a;
-                divergence +=div_b;
+            diversity += dist;
+            geneticDiversity += geneticDist;
+            divergence += div_a;
+            divergence +=div_b;
 
 
-                if (dist > tmrca1) {
-                    tmrca1 = dist;
-                }
-                sampleCount1 += 1;
+            if (dist > tmrca1) {
+                tmrca1 = dist;
             }
+            sampleCount1 += 1;
+        }
         //}
         if (sampleCount1 > 0) {
             diversity /= (double) sampleCount1;
