@@ -11,6 +11,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
+import mpi.*;
+
+import javax.xml.crypto.Data;
 
 
 public class patchSim {
@@ -163,7 +166,6 @@ public class patchSim {
             if(t_curr < 40) {
 
                 extinct = 0;
-                death = 0.0;
                 colonize = 0.1;
 
             }
@@ -414,11 +416,9 @@ public class patchSim {
                             occupyPatchList.add((Integer)(patch_index));
 
                         }
-
+                        j++;
                     }
 
-                    j++;
-//                    }
 
 //                    occupyPatchList = deepCopy(occupyPatchList_copy);
 //                    emptyPatchList = deepCopy(emptyPatchList_copy);
@@ -888,20 +888,69 @@ public class patchSim {
 
     }
 
-    public static void main(String [] args) {
+    public static void main(String [] args) throws MPIException {
 
-        patchSim test = new patchSim();
-        params inputParams = new params();
-        inputParams.runTime = Double.parseDouble(args[0]);
-        inputParams.startTime = Double.parseDouble(args[1]);
-        inputParams.Npatches = Integer.parseInt(args[2]);
-        inputParams.S = Integer.parseInt(args[3]);
-        inputParams.I = Integer.parseInt(args[4]);
-        inputParams.nu = Double.parseDouble(args[5]);
-        inputParams.c = Double.parseDouble(args[6]);
-        inputParams.U = Double.parseDouble(args[7]);
-        test.runSim(inputParams);
+//        patchSim test = new patchSim();
+//        params inputParams = new params();
+//        inputParams.runTime = Double.parseDouble(args[0]);
+//        inputParams.startTime = Double.parseDouble(args[1]);
+//        inputParams.Npatches = Integer.parseInt(args[2]);
+//        inputParams.S = Integer.parseInt(args[3]);
+//        inputParams.I = Integer.parseInt(args[4]);
+//        inputParams.nu = Double.parseDouble(args[5]);
+//        inputParams.c = Double.parseDouble(args[6]);
+//        inputParams.U = Double.parseDouble(args[7]);
+//        test.runSim(inputParams);
 
+
+// Hello World
+//        // number of processes
+//        int size;
+//        // process rank
+//        int rank;
+//
+//        // initialise MPI
+//        MPI.Init(args) ;
+//        // retrieve size of default communicator
+//        size = MPI.COMM_WORLD.getSize();
+//        // retrieve process rank
+//        rank = MPI.COMM_WORLD.getRank();
+//        // print message
+//        System.out.println("Hello world from process "+ rank+ " of "+ size);
+//        // finalise MPI
+//        MPI.Finalize();
+
+
+
+        MPI.Init(args);
+
+        int rank = MPI.COMM_WORLD.getRank() ; //The current process.
+        int size = MPI.COMM_WORLD.getSize() ; //Total number of processes
+        int peer ;
+
+        params[] buffer  = new params[10];
+        params x = new params();
+        int len = 1 ;
+        int dataToBeSent = 99 ;
+        int tag = 100 ;
+
+        if(rank == 0) {
+
+            buffer[0] = x ;
+            peer = 1 ;
+            MPI.COMM_WORLD.send(buffer, len, MPI.INT, peer, tag) ;
+            System.out.println("process <"+rank+"> sent a msg to process <"+peer+">") ;
+
+        } else if(rank == 1) {
+
+            peer = 0 ;
+            Status status = MPI.COMM_WORLD.recv(buffer, buffer.length, MPI.INT, peer, tag);
+            System.out.println("process <"+rank+"> recv'ed a msg\n" +"\tdata   <"+buffer[0].Npatches    +"> \n"+
+                    "\tsource <"+status.getSource()+"> \n"+"\ttag    <"+status.getTag()   +"> \n"+"\tcount  <"+status.getCount(MPI.INT) +">") ;
+
+        }
+
+        MPI.Finalize();
     }
 
     private int sumArray(int[] array) {
