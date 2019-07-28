@@ -25,15 +25,21 @@ public class patchSim {
     int genotype;
     Map<Integer, List<Integer>> genotype_curr_per_patch;
     List<Double> potentialSamplingTimepoints;
-
+    List<Integer> emptyPatchList;
+    List<Integer> occupyPatchList;
+    int total_infected;
+    int total_genotypes;
 
     public patchSim() {
 
         tau = 0.25;
         patch_history = new infectionHistory();
-
         genotype = 1;
         genotype_curr_per_patch = new HashMap<>();
+        emptyPatchList = new ArrayList<>();
+        occupyPatchList = new ArrayList<>();
+        total_genotypes = 0;
+        total_infected = 0;
         //potentialSamplingTimepoints = new ArrayList<>();
 
     }
@@ -82,8 +88,8 @@ public class patchSim {
         double[] colonize_i = new double[params.Npatches];
         double[] extinct_i = new double[params.Npatches];
 
-        List<Integer> emptyPatchList = new ArrayList<>();
-        List<Integer> occupyPatchList = new ArrayList<>();
+//        List<Integer> emptyPatchList = new ArrayList<>();
+//        List<Integer> occupyPatchList = new ArrayList<>();
 
 
 
@@ -156,8 +162,8 @@ public class patchSim {
 
             t_curr += tau;
 
-            int total_infected = 0;
-            int total_genotypes = 0;
+//            int total_infected = 0;
+//            int total_genotypes = 0;
 
             colonize = params.c;
             extinct = params.nu;
@@ -172,55 +178,11 @@ public class patchSim {
 
             String sim = "ext_"+ extinct+"_col_"+colonize+"_Npatch_"+params.Npatches+"_PatchSize_"+(params.S+params.I);
 
-            for(Integer patch: genotype_curr_per_patch.keySet()) {
 
-                total_infected+=genotype_curr_per_patch.get(patch).size();
-                total_genotypes+=(new HashSet<>(genotype_curr_per_patch.get(patch))).size();
-                if(genotype_curr_per_patch.get(patch).size()==0) {
-                    emptyPatchList.add(patch);
-                }
-                else{
-                    occupyPatchList.add(patch);
-                }
+            updatePatchStatistics(writer1, t_curr, sim);
 
-
-
-                if(t_curr % 10 == 0) {
-                    List<Double> diversity_results = updateDiversity(genotype_curr_per_patch.get(patch), false);
-
-                    double diversity = diversity_results.get(0);
-                    double tmrca = diversity_results.get(1);
-                    double geneticDiversity = diversity_results.get(2);
-
-                    try {
-                        writer1.write(t_curr + "\t" + (patch + 1) + "\t" + genotype_curr_per_patch.get(patch).size() +
-                                "\t" + (new HashSet<>(genotype_curr_per_patch.get(patch))).size() +
-                                "\t" + diversity + "\t" + tmrca + "\t" + geneticDiversity + "\t" + sim + "\n");
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-            }
-
-
-            for (int i = 0; i < patch_history.prevalence.size(); i++) {
-
-                //List<Integer> prevalence = patch_history.prevalence.get(i);
-                int prev_curr = patch_history.prevalence.get(i).get(t - 1);
-                patch_history.prevalence.get(i).set(t, prev_curr);
-
-
-                Integer genotype_i = patch_history.genotype.get(i);
-
-                if (patch_history.prevalence.get(i).get(t) > 0) {
-
-                    Integer[] genotype_array = new Integer[patch_history.prevalence.get(i).get(t - 1)];
-                    Arrays.fill(genotype_array, genotype_i);
-                    curr_in_body.addAll(Arrays.asList(genotype_array));
-                }
-
-            }
+            //determine what is present currently across all patches
+            update_curr_in_body(curr_in_body, t);
 
 
             if(t_curr%10==0) {
@@ -374,13 +336,6 @@ public class patchSim {
 
                             Collections.shuffle(curr_in_body);
 
-
-                            double rand = Uniform.staticNextDouble();
-
-                            double prob_colonize = 0.5;
-
-//
-//                            if (rand < prob_colonize) {
 
                             timeRefactory_curr_i[patch_index] = 0.0;
 
@@ -799,7 +754,67 @@ public class patchSim {
 //        }
     }
 
+    public void updatePatchStatistics(FileWriter writer, double t_curr, String sim) {
 
+        total_infected = 0;
+        total_genotypes = 0;
+
+        for(Integer patch: genotype_curr_per_patch.keySet()) {
+
+
+            total_infected+=genotype_curr_per_patch.get(patch).size();
+            total_genotypes+=(new HashSet<>(genotype_curr_per_patch.get(patch))).size();
+            if(genotype_curr_per_patch.get(patch).size()==0) {
+                emptyPatchList.add(patch);
+            }
+            else{
+                occupyPatchList.add(patch);
+            }
+
+
+
+            if(t_curr % 10 == 0) {
+                List<Double> diversity_results = updateDiversity(genotype_curr_per_patch.get(patch), false);
+
+                double diversity = diversity_results.get(0);
+                double tmrca = diversity_results.get(1);
+                double geneticDiversity = diversity_results.get(2);
+
+                try {
+                    writer.write(t_curr + "\t" + (patch + 1) + "\t" + genotype_curr_per_patch.get(patch).size() +
+                            "\t" + (new HashSet<>(genotype_curr_per_patch.get(patch))).size() +
+                            "\t" + diversity + "\t" + tmrca + "\t" + geneticDiversity + "\t" + sim + "\n");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+    }
+
+    public void update_curr_in_body(List<Integer> curr_in_body, int t) {
+        for (int i = 0; i < patch_history.prevalence.size(); i++) {
+
+            //List<Integer> prevalence = patch_history.prevalence.get(i);
+            int prev_curr = patch_history.prevalence.get(i).get(t - 1);
+            patch_history.prevalence.get(i).set(t, prev_curr);
+
+
+            Integer genotype_i = patch_history.genotype.get(i);
+
+            if (prev_curr > 0) {
+
+//                Integer[] genotype_array = new Integer[patch_history.prevalence.get(i).get(t - 1)];
+//                Arrays.fill(genotype_array, genotype_i);
+
+                List<Integer> tmp = Collections.nCopies(prev_curr, genotype_i);
+                //curr_in_body.addAll(Arrays.asList(genotype_array));
+                curr_in_body.addAll(tmp);
+            }
+
+        }
+
+    }
 
     public List<Double> updateDiversity(List<Integer> genotype_curr, boolean getDivergence) {
 
@@ -922,35 +937,138 @@ public class patchSim {
 
 
 
+//        MPI.Init(args);
+//
+//        int rank = MPI.COMM_WORLD.getRank() ; //The current process.
+//        int size = MPI.COMM_WORLD.getSize() ; //Total number of processes
+//        int peer ;
+//
+//        infectionHistory [] buffer  = new infectionHistory[1];
+//        infectionHistory x = new infectionHistory();
+//        int len = 1 ;
+//        int dataToBeSent = 99 ;
+//        int tag = 100 ;
+//
+//        if(rank == 0) {
+//
+//            buffer[0] = x ;
+//            peer = 1 ;
+//            MPI.COMM_WORLD.send(buffer, len, MPI.INT, peer, tag) ;
+//            System.out.println("process <"+rank+"> sent a msg to process <"+peer+">") ;
+//
+//        } else if(rank == 1) {
+//
+//            peer = 0 ;
+//            Status status = MPI.COMM_WORLD.recv(buffer, buffer.length, MPI.INT, peer, tag);
+//
+//
+//
+//            System.out.println("process <"+rank+"> recv'ed a msg\n" +"\tdata   <"+buffer[0].prevalence.size()    +"> \n"+
+//                    "\tsource <"+status.getSource()+"> \n"+"\ttag    <"+status.getTag()   +"> \n"+"\tcount  <"+status.getCount(MPI.INT) +">") ;
+//
+//        }
+//
+//        MPI.Finalize();
+//
         MPI.Init(args);
 
-        int rank = MPI.COMM_WORLD.getRank() ; //The current process.
-        int size = MPI.COMM_WORLD.getSize() ; //Total number of processes
-        int peer ;
+        int t_max= 5;
+        int t = 0;
 
-        params[] buffer  = new params[10];
-        params x = new params();
-        int len = 1 ;
-        int dataToBeSent = 99 ;
-        int tag = 100 ;
+        int rank = MPI.COMM_WORLD.getRank();
+        int size = MPI.COMM_WORLD.getSize();
+        int count = 0;
+        int [] buffer = new int[2];
+        int [] tmp = new int[1];
 
-        if(rank == 0) {
+        buffer[0] = count;
 
-            buffer[0] = x ;
-            peer = 1 ;
-            MPI.COMM_WORLD.send(buffer, len, MPI.INT, peer, tag) ;
-            System.out.println("process <"+rank+"> sent a msg to process <"+peer+">") ;
+        tmp[0] = rank;
+        while(t < t_max) {
 
-        } else if(rank == 1) {
+            if(rank == 0) {
 
-            peer = 0 ;
-            Status status = MPI.COMM_WORLD.recv(buffer, buffer.length, MPI.INT, peer, tag);
-            System.out.println("process <"+rank+"> recv'ed a msg\n" +"\tdata   <"+buffer[0].Npatches    +"> \n"+
-                    "\tsource <"+status.getSource()+"> \n"+"\ttag    <"+status.getTag()   +"> \n"+"\tcount  <"+status.getCount(MPI.INT) +">") ;
+                //Status status = MPI.COMM_WORLD.recv(buffer, buffer.length, MPI.INT, 1, 100);
+                //tmp[0] = rank;
+                count = buffer[0];
+                buffer[1] = rank;
+                for(int i = 0; i < 2; i++) {
 
+                    count++;
+
+                }
+
+                buffer[0] = count;
+                MPI.COMM_WORLD.send(buffer, buffer.length, MPI.INT, 1, 100);
+                //MPI.COMM_WORLD.recv(tmp, tmp.length, MPI.INT, tmp[0], 1);
+
+                System.out.println("o " +MPI.COMM_WORLD.getRank()+ " "+count);
+
+
+                //MPI.COMM_WORLD.send(buffer, buffer.length, MPI.INT, 1, 100);
+            }
+            else {
+                //tmp[0] = rank;
+                MPI.COMM_WORLD.recv(buffer, buffer.length, MPI.INT, 0, 100);
+                //MPI.COMM_WORLD.send(tmp, tmp.length, MPI.INT, tmp[0], 1);
+
+            }
+            //else {
+
+
+            for (int p = 0; p < 5; p++) {
+
+                if(rank != 0) {
+                    buffer[1] = rank;
+                    count = buffer[0];
+
+                    count++;
+                    //MPI.COMM_WORLD.recv(buffer, buffer.length, MPI.INT, 0, 100);
+                    System.out.println("p " + MPI.COMM_WORLD.getRank() + " " + count);
+
+                    buffer[0] = count;
+                    MPI.COMM_WORLD.send(buffer, buffer.length, MPI.INT, 0, 100);
+                }
+
+                else{
+                    MPI.COMM_WORLD.recv(buffer, buffer.length, MPI.INT, 1, 100);
+
+                    System.out.println("o " +MPI.COMM_WORLD.getRank()+ " "+buffer[0]+ " "+buffer[1]);
+
+                    //tmp[0] = rank;
+
+                }
+
+
+            }
+
+//            if(MPI.COMM_WORLD.getRank()==0) {
+//                MPI.COMM_WORLD.recv(buffer, buffer.length, MPI.INT, 0, 100);
+//
+//            }
+
+
+//                if(MPI.COMM_WORLD.getRank() == 0) {
+//                    MPI.COMM_WORLD.recv(buffer, buffer.length, MPI.INT, 1, 100);
+//                }
+
+//                else {
+//                    MPI.COMM_WORLD.recv(buffer, buffer.length, MPI.INT, 0, 100);
+//                    System.out.println(rank+ " "+buffer[0]);
+//
+//                }
+            //}
+
+//            if(MPI.COMM_WORLD.getRank() == 0) {
+//                MPI.COMM_WORLD.recv(buffer, buffer.length, MPI.INT, 1, 100);
+//            }
+            t++;
         }
 
         MPI.Finalize();
+
+
+
     }
 
     private int sumArray(int[] array) {
