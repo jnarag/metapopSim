@@ -1,10 +1,12 @@
+import java.io.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by jayna on 18/05/2018.
  */
-public class infectionHistory {
+public class infectionHistory implements Serializable {
 
     List<Integer> genotype = null;
     List<Integer> mutationsFromParent = null;
@@ -24,6 +26,7 @@ public class infectionHistory {
         parent = new ArrayList<>();
         prevalence = new ArrayList<>();
         patch = new ArrayList<>();
+        fitness = new ArrayList<>();
 
     }
 
@@ -139,6 +142,24 @@ public class infectionHistory {
         return this.parent.get(index);
     }
 
+    public void copyInfectionHistory(infectionHistory history) {
+
+        this.genotype = new ArrayList<>();
+        this.genotype.addAll(history.genotype);
+        this.prevalence = new ArrayList<>();
+        this.prevalence.addAll(history.prevalence);
+        this.death = new ArrayList<>();
+        this.death.addAll(history.death);
+        this.birth = new ArrayList<>();
+        this.birth.addAll(history.birth);
+        this.patch = new ArrayList<>();
+        this.patch.addAll(history.patch);
+        this.mutationsFromParent = new ArrayList<>();
+        this.mutationsFromParent.addAll(history.mutationsFromParent);
+        this.fitness = new ArrayList<>();
+        this.fitness.addAll(history.fitness);
+    }
+
 
     public List<Double> getCompleteBirths() {
         return this.birth;
@@ -147,9 +168,95 @@ public class infectionHistory {
         return this.death;
     }
 
-    public List<Integer> getCompleteGenotypes() {
-        return this.genotype;
+
+    public byte[] serializaData() {
+
+        ArrayList<Object> x = new ArrayList<>();
+        x.add(genotype);
+        x.add(mutationsFromParent);
+        x.add(birth);
+        x.add(death);
+        x.add(parent);
+        x.add(prevalence);
+        x.add(patch);
+        x.add(fitness);
+
+        byte[] bytes = null;
+        try {
+            //FileOutputStream fileOut = new FileOutputStream("history.ser");
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            //bos.writeTo(fileOut);
+            ObjectOutputStream out = new ObjectOutputStream(bos);
+            out.flush();
+            out.writeObject(x);
+            bytes = bos.toByteArray();
+            out.close();
+            bos.close();
+            //System.out.println("Serialized data is saved in bytes "+bytes.length);
+            return bytes;
+        } catch (IOException i) {
+            i.printStackTrace();
+        }
+
+        return null;
+
+
     }
+
+    public void deserializaData(byte[] bytes) {
+
+        //ArrayList<Object> deserialized = null;
+        // Deserialize in to new class object
+        Object deserialized = null;
+
+        try {
+            ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
+
+            //FileInputStream fileIn = new FileInputStream("history.ser");
+
+            ObjectInputStream in = new ObjectInputStream(bis);
+            deserialized = in.readObject();
+            in.close();
+            bis.close();
+        }
+        catch(IOException i){
+            i.printStackTrace();
+        } catch(ClassNotFoundException c){
+            c.printStackTrace();
+        }
+
+        ArrayList<Object> x = (ArrayList<Object>)deserialized;
+        this.genotype = ((ArrayList<Integer>)x.get(0));
+        this.mutationsFromParent = ((ArrayList<Integer>)x.get(1));
+        this.birth = ((ArrayList<Double>)x.get(2));
+        this.death = ((ArrayList<Double>)x.get(3));
+        this.parent = ((ArrayList<Integer>)x.get(4));
+        this.prevalence = ((ArrayList<List<Integer>>)x.get(5));
+        this.patch = ((ArrayList<Integer>)x.get(6));
+        this.fitness = ((ArrayList<Double>)x.get(7));
+
+
+    }
+
+    public static void main(String [] args) {
+
+        infectionHistory history = new infectionHistory();
+        history.genotype.add(0);
+        history.genotype.add(1);
+        history.genotype.add(2);
+        history.genotype.add(3);
+
+        byte[] b = history.serializaData();
+
+        infectionHistory new_history = new infectionHistory();
+
+        new_history.deserializaData(b);
+
+
+        System.out.println(new_history.genotype);
+
+    }
+
 
 
 

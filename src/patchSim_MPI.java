@@ -3,21 +3,18 @@
  */
 
 import cern.colt.list.DoubleArrayList;
-import cern.jet.random.Exponential;
 import cern.jet.random.Poisson;
 import cern.jet.random.Uniform;
+import mpi.MPI;
+import mpi.MPIException;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.Buffer;
 import java.util.*;
-import mpi.*;
-import java.io.*;
-import java.nio.ByteBuffer;
 
 
-public class patchSim {
+public class patchSim_MPI {
 
     params params;
     infectionHistory patch_history;
@@ -31,7 +28,7 @@ public class patchSim {
     int total_infected;
     int total_genotypes;
 
-    public patchSim() {
+    public patchSim_MPI() {
 
         tau = 0.25;
         patch_history = new infectionHistory();
@@ -851,17 +848,231 @@ public class patchSim {
 
     public static void main(String [] args) throws MPIException {
 
-        patchSim test = new patchSim();
-        params inputParams = new params();
-        inputParams.runTime = Double.parseDouble(args[0]);
-        inputParams.startTime = Double.parseDouble(args[1]);
-        inputParams.Npatches = Integer.parseInt(args[2]);
-        inputParams.S = Integer.parseInt(args[3]);
-        inputParams.I = Integer.parseInt(args[4]);
-        inputParams.nu = Double.parseDouble(args[5]);
-        inputParams.c = Double.parseDouble(args[6]);
-        inputParams.U = Double.parseDouble(args[7]);
-        test.runSim(inputParams);
+//        patchSim test = new patchSim();
+//        params inputParams = new params();
+//        inputParams.runTime = Double.parseDouble(args[0]);
+//        inputParams.startTime = Double.parseDouble(args[1]);
+//        inputParams.Npatches = Integer.parseInt(args[2]);
+//        inputParams.S = Integer.parseInt(args[3]);
+//        inputParams.I = Integer.parseInt(args[4]);
+//        inputParams.nu = Double.parseDouble(args[5]);
+//        inputParams.c = Double.parseDouble(args[6]);
+//        inputParams.U = Double.parseDouble(args[7]);
+//        test.runSim(inputParams);
+
+
+// Hello World
+//        // number of processes
+//        int size;
+//        // process rank
+//        int rank;
+//
+//        // initialise MPI
+//        MPI.Init(args) ;
+//        // retrieve size of default communicator
+//        size = MPI.COMM_WORLD.getSize();
+//        // retrieve process rank
+//        rank = MPI.COMM_WORLD.getRank();
+//        // print message
+//        System.out.println("Hello world from process "+ rank+ " of "+ size);
+//        // finalise MPI
+//        MPI.Finalize();
+
+
+
+//        MPI.Init(args);
+//
+//        int rank = MPI.COMM_WORLD.getRank() ; //The current process.
+//        int size = MPI.COMM_WORLD.getSize() ; //Total number of processes
+//        int peer ;
+//
+//        infectionHistory x = new infectionHistory();
+//        int len = 1 ;
+//        int dataToBeSent = 99 ;
+//        int tag = 100 ;
+//
+//        if(rank == 0) {
+//
+//            peer = 1 ;
+//            MPI.COMM_WORLD.send(buffer, len, MPI.INT, peer, tag) ;
+//            System.out.println("process <"+rank+"> sent a msg to process <"+peer+">") ;
+//
+//        } else if(rank == 1) {
+//
+//            peer = 0 ;
+//            Status status = MPI.COMM_WORLD.recv(buffer, buffer.length, MPI.INT, peer, tag);
+//
+//
+//
+//            System.out.println("process <"+rank+"> recv'ed a msg\n" +"\tdata   <"+buffer[0].prevalence.size()    +"> \n"+
+//                    "\tsource <"+status.getSource()+"> \n"+"\ttag    <"+status.getTag()   +"> \n"+"\tcount  <"+status.getCount(MPI.INT) +">") ;
+//
+//        }
+//
+//        MPI.Finalize();
+//
+        MPI.Init(args);
+
+        int t_max= 2;
+        int t = 0;
+
+        int rank = MPI.COMM_WORLD.getRank();
+        int size = MPI.COMM_WORLD.getSize();
+        int count = 0;
+        int [] buffer = new int[2];
+        //int [] tmp = new int[1];
+
+
+
+
+        infectionHistory tmp = new infectionHistory();
+
+        infectionHistory x = new infectionHistory();
+//        buffer x = new buffer(new infectionHistory(), rank);
+//        buffer[] msg = new buffer[1];
+//
+//        msg[0] = new buffer(new infectionHistory(), rank);
+
+        byte[] bytes = x.serializaData();
+        while(t < t_max) {
+
+                for(int k = 0; k < 2; k++) {
+
+                    if (rank != 0) {
+                        x.deserializaData(bytes);
+
+                        tmp = new infectionHistory();
+                        tmp.copyInfectionHistory(x);
+                        tmp.genotype.add(count);
+                        x.copyInfectionHistory(tmp);
+
+
+//                    byte[] buff1 = new byte[2*100000000+MPI.BSEND_OVERHEAD];
+//                    MPI.attachBuffer(buff1);
+
+
+                        bytes = x.serializaData();
+                        MPI.COMM_WORLD.bcast(bytes, bytes.length, MPI.BYTE, 1);
+                        x.deserializaData(bytes);
+                        System.out.println(k + " " + t + " o1 process:" + MPI.COMM_WORLD.getRank() + " g.count " + x.genotype.size() + " " + bytes.length);
+
+                    }
+                }
+
+
+                for (int p = 0; p < 2; p++) {
+
+
+                    if (rank != 0) {
+                        x.deserializaData(bytes);
+
+                        tmp = new infectionHistory();
+                        tmp.copyInfectionHistory(x);
+                        //count = x.genotype.size();
+
+                        tmp.genotype.add(count);
+                        x.copyInfectionHistory(tmp);
+
+//                    byte[] buff1 = new byte[2*100000000+MPI.BSEND_OVERHEAD];
+//                    MPI.attachBuffer(buff1);
+
+
+                        bytes = x.serializaData();
+                        MPI.COMM_WORLD.bcast(bytes, bytes.length, MPI.BYTE, 1);
+                        x.deserializaData(bytes);
+                        System.out.println(t + " p1 process:" + MPI.COMM_WORLD.getRank() + " g.count " + x.genotype.size() + " patch " + p + " " + bytes.length);
+
+                    }
+
+                }
+//
+//                    bytes = new byte[2*10000000];
+//
+//
+//                    MPI.COMM_WORLD.recv(bytes, 2*10000000, MPI.BYTE, 1, 1);
+//
+//                    x.deserializaData(bytes);
+//
+//                    System.out.println(t+" p2 process:" + MPI.COMM_WORLD.getRank() + " g.count " + x.genotype.size()+ " patch "+p);
+//                    System.out.println(x.genotype);
+//                    System.out.println();
+//
+//
+//                }
+
+
+
+
+
+        t++;
+    }
+
+//        while(t < t_max) {
+//
+//
+//            if (rank == 0) {
+//
+//                count = buffer[0];
+//                buffer[1] = rank;
+//
+//                tmp.copyInfectionHistory(msg[0].history);
+//
+//                for (int i = 0; i < 2; i++) {
+//
+//                    count++;
+//
+//                }
+//
+//                buffer[0] = count;
+//                msg[0].history.copyInfectionHistory(tmp);
+//                msg[0].setRank(rank);
+//
+//                MPI.COMM_WORLD.send(buffer, buffer.length, MPI.INT, 1, 100);
+//
+//            }
+//            else{
+//                MPI.COMM_WORLD.recv(buffer, buffer.length, MPI.INT, 0, 100);
+//
+//
+//            }
+//
+//            System.out.println("o1 " + MPI.COMM_WORLD.getRank() + " " + buffer[0]);
+//
+//            for (int p = 0; p < 5; p++) {
+//
+//                if (rank == 1) {
+//
+//                    buffer[1] = rank;
+//                    count = buffer[0];
+//
+//                    count++;
+//                    tmp.copyInfectionHistory(msg[0].history);
+//                    tmp.genotype.add(count);
+//
+//                    buffer[0] = count;
+//                    msg[0].history.copyInfectionHistory(tmp);
+//                    msg[0].setRank(rank);
+//
+//                    MPI.COMM_WORLD.send(buffer, buffer.length, MPI.INT, 0, 100);
+//                    System.out.println("p1 " + MPI.COMM_WORLD.getRank() + " " + buffer[0]+ " "+count);
+//
+//
+//                }
+//                else if (rank == 0){
+//                    MPI.COMM_WORLD.recv(buffer, buffer.length, MPI.INT, 1, 100);
+//
+//                }
+//                //System.out.println("p1 " + MPI.COMM_WORLD.getRank() + " " + buffer[0]+ " "+count);
+//
+//
+//
+//            }
+//
+//            t++;
+//        }
+
+        MPI.Finalize();
+
 
 
 }

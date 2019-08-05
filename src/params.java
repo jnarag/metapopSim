@@ -39,7 +39,7 @@ public class params {
         nu = 0.5; //patch extinction rate;
         c = 0.01; // patch colonization rate;
 
-        beta = 1; // transmission rate
+        beta = 0.3; // transmission rate
         gamma = 0.0; // recovery rate
 
         U = 10; // mutation rate

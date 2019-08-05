@@ -38,17 +38,11 @@ class Hello {
 		int size = MPI.COMM_WORLD.getSize() ;
 
 		params inputParams = new params();
-		inputParams.runTime = Double.parseDouble(args[0]);
-		inputParams.startTime = Double.parseDouble(args[1]);
-		inputParams.Npatches = Integer.parseInt(args[2]);
-		inputParams.S = Integer.parseInt(args[3]);
-		inputParams.I = Integer.parseInt(args[4]);
-		inputParams.nu = Double.parseDouble(args[5]);
-		inputParams.c = Double.parseDouble(args[6]);
-		inputParams.U = Double.parseDouble(args[7]);
-		inputParams.n_samples_per_time = (int)Math.ceil(200/10.0);
+
+
 
 		System.out.println("Hello world from rank "  + " of " + size);
+        inputParams.print();
 
 		MPI.Finalize();
 	}
