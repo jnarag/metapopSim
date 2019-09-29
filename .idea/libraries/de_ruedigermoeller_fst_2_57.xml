@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="de.ruedigermoeller:fst:2.57" type="repository">
+    <properties maven-id="de.ruedigermoeller:fst:2.57" />
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/fst-2.57.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jackson-core-2.8.8.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/javassist-3.21.0-GA.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/objenesis-2.5.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

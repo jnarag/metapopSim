@@ -7,10 +7,10 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="colt" level="project" />
     <orderEntry type="library" exported="" name="mpi" level="project" />
+    <orderEntry type="library" exported="" name="colt" level="project" />
+    <orderEntry type="module" module-name="metapopSim" exported="" />
     <orderEntry type="library" exported="" name="commons-lang3-3.9" level="project" />
-    <orderEntry type="library" name="de.ruedigermoeller:fst:2.57" level="project" />
-    <orderEntry type="library" name="commons-math3-3.6-javadoc" level="project" />
+    <orderEntry type="library" exported="" name="de.ruedigermoeller:fst:2.57" level="project" />
   </component>
 </module>

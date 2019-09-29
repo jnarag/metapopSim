@@ -17,5 +17,8 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="mpi" level="project" />
+    <orderEntry type="library" name="commons-lang3-3.9" level="project" />
+    <orderEntry type="library" name="fst-2.57" level="application" />
+    <orderEntry type="library" name="de.ruedigermoeller:fst:2.57" level="project" />
   </component>
 </module>

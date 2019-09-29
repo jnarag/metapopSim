@@ -1,0 +1,18 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="patchSimMPI">
+    <output-path>$PROJECT_DIR$/out/artifacts/patchSimMPI</output-path>
+    <root id="archive" name="patchSimMPI.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/patchSimMPI/src/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="extracted-dir" path="$PROJECT_DIR$/../colt/lib/colt.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../openmpi-4.0.1/ompi/mpi/java/java/mpi.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../commons-lang3-3.9/commons-lang3-3.9.jar" path-in-jar="/" />
+      <element id="module-output" name="metapopSim" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/jackson-core-2.8.8.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/fst-2.57.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/javassist-3.21.0-GA.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/objenesis-2.5.1.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

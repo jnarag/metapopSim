@@ -39,17 +39,13 @@ public class params {
         nu = 0.5; //patch extinction rate;
         c = 0.01; // patch colonization rate;
 
-        beta = 0.3; // transmission rate
+        beta = 1.0; // transmission rate
         gamma = 0.0; // recovery rate
 
         U = 10; // mutation rate
         seed = (int)Math.ceil(Math.random()*1000000000);
         randomGenerator = new MersenneTwister(seed);
-
-        n_samples_per_time = 20;
-
-
-
+        n_samples_per_time = 50;
     }
 
     public void print() {

@@ -93,6 +93,13 @@ public class infectionHistory implements Serializable {
         return this.birth.get(index);
     }
 
+    public int getPrevalenceAtTimet(Integer genotype, int time) {
+
+        int index = this.genotype.indexOf(genotype);
+        int prev_at_t = this.prevalence.get(index).get(time);
+        return prev_at_t;
+    }
+
     public Integer getMutationsFromParent(Integer genotype) {
 
 
@@ -169,94 +176,76 @@ public class infectionHistory implements Serializable {
     }
 
 
-    public byte[] serializaData() {
-
-        ArrayList<Object> x = new ArrayList<>();
-        x.add(genotype);
-        x.add(mutationsFromParent);
-        x.add(birth);
-        x.add(death);
-        x.add(parent);
-        x.add(prevalence);
-        x.add(patch);
-        x.add(fitness);
-
-        byte[] bytes = null;
-        try {
-            //FileOutputStream fileOut = new FileOutputStream("history.ser");
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            //bos.writeTo(fileOut);
-            ObjectOutputStream out = new ObjectOutputStream(bos);
-            out.flush();
-            out.writeObject(x);
-            bytes = bos.toByteArray();
-            out.close();
-            bos.close();
-            //System.out.println("Serialized data is saved in bytes "+bytes.length);
-            return bytes;
-        } catch (IOException i) {
-            i.printStackTrace();
-        }
-
-        return null;
-
-
-    }
-
-    public void deserializaData(byte[] bytes) {
-
-        //ArrayList<Object> deserialized = null;
-        // Deserialize in to new class object
-        Object deserialized = null;
-
-        try {
-            ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
-
-            //FileInputStream fileIn = new FileInputStream("history.ser");
-
-            ObjectInputStream in = new ObjectInputStream(bis);
-            deserialized = in.readObject();
-            in.close();
-            bis.close();
-        }
-        catch(IOException i){
-            i.printStackTrace();
-        } catch(ClassNotFoundException c){
-            c.printStackTrace();
-        }
-
-        ArrayList<Object> x = (ArrayList<Object>)deserialized;
-        this.genotype = ((ArrayList<Integer>)x.get(0));
-        this.mutationsFromParent = ((ArrayList<Integer>)x.get(1));
-        this.birth = ((ArrayList<Double>)x.get(2));
-        this.death = ((ArrayList<Double>)x.get(3));
-        this.parent = ((ArrayList<Integer>)x.get(4));
-        this.prevalence = ((ArrayList<List<Integer>>)x.get(5));
-        this.patch = ((ArrayList<Integer>)x.get(6));
-        this.fitness = ((ArrayList<Double>)x.get(7));
-
-
-    }
-
-    public static void main(String [] args) {
-
-        infectionHistory history = new infectionHistory();
-        history.genotype.add(0);
-        history.genotype.add(1);
-        history.genotype.add(2);
-        history.genotype.add(3);
-
-        byte[] b = history.serializaData();
-
-        infectionHistory new_history = new infectionHistory();
-
-        new_history.deserializaData(b);
-
-
-        System.out.println(new_history.genotype);
-
-    }
-
+//    public byte[] serializaData() {
+//
+//        ArrayList<Object> x = new ArrayList<>();
+//        x.add(genotype);
+//        x.add(mutationsFromParent);
+//        x.add(birth);
+//        x.add(death);
+//        x.add(parent);
+//        x.add(prevalence);
+//        x.add(patch);
+//        x.add(fitness);
+//
+//        byte[] bytes = null;
+//        try {
+//            //FileOutputStream fileOut = new FileOutputStream("history.ser");
+//            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+//            //bos.writeTo(fileOut);
+//            ObjectOutputStream out = new ObjectOutputStream(bos);
+//            out.flush();
+//            out.writeObject(x);
+//            bytes = bos.toByteArray();
+//            out.close();
+//            bos.close();
+//            //System.out.println("Serialized data is saved in bytes "+bytes.length);
+//            return bytes;
+//        } catch (IOException i) {
+//            i.printStackTrace();
+//        }
+//
+//        return null;
+//
+//
+//    }
+//
+//    public void deserializaData(byte[] bytes) {
+//
+//        //ArrayList<Object> deserialized = null;
+//        // Deserialize in to new class object
+//        Object deserialized = null;
+//
+//        try {
+//            ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
+//
+//            //FileInputStream fileIn = new FileInputStream("history.ser");
+//
+//            ObjectInputStream in = new ObjectInputStream(bis);
+//            deserialized = in.readObject();
+//            in.close();
+//            bis.close();
+//        }
+//        catch(IOException i){
+//            i.printStackTrace();
+//        } catch(ClassNotFoundException c){
+//            c.printStackTrace();
+//        }
+//
+//        ArrayList<Object> x = (ArrayList<Object>)deserialized;
+//        this.genotype = ((ArrayList<Integer>)x.get(0));
+//        this.mutationsFromParent = ((ArrayList<Integer>)x.get(1));
+//        this.birth = ((ArrayList<Double>)x.get(2));
+//        this.death = ((ArrayList<Double>)x.get(3));
+//        this.parent = ((ArrayList<Integer>)x.get(4));
+//        this.prevalence = ((ArrayList<List<Integer>>)x.get(5));
+//        this.patch = ((ArrayList<Integer>)x.get(6));
+//        this.fitness = ((ArrayList<Double>)x.get(7));
+//
+//
+//    }
+//
+//
 
 
 

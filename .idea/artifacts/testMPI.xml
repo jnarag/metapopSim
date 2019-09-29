@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="testMPI">
+    <output-path>$PROJECT_DIR$/out/artifacts/testMPI</output-path>
+    <root id="archive" name="testMPI.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/piMPI/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="module-output" name="metapopSim" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../openmpi-4.0.1/ompi/mpi/java/java/mpi.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../colt/lib/colt.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

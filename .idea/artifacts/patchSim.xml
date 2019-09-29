@@ -7,6 +7,7 @@
       </element>
       <element id="extracted-dir" path="$PROJECT_DIR$/../colt/lib/colt.jar" path-in-jar="/" />
       <element id="module-output" name="metapopSim" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../openmpi-4.0.1/ompi/mpi/java/java/mpi.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

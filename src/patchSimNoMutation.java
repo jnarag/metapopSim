@@ -161,8 +161,8 @@ public class patchSimNoMutation {
             if(t_curr < 40) {
 
                 extinct = 0;
-                death = 0.0;
-                colonize = 0.1;
+                death = 0.1;
+                colonize = 0.05;
 
 
             }
