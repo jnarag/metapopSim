@@ -285,6 +285,8 @@ public class onePatchCoalSim {
 
     }
 
+    //
+
     private List<Integer> cumsum(List<Integer> list) {
 
         List<Integer> cumsum = IntStream.range(0, list.size())
