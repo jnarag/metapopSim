@@ -665,15 +665,7 @@ public class extractGenealogy {
         List<Integer> indices = IntStream.range(0, list.size())
                                 .boxed()
                                 .collect(Collectors.toList());
-//        int i = 0;
-//
-//
-//        while (i < list.size()) {
-//
-//            indices.add(i);
-//            i++;
-//
-//        }
+
         return indices;
     }
 
@@ -923,34 +915,43 @@ public class extractGenealogy {
     public static void main(String[] args) {
 
 
-        params inputParams = new params();
-        inputParams.runTime = Double.parseDouble(args[0]);
-        inputParams.startTime = Double.parseDouble(args[1]);
-        inputParams.Npatches = Integer.parseInt(args[2]);
-        inputParams.S = Integer.parseInt(args[3]);
-        inputParams.I = Integer.parseInt(args[4]);
-        inputParams.nu = Double.parseDouble(args[5]);
-        inputParams.c = Double.parseDouble(args[6]);
-        inputParams.U = Double.parseDouble(args[7]);
-        inputParams.n_samples_per_time = (int)Math.ceil(200/10.0);
+        List<Integer> test = new ArrayList<>(Arrays.asList(1,5,5,1,5));
+
+        extractGenealogy e = new extractGenealogy();
+
+        List<Integer> output = e.getIndices(test);
 
 
-        patchSim test = new patchSim();
-        inputParams.print();
 
 
-        test.runSim(inputParams);
-        infectionHistory infectionHistory =  test.getInfectionHistory();
-        double tau = test.tau;
-        extractGenealogy genealogy = new extractGenealogy();
-
-        //List<Double> potentialSamplingTimes = new ArrayList<>(test.potentialSamplingTimepoints);
-
-        genealogy.lineages = genealogy.getSampledLineages(infectionHistory, inputParams.startTime, tau);
-        //genealogy.lineages =  genealogy.getSampledLineages(infectionHistory, 200);
-
-        List<Integer> sampledLineages = new ArrayList<>();
-        sampledLineages.addAll(genealogy.lineages.getSampledLineages());
+//        params inputParams = new params();
+//        inputParams.runTime = Double.parseDouble(args[0]);
+//        inputParams.startTime = Double.parseDouble(args[1]);
+//        inputParams.Npatches = Integer.parseInt(args[2]);
+//        inputParams.S = Integer.parseInt(args[3]);
+//        inputParams.I = Integer.parseInt(args[4]);
+//        inputParams.nu = Double.parseDouble(args[5]);
+//        inputParams.c = Double.parseDouble(args[6]);
+//        inputParams.U = Double.parseDouble(args[7]);
+//        inputParams.n_samples_per_time = (int)Math.ceil(200/10.0);
+//
+//
+//        patchSim test = new patchSim();
+//        inputParams.print();
+//
+//
+//        test.runSim(inputParams);
+//        infectionHistory infectionHistory =  test.getInfectionHistory();
+//        double tau = test.tau;
+//        extractGenealogy genealogy = new extractGenealogy();
+//
+//        //List<Double> potentialSamplingTimes = new ArrayList<>(test.potentialSamplingTimepoints);
+//
+//        genealogy.lineages = genealogy.getSampledLineages(infectionHistory, inputParams.startTime, tau);
+//        //genealogy.lineages =  genealogy.getSampledLineages(infectionHistory, 200);
+//
+//        List<Integer> sampledLineages = new ArrayList<>();
+//        sampledLineages.addAll(genealogy.lineages.getSampledLineages());
         //genealogy.parentLineages = genealogy.getParentLineages(sampledLineages, infectionHistory);
 
 //        genealogy.getGenealogy(infectionHistory);
@@ -959,58 +960,6 @@ public class extractGenealogy {
 //                new File("tree_ext_"+ params.nu +"_col_"+ params.c +"_Npatches_"+ params.Npatches +"_patchSize_"+(params.S + params.I)+"_nlineages_"+".tre"));
 //
 //
-//
-//
-
-//        List<Integer> temp = new ArrayList<>(Arrays.asList(2, 10, 1, 40, 1, 10));
-//
-//        int sum = temp.stream().mapToInt(Integer::intValue).sum();
-//
-//        double [] pdf = new double[temp.size()];
-//
-//        temp.forEach(s-> {
-//            pdf[temp.indexOf(s)] = s/(double)sum;
-//            temp.set(temp.indexOf(s), -1);
-//        });
-//
-//        int N = 20;
-//
-//        double p_total = DoubleStream.of(pdf).sum();
-//        int n = 0;
-//        for(int i =0; i < pdf.length; i++) {
-//
-//            double pp = pdf[i]/p_total;
-//            if(pp < 1.0 && N > 0) {
-//                System.out.println(N+", "+pp+", "+pdf[i]);
-//                n = Binomial.staticNextInt(N, pdf[i]);
-//            }
-//            else{
-//                n = N;
-//            }
-//            N -= n;
-//            for(int j = 0; j < n; j++) {
-//                System.out.println(i);
-//            }
-//            //p_total -= pdf[i];
-//
-//
-//        }
-//        Empirical emp = new Empirical(pdf, Empirical.NO_INTERPOLATION, new MersenneTwister());
-//
-//
-//
-//        System.out.println(emp.nextDouble()*pdf.length);
-//        System.out.println(emp.nextDouble()*pdf.length);
-//        System.out.println(emp.nextDouble()*pdf.length);
-//        System.out.println(emp.nextDouble()*pdf.length);
-//        System.out.println(emp.nextDouble()*pdf.length);
-//        System.out.println(emp.nextDouble()*pdf.length);
-//        System.out.println(emp.nextDouble()*pdf.length);
-//        System.out.println(emp.nextDouble()*pdf.length);
-//        System.out.println(emp.nextDouble()*pdf.length);
-//        System.out.println(emp.nextDouble()*pdf.length);
-
-
 
     }
 }
