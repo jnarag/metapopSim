@@ -7,6 +7,7 @@ import cern.jet.random.engine.MersenneTwister;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.security.cert.CollectionCertStoreParameters;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
@@ -547,16 +548,6 @@ public class extractGenealogy {
             sampledLineages.addAll(multinomSamp(n_Sampled, lineages, params.n_samples_per_time));
 
 
-            // selection genotype based on prevalence at time t
-
-//            Collections.shuffle(lineages);
-//            if(lineages.size() > params.n_samples_per_time) {
-//                lineagesSet.addAll(lineages.subList(0, params.n_samples_per_time));
-//            }
-//            else{
-//                lineagesSet.addAll(lineages);
-//            }
-
         }
 
         //sampledLineages.addAll(lineagesSet);
@@ -577,7 +568,6 @@ public class extractGenealogy {
 
     }
 
-    //multinom not working quite right
     public sampledLineages getSampledLineages(infectionHistory history, int nLineages) {
 
 
@@ -648,18 +638,23 @@ public class extractGenealogy {
 
     private List<Integer> find(List<Integer> list, int value) {
 
-        List<Integer> indices = new ArrayList<Integer>();
+//        List<Integer> indices = new ArrayList<Integer>();
+//
+//        List<Integer> copyList = new ArrayList<Integer>();
 
-        List<Integer> copyList = new ArrayList<Integer>(list);
+        List<Integer> indices = IntStream.range(0, list.size())
+                .filter(i -> list.get(i)==value)
+                .boxed()
+                .collect(Collectors.toList());
 
-        while (copyList.contains(value)) {
-
-            int index = copyList.indexOf(value);
-            indices.add(index);
-            copyList.set(index, (int) Double.NEGATIVE_INFINITY);
-            //copyList.remove(index);
-
-        }
+//        while (copyList.contains(value)) {
+//
+//            int index = copyList.indexOf(value);
+//            indices.add(index);
+//            copyList.set(index, (int) Double.NEGATIVE_INFINITY);
+//            //copyList.remove(index);
+//
+//        }
 
         return indices;
 
@@ -667,16 +662,18 @@ public class extractGenealogy {
 
     public List<Integer> getIndices(List list) {
 
-        List<Integer> indices = new ArrayList<Integer>();
-        int i = 0;
-
-
-        while (i < list.size()) {
-
-            indices.add(i);
-            i++;
-
-        }
+        List<Integer> indices = IntStream.range(0, list.size())
+                                .boxed()
+                                .collect(Collectors.toList());
+//        int i = 0;
+//
+//
+//        while (i < list.size()) {
+//
+//            indices.add(i);
+//            i++;
+//
+//        }
         return indices;
     }
 
@@ -904,9 +901,6 @@ public class extractGenealogy {
             pdf[i] = pdf[i]+pdf[i-1];
 
         }
-
-
-
 
         for(int i=0; i < N; i++) {
 
