@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "library(tidyverse)\n\npatch_output <- read_tsv(\"patchSim_extinction_0.1_col_0.1_beta_0.3_Npatches_5_patchSize_50.txt\")\n#patch_output <- slice(patch_output, seq(1,length(patch_output$`Time(days)`), 10))\n                     \n\nhist(rpois(100,5))\n\nggplot(patch_output, aes(patch_output$`Time(days)`, patch_output$Diverstiy, colour=factor(patch_output$Patch_no)))+\n  geom_point() +geom_hline(yintercept=median(patch_output$Diverstiy))\n",
+    "created" : 1562774130122.000,
+    "dirty" : true,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "3612046418",
+    "id" : "A4142D83",
+    "lastKnownWriteTime" : 5767315143432077318,
+    "last_content_update" : 1563040128658,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

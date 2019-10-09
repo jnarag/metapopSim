@@ -1,0 +1,849 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="extractGenealogy" />
+      <artifact name="patchSim" />
+      <artifact name="patchSimMPI" />
+      <artifact name="piMPI" />
+      <artifact name="testMPI" />
+    </artifacts-to-build>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="b69043b0-f2d7-4295-8253-5da82f4f758e" name="Default" comment="updated onePatchCoalSim">
+      <change afterPath="$PROJECT_DIR$/.RData" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.Rhistory" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.Rproj.user/78B9AFFA/pcs/files-pane.pper" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.Rproj.user/78B9AFFA/pcs/source-pane.pper" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.Rproj.user/78B9AFFA/pcs/windowlayoutstate.pper" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.Rproj.user/78B9AFFA/pcs/workbench-pane.pper" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.Rproj.user/78B9AFFA/rmd-outputs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.Rproj.user/78B9AFFA/saved_source_markers" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.Rproj.user/78B9AFFA/sdb/per/t/381116F8" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.Rproj.user/78B9AFFA/sdb/per/t/CCD1572B" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.Rproj.user/78B9AFFA/sdb/per/u/A4142D83" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.Rproj.user/78B9AFFA/session-persistent-state" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.Rproj.user/78B9AFFA/viewer-cache/6082C0FA.Rdata" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.Rproj.user/78B9AFFA/viewer-cache/80048EC6.Rdata" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace (Jaynas-MacBook-Air.local's conflicted copy 2019-10-08).xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/fst-2.57.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/jackson-core-2.8.8.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/javassist-3.21.0-GA.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/objenesis-2.5.1.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/extractGenealogy/META-INF/MANIFEST.MF" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/metapopSim/Hello.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/metapopSim/META-INF/MANIFEST.MF" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/metapopSim/coalSim$args2.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/metapopSim/coalSim$coalData.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/metapopSim/coalSim.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/metapopSim/extractGenealogy$coalescentEvent.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/metapopSim/extractGenealogy$sampledLineages.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/metapopSim/extractGenealogy.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/metapopSim/infectionHistory.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/metapopSim/onePatchCoalSim$args2.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/metapopSim/onePatchCoalSim$coalData.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/metapopSim/onePatchCoalSim.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/metapopSim/params.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/metapopSim/patchSim$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/metapopSim/patchSim.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/metapopSim/patchSimMPI$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/metapopSim/patchSimMPI.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/metapopSim/patchSimNoMutation$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/metapopSim/patchSimNoMutation.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/metapopSim/testMPI.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/patchSimMPI/META-INF/MANIFEST.MF" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/patchSim_extinction_0.05_col_0.01_beta_1.0_Npatches_1000_patchSize_100 (Jaynas-MacBook-Air.local's conflicted copy 2019-10-08).txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/patchSim_extinction_0.05_col_0.01_beta_1.0_Npatches_1000_patchSize_100.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/patchSim_extinction_0.05_col_0.05_beta_1.0_Npatches_1000_patchSize_100.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/patchSim_extinction_0.1_col_0.05_beta_1.0_Npatches_1000_patchSize_100.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/patchSim_extinction_0.1_col_0.1_beta_1.0_Npatches_1000_patchSize_100.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/patchSim_extinction_0.5_col_0.001_beta_1.0_Npatches_1000_patchSize_100.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/coalSim.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/summary_patchSim_extinction_0.05_col_0.01_beta_1.0_Npatches_1000_patchSize_100 (Jaynas-MacBook-Air.local's conflicted copy 2019-10-08).txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/summary_patchSim_extinction_0.05_col_0.01_beta_1.0_Npatches_1000_patchSize_100.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/summary_patchSim_extinction_0.05_col_0.05_beta_1.0_Npatches_1000_patchSize_100.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/summary_patchSim_extinction_0.1_col_0.05_beta_1.0_Npatches_1000_patchSize_100.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/summary_patchSim_extinction_0.1_col_0.1_beta_1.0_Npatches_1000_patchSize_100.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/summary_patchSim_extinction_0.5_col_0.001_beta_1.0_Npatches_1000_patchSize_100.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test.tre" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test.tre.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tree_ext_0.05_col_0.01_Npatches_1000_patchSize_100_nlineages_ (Jaynas-MacBook-Air.local's conflicted copy 2019-10-08).tre" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tree_ext_0.05_col_0.01_Npatches_1000_patchSize_100_nlineages_.tre" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tree_ext_0.5_col_0.001_Npatches_1000_patchSize_100_nlineages_.tre" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/piMPI/META-INF/MANIFEST.MF" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/piMPI/piMPI.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/piMPI/src/META-INF/MANIFEST.MF" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/extractGenealogy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/extractGenealogy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/onePatchCoalSim.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/onePatchCoalSim.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/params.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/params.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/patchSim.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/patchSim.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testMPI/src/META-INF/MANIFEST.MF" beforeDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CoverageDataManager">
+    <SUITE FILE_PATH="IdeaIC2016.1/coverage/metapopSim$onePatch_test.coverage" NAME="onePatch_test Coverage Results" MODIFIED="1527353306090" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/metapopSim$onePatch_test.coverage" NAME="onePatch_test Coverage Results" MODIFIED="1557061441856" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+  </component>
+  <component name="CoverageViewManager">
+    <option name="myElementSize" value="164" />
+  </component>
+  <component name="CreatePatchCommitExecutor">
+    <option name="PATCH_PATH" value="" />
+  </component>
+  <component name="DefaultGradleProjectSettings">
+    <option name="isMigrated" value="true" />
+  </component>
+  <component name="FavoritesManager">
+    <favorites_list name="metapopSim">
+      <favorite_root url="file://$PROJECT_DIR$" module="metapopSim" type="directory" klass="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode">
+        <favorite_root url="file://$PROJECT_DIR$/src" module="metapopSim" type="directory" klass="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode">
+          <favorite_root url="file://$PROJECT_DIR$/src/params.java" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+          <favorite_root url="file://$PROJECT_DIR$/src/onePatch_test.java" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+          <favorite_root url="file://$PROJECT_DIR$/src/infectionHistory.java" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+          <favorite_root url="file://$PROJECT_DIR$/src/onePatch_test_old.java" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+        </favorite_root>
+        <favorite_root url="file://$PROJECT_DIR$/.idea" module="metapopSim" type="directory" klass="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode">
+          <favorite_root url="file://$PROJECT_DIR$/.idea/misc.xml" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+          <favorite_root url="file://$PROJECT_DIR$/.idea/copyright" module="metapopSim" type="directory" klass="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode">
+            <favorite_root url="file://$PROJECT_DIR$/.idea/copyright/profiles_settings.xml" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+          </favorite_root>
+          <favorite_root url="file://$PROJECT_DIR$/.idea/libraries" module="metapopSim" type="directory" klass="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode">
+            <favorite_root url="file://$PROJECT_DIR$/.idea/libraries/colt.xml" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+          </favorite_root>
+          <favorite_root url="file://$PROJECT_DIR$/.idea/modules.xml" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+          <favorite_root url="file://$PROJECT_DIR$/.idea/compiler.xml" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+          <favorite_root url="file://$PROJECT_DIR$/.idea/workspace.xml" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+          <favorite_root url="file://$PROJECT_DIR$/.idea/uiDesigner.xml" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+        </favorite_root>
+        <favorite_root url="file://$PROJECT_DIR$/metapopSim.iml" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+      </favorite_root>
+    </favorites_list>
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/coalSim.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="217">
+              <caret line="155" column="44" selection-start-line="155" selection-start-column="34" selection-end-line="155" selection-end-column="44" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/extractGenealogy.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="678">
+              <caret line="945" column="40" selection-start-line="945" selection-start-column="40" selection-end-line="945" selection-end-column="40" />
+              <folding>
+                <element signature="method#findMostRecentCoalescence#0;class#extractGenealogy#0" />
+                <element signature="method#intersect#0;class#extractGenealogy#0" />
+                <element signature="method#getSampledGenotypes#0;class#extractGenealogy#0" />
+                <element signature="method#getSampledLineages#0;class#extractGenealogy#0" />
+                <element signature="method#getSampledLineages#1;class#extractGenealogy#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>sample_47_genotype_4524_patch_531_500</find>
+      <find>sample_47</find>
+      <find>findMostRecentCoalescence</find>
+      <find>sortIndicesByAnotherList</find>
+      <find>compara</find>
+      <find>compar</find>
+      <find>sortL</find>
+      <find>write</find>
+    </findStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/src/coalSim.java" />
+        <option value="$PROJECT_DIR$/src/extractGenealogy.java" />
+      </list>
+    </option>
+  </component>
+  <component name="IgnoredFileRootStore">
+    <option name="generatedRoots">
+      <set>
+        <option value="$PROJECT_DIR$/.idea" />
+      </set>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="x" value="-2117" />
+    <option name="y" value="111" />
+    <option name="width" value="1974" />
+    <option name="height" value="1117" />
+  </component>
+  <component name="ProjectId" id="1RWDn9Xxu2I9MtP5mAeohnmbXyd" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="metapopSim" type="b2602c69:ProjectViewProjectNode" />
+              <item name="metapopSim" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="metapopSim" type="b2602c69:ProjectViewProjectNode" />
+              <item name="metapopSim" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="Downloaded.Files.Path.Enabled" value="true" />
+    <property name="GenerateAntBuildDialog.backupFiles" value="true" />
+    <property name="GenerateAntBuildDialog.enableUiFormCompile" value="true" />
+    <property name="GenerateAntBuildDialog.forceTargetJdk" value="true" />
+    <property name="GenerateAntBuildDialog.outputFileNameProperty" value="metapopsim" />
+    <property name="Repository.Attach.Annotations" value="false" />
+    <property name="Repository.Attach.JavaDocs" value="false" />
+    <property name="Repository.Attach.Sources" value="false" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1556554970432" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src" />
+    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="preferences.editor" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Application.extractGenealogy">
+    <configuration default="true" type="JUnitTestDiscovery" factoryName="JUnit Test Discovery" changeList="All">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+      <method />
+    </configuration>
+    <configuration default="true" type="TestNGTestDiscovery" factoryName="TestNG Test Discovery" changeList="All">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="SUITE_NAME" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="GROUP_NAME" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="OUTPUT_DIRECTORY" />
+      <option name="ANNOTATION_TYPE" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <option name="USE_DEFAULT_REPORTERS" value="false" />
+      <option name="PROPERTIES_FILE" />
+      <envs />
+      <properties />
+      <listeners />
+      <method />
+    </configuration>
+    <configuration default="true" type="AndroidRunConfigurationType">
+      <option name="DEPLOY" value="true" />
+      <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
+      <option name="DEPLOY_AS_INSTANT" value="false" />
+      <option name="ARTIFACT_NAME" value="" />
+      <option name="PM_INSTALL_OPTIONS" value="" />
+      <option name="DYNAMIC_FEATURES_DISABLED_LIST" value="" />
+      <option name="ACTIVITY_EXTRA_FLAGS" value="" />
+      <option name="MODE" value="default_activity" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
+      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
+      <option name="FORCE_STOP_RUNNING_APP" value="true" />
+      <option name="TARGET_SELECTION_MODE" value="SHOW_DIALOG" />
+      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
+      <option name="PREFERRED_AVD" value="" />
+      <option name="DEBUGGER_TYPE" value="Java" />
+      <Java />
+      <Profilers>
+        <option name="ADVANCED_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_CONFIGURATION_NAME" value="Sample Java Methods" />
+      </Profilers>
+      <option name="DEEP_LINK" value="" />
+      <option name="ACTIVITY_CLASS" value="" />
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="AndroidTestRunConfigurationType">
+      <option name="TESTING_TYPE" value="0" />
+      <option name="INSTRUMENTATION_RUNNER_CLASS" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="EXTRA_OPTIONS" value="" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
+      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
+      <option name="FORCE_STOP_RUNNING_APP" value="true" />
+      <option name="TARGET_SELECTION_MODE" value="SHOW_DIALOG" />
+      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
+      <option name="PREFERRED_AVD" value="" />
+      <option name="DEBUGGER_TYPE" value="Java" />
+      <Java />
+      <Profilers>
+        <option name="ADVANCED_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_CONFIGURATION_NAME" value="Sample Java Methods" />
+      </Profilers>
+      <method v="2">
+        <option name="Make" enabled="true" />
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="Applet">
+      <option name="HEIGHT" value="0" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="WIDTH" value="0" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Hello" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="/Library/Java/JavaVirtualMachines/jdk1.8.0_77.jdk/Contents/Home" />
+      <option name="MAIN_CLASS_NAME" value="Hello" />
+      <module name="metapopSim" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application" singleton="false">
+      <option name="ALTERNATIVE_JRE_PATH" value="/Library/Java/JavaVirtualMachines/jdk1.8.0_77.jdk/Contents/Home" />
+      <module name="metapopSim" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="extractGenealogy" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="/Library/Java/JavaVirtualMachines/jdk1.8.0_77.jdk/Contents/Home" />
+      <option name="MAIN_CLASS_NAME" value="extractGenealogy" />
+      <module name="metapopSim" />
+      <option name="PROGRAM_PARAMETERS" value="500 0 1000 5 95 0.05 0.01 0.0" />
+      <option name="VM_PARAMETERS" value="-Xmx5000m" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="infectionHistory" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="/Library/Java/JavaVirtualMachines/jdk1.8.0_77.jdk/Contents/Home" />
+      <option name="MAIN_CLASS_NAME" value="infectionHistory" />
+      <module name="metapopSim" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="onePatchCoalSim" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="/Library/Java/JavaVirtualMachines/jdk1.8.0_77.jdk/Contents/Home" />
+      <option name="MAIN_CLASS_NAME" value="onePatchCoalSim" />
+      <module name="metapopSim" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="patchSim" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="/Library/Java/JavaVirtualMachines/jdk1.8.0_77.jdk/Contents/Home" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="patchSim" />
+      <module name="metapopSim" />
+      <option name="PROGRAM_PARAMETERS" value="2000 0 100 5 195 0.05 0.01 0.0" />
+      <option name="VM_PARAMETERS" value="-Xmx5000m" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="patchSimDD" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="/Library/Java/JavaVirtualMachines/jdk1.8.0_77.jdk/Contents/Home" />
+      <option name="MAIN_CLASS_NAME" value="patchSimDD" />
+      <module name="metapopSim" />
+      <option name="PROGRAM_PARAMETERS" value="1000 0 500 5 195 1.0 0.01 0.3" />
+      <option name="VM_PARAMETERS" value="-Xmx5000m" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="patchSimMPI" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="/Library/Java/JavaVirtualMachines/jdk1.8.0_77.jdk/Contents/Home" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="patchSimMPI" />
+      <module name="metapopSim" />
+      <option name="PROGRAM_PARAMETERS" value="200 0 2 10 40 0.1 0.1 0.3" />
+      <option name="VM_PARAMETERS" value="-Xmx6000m" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="patchSimNoMutation" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="/Library/Java/JavaVirtualMachines/jdk1.8.0_77.jdk/Contents/Home" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="patchSimNoMutation" />
+      <module name="metapopSim" />
+      <option name="PROGRAM_PARAMETERS" value="1000 0 10 10 990 0.5 0.05 0.3" />
+      <option name="VM_PARAMETERS" value="-Xmx5000m" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JarApplication">
+      <option name="JAR_PATH" value="$PROJECT_DIR$/../colt/lib/colt.jar" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType" factoryName="Kotlin script">
+      <option name="filePath" />
+      <option name="vmParameters" />
+      <option name="alternativeJrePath" />
+      <option name="programParameters" />
+      <option name="passParentEnvs" value="true" />
+      <option name="workingDirectory" />
+      <option name="isAlternativeJrePathEnabled" value="false" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="WORKING_DIRECTORY" />
+      <module name="" />
+      <option name="filePath" />
+      <option name="vmParameters" />
+      <option name="alternativeJrePath" />
+      <option name="programParameters" />
+      <option name="passParentEnvs" value="true" />
+      <option name="workingDirectory" />
+      <option name="isAlternativeJrePathEnabled" value="false" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="WORKING_DIRECTORY" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="TestNG">
+      <option name="TEST_OBJECT" value="CLASS" />
+      <option name="VM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType">
+      <module name="" />
+      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
+      <option name="PROGRAM_PARAMETERS" />
+      <predefined_log_file enabled="true" id="idea.log" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.Hello" />
+      <item itemvalue="Application.extractGenealogy" />
+      <item itemvalue="Application.patchSimNoMutation" />
+      <item itemvalue="Application.patchSim" />
+      <item itemvalue="Application.infectionHistory" />
+      <item itemvalue="Application.onePatchCoalSim" />
+      <item itemvalue="Application.patchSimDD" />
+      <item itemvalue="Application.patchSimMPI" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.onePatchCoalSim" />
+        <item itemvalue="Application.patchSimDD" />
+        <item itemvalue="Application.patchSimMPI" />
+        <item itemvalue="Application.infectionHistory" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration>$USER_HOME$/.subversion</configuration>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b69043b0-f2d7-4295-8253-5da82f4f758e" name="Default" comment="" />
+      <created>1526486002198</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1526486002198</updated>
+    </task>
+    <task id="LOCAL-00001" summary="updated to consider rates per patch rather than altogether">
+      <created>1560710700019</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1560710700019</updated>
+    </task>
+    <task id="LOCAL-00002" summary="updated to consider rates per patch rather than altogether">
+      <created>1561474203006</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1561474203006</updated>
+    </task>
+    <task id="LOCAL-00003" summary="updated to consider rates per patch rather than altogether">
+      <created>1564138626911</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1564138626912</updated>
+    </task>
+    <task id="LOCAL-00004" summary="testing mpi library">
+      <created>1564219129397</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1564219129397</updated>
+    </task>
+    <task id="LOCAL-00005" summary="working out MPI library">
+      <created>1564326303013</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1564326303013</updated>
+    </task>
+    <task id="LOCAL-00006" summary="added MPI version of patchSim">
+      <created>1565026067295</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1565026067295</updated>
+    </task>
+    <task id="LOCAL-00007" summary="testing MPI code">
+      <created>1566121035015</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1566121035015</updated>
+    </task>
+    <task id="LOCAL-00008" summary="updating patchSim">
+      <created>1566308364207</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1566308364207</updated>
+    </task>
+    <task id="LOCAL-00009" summary="updated onePatchCoalSim">
+      <created>1569773425717</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1569773425717</updated>
+    </task>
+    <task id="LOCAL-00010" summary="updated onePatchCoalSim">
+      <created>1569773568340</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1569773568340</updated>
+    </task>
+    <task id="LOCAL-00011" summary="updated onePatchCoalSim">
+      <created>1569773664791</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1569773664791</updated>
+    </task>
+    <task id="LOCAL-00012" summary="updated onePatchCoalSim">
+      <created>1569774499054</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1569774499054</updated>
+    </task>
+    <task id="LOCAL-00013" summary="updated onePatchCoalSim">
+      <created>1569776749969</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1569776749969</updated>
+    </task>
+    <task id="LOCAL-00014" summary="updated onePatchCoalSim">
+      <created>1569776986361</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1569776986361</updated>
+    </task>
+    <task id="LOCAL-00015" summary="updated onePatchCoalSim">
+      <created>1569778119280</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1569778119280</updated>
+    </task>
+    <task id="LOCAL-00016" summary="added multinomial sampling function">
+      <created>1569840443737</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1569840443737</updated>
+    </task>
+    <task id="LOCAL-00017" summary="updated indices function">
+      <created>1569840976355</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1569840976355</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
+    <servers />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-2117" y="111" width="1974" height="1117" extended-state="0" />
+    <layout>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2184265" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Image Layers" order="2" />
+      <window_info id="Designer" order="3" />
+      <window_info id="UI Designer" order="4" />
+      <window_info id="Capture Tool" order="5" />
+      <window_info id="Favorites" order="6" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.32780486" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.31512195" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Terminal" order="7" />
+      <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
+      <window_info anchor="bottom" id="Version Control" order="9" />
+      <window_info anchor="bottom" id="Messages" order="10" weight="0.3296" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Palette" order="3" />
+      <window_info anchor="right" id="Maven" order="4" />
+      <window_info anchor="right" id="Theme Preview" order="5" />
+      <window_info anchor="right" id="Capture Analysis" order="6" />
+      <window_info anchor="right" id="Palette&#9;" order="7" />
+    </layout>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="RECENTLY_FILTERED_USER_GROUPS">
+                <collection />
+              </option>
+              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+                <collection />
+              </option>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list />
+          </value>
+        </entry>
+        <entry key="User">
+          <value>
+            <list />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="Vcs.Log.UiProperties">
+    <option name="RECENTLY_FILTERED_USER_GROUPS">
+      <collection />
+    </option>
+    <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+      <collection />
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="testing mpi library" />
+    <MESSAGE value="working out MPI library" />
+    <MESSAGE value="added MPI version of patchSim" />
+    <MESSAGE value="updated to consider rates per patch rather than altogether" />
+    <MESSAGE value="testing MPI code" />
+    <MESSAGE value="updating patchSim" />
+    <MESSAGE value="update patchSim code" />
+    <MESSAGE value="updated onePatchCoalSim" />
+    <MESSAGE value="added multinomial sampling function" />
+    <MESSAGE value="updated indices function" />
+    <option name="LAST_COMMIT_MESSAGE" value="updated indices function" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/patchSimNoMutation.java</url>
+          <line>150</line>
+          <properties />
+          <option name="timeStamp" value="78" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/patchSim.java</url>
+          <line>264</line>
+          <properties />
+          <option name="timeStamp" value="85" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/extractGenealogy.java</url>
+          <line>826</line>
+          <properties />
+          <option name="timeStamp" value="186" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/extractGenealogy.java</url>
+          <line>855</line>
+          <properties />
+          <option name="timeStamp" value="188" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/extractGenealogy.java</url>
+          <line>654</line>
+          <properties class="extractGenealogy" method="getSampledLineages">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="182" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="antWorkspaceConfiguration">
+    <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
+    <option name="FILTER_TARGETS" value="false" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/metapopSim$extractGenealogy.ic" NAME="extractGenealogy Coverage Results" MODIFIED="1570374580206" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_77.jdk/Contents/Home/src.zip!/java/util/function/Consumer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="48" column="9" selection-start-line="48" selection-start-column="9" selection-end-line="48" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/coalSim.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="217">
+          <caret line="155" column="44" selection-start-line="155" selection-start-column="34" selection-end-line="155" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/extractGenealogy.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="678">
+          <caret line="945" column="40" selection-start-line="945" selection-start-column="40" selection-end-line="945" selection-end-column="40" />
+          <folding>
+            <element signature="method#findMostRecentCoalescence#0;class#extractGenealogy#0" />
+            <element signature="method#intersect#0;class#extractGenealogy#0" />
+            <element signature="method#getSampledGenotypes#0;class#extractGenealogy#0" />
+            <element signature="method#getSampledLineages#0;class#extractGenealogy#0" />
+            <element signature="method#getSampledLineages#1;class#extractGenealogy#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

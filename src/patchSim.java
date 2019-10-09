@@ -34,6 +34,7 @@ public class patchSim {
     List<Integer> emptyPatchList;
     List<Integer> occupyPatchList;
     List<Integer> thresholdList;
+    Map<Integer, List<Integer>> N_per_patch_over_time;
 
     int total_infected;
     int total_genotypes;
@@ -52,6 +53,7 @@ public class patchSim {
         total_genotypes = 0;
         total_infected = 0;
         //potentialSamplingTimepoints = new ArrayList<>();
+        N_per_patch_over_time = new HashMap<>();
 
     }
 
@@ -123,6 +125,8 @@ public class patchSim {
 
         for (int p = 0; p < params.Npatches; p++) {
 
+            N_per_patch_over_time.put(p, new ArrayList<>(Arrays.asList(Y_curr_i[p])));
+
             List<Integer> genotype_curr_i = new ArrayList<>();
 
             for(Integer geno: patch_history.genotype) {
@@ -175,7 +179,7 @@ public class patchSim {
 
             colonize = params.c;
             extinct = params.nu;
-            death = 0.1;
+            death = 1.0;
 
             if(t_curr < 40) {
 
@@ -728,6 +732,7 @@ public class patchSim {
             total_infected+=entry.getValue().size();
             total_genotypes+=(new HashSet<>(entry.getValue()).size());
 
+            N_per_patch_over_time.get(patch).add(genotype_curr_per_patch.get(patch).size());
             if(t_curr % 10 == 0) {
                 List<Double> diversity_results = updateDiversity(genotype_curr_per_patch.get(patch), true);
 

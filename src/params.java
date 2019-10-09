@@ -22,6 +22,7 @@ public class params {
     static double c; // patch colonization rate
 
     static int n_samples_per_time;
+    static int interval;
 
 
     static int seed;
@@ -45,7 +46,8 @@ public class params {
         U = 10; // mutation rate
         seed = (int)Math.ceil(Math.random()*1000000000);
         randomGenerator = new MersenneTwister(seed);
-        n_samples_per_time = 50;
+        n_samples_per_time = 10;
+        interval = 10;
     }
 
     public void print() {

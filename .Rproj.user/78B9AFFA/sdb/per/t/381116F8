@@ -1,0 +1,29 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1562867434909.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "381116F8",
+    "lastKnownWriteTime" : 4785851418983981056,
+    "last_content_update" : 1562867434909,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "6082C0FA",
+        "caption" : "patch_output",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=patch_output&cache_key=6082C0FA",
+        "displayedObservations" : "99995",
+        "environment" : "",
+        "object" : "patch_output",
+        "preview" : "0",
+        "totalObservations" : "99995",
+        "variables" : "7"
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_dataframe"
+}

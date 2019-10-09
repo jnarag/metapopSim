@@ -5,7 +5,6 @@
       <module fileurl="file://$PROJECT_DIR$/extractGenealogy/extractGenealogy.iml" filepath="$PROJECT_DIR$/extractGenealogy/extractGenealogy.iml" />
       <module fileurl="file://$PROJECT_DIR$/metapopSim.iml" filepath="$PROJECT_DIR$/metapopSim.iml" />
       <module fileurl="file://$PROJECT_DIR$/patchSimMPI/patchSimMPI.iml" filepath="$PROJECT_DIR$/patchSimMPI/patchSimMPI.iml" />
-      <module fileurl="file://$PROJECT_DIR$/piMPI/piMPI.iml" filepath="$PROJECT_DIR$/piMPI/piMPI.iml" />
       <module fileurl="file://$PROJECT_DIR$/testMPI/testMPI.iml" filepath="$PROJECT_DIR$/testMPI/testMPI.iml" />
     </modules>
   </component>

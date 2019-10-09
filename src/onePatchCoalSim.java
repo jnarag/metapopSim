@@ -72,24 +72,20 @@ public class onePatchCoalSim {
 
             time = time + Exponential.staticNextDouble(0.5 * active_lineages * (active_lineages - 1) / lowerBound);
 
-            if (curr < sampleTimes.size()-1 && time >= sampleTimes.get(curr + 1)) {
+            if (curr < sampleTimes.size() - 1 && time >= sampleTimes.get(curr + 1)) {
 
                 curr = curr + 1;
                 active_lineages = active_lineages + nSampled.get(curr);
                 time = sampleTimes.get(curr);
 
-            } else if(Uniform.staticNextDouble() <= lowerBound / Nt(time)) {
+            } else if (Uniform.staticNextDouble() <= lowerBound / Nt(time)) {
 
                 coalTimes.add(time);
                 lineages.add(active_lineages);
                 active_lineages = active_lineages - 1;
 
-
             }
-
         }
-
-
 
         coalData coalData = new coalData();
         coalData.setCoalTimes(coalTimes);
@@ -97,7 +93,6 @@ public class onePatchCoalSim {
         coalData.setIntercoalTimes(diff(coalTimes));
         coalData.setSampleTimes(sampleTimes);
         coalData.setnSampled(nSampled);
-
 
         return coalData;
     }
@@ -214,7 +209,6 @@ public class onePatchCoalSim {
         double s = 0; //time for branch lengths;
         List<String> temp_labels = new ArrayList<>();
         temp_labels.addAll(labels.subList(0, tb));
-        System.out.println(">"+temp_labels);
 
         List<Double> temp_times = new ArrayList(Collections.nCopies(gene.nSampled.get(0), gene.sampleTimes.get(0)));
 
@@ -222,18 +216,19 @@ public class onePatchCoalSim {
 
         args2 args2 = gen_INLA_args(gene.sampleTimes, gene.nSampled, gene.coalTimes);
 
+        System.out.println(gene.coalTimes);
 
         for (int j=1; j < args2.event.size(); j++) {
 
-            System.out.println("e "+j+", "+args2.event.get(j));
+            //System.out.println("e "+j+", "+args2.event.get(j));
             if (args2.event.get(j) == 1) {
 
                 s = args2.sorting.get(j);
 
                 List<Integer> ra = sample(tb, 2);
 
-                String new_label = "(" + temp_labels.get(ra.get(0)) + ":" + (s - temp_times.get(ra.get(0))) + ","
-                        + temp_labels.get(ra.get(1)) + ":" + (s - temp_times.get(ra.get(1))) + ")";
+                String new_label = "(" + temp_labels.get(ra.get(0)) + ":" + (s-temp_times.get(ra.get(0))) + ","
+                        + temp_labels.get(ra.get(1)) + ":" + (s-temp_times.get(ra.get(1))) + ")";
 
 
                 temp_labels.set(ra.get(0), new_label);
@@ -274,6 +269,7 @@ public class onePatchCoalSim {
 
         onePatchCoalSim a = new onePatchCoalSim();
 
+
         List<Double> sampleTimes = new ArrayList<>(Arrays.asList(0.0,10.0,20.0));
         List<Integer> nSampled = new ArrayList<>(Arrays.asList(10,10,10));
         double lowerBound = 1.0;
@@ -297,6 +293,7 @@ public class onePatchCoalSim {
         return cumsum;
 
     }
+
     private List<Integer> sample(int tb, int n) {
 
         List<Integer> indices = IntStream.range(0, tb).
@@ -326,6 +323,8 @@ public class onePatchCoalSim {
         }
         void setSorting(List<Double> sorting) {
 
+            //Collections.reverse(sorting);
+            System.out.println(sorting);
             this.sorting = sorting;
         }
         void setEvent(List<Integer> event) {

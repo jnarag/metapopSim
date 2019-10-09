@@ -1,0 +1,19 @@
+#NEXUS
+begin taxa;
+	dimensions ntax=10;
+	taxlabels
+	'sample_1_genotype_2213_patch_331_250.0'
+	'sample_2_genotype_2334_patch_999_250.0'
+	'sample_3_genotype_2377_patch_379_250.0'
+	'sample_4_genotype_2383_patch_262_250.0'
+	'sample_5_genotype_2412_patch_698_250.0'
+	'sample_6_genotype_4679_patch_532_500.0'
+	'sample_7_genotype_4679_patch_532_500.0'
+	'sample_8_genotype_4703_patch_946_500.0'
+	'sample_9_genotype_4788_patch_297_500.0'
+	'sample_10_genotype_4803_patch_481_500.0'
+;
+end;
+begin trees;
+	 tree TREE1 = [&R] [&R=true]('sample_5_genotype_2412_patch_698_250.0':249.0,(('sample_1_genotype_2213_patch_331_250.0':22.0,'sample_2_genotype_2334_patch_999_250.0':22.0):152.5,('sample_4_genotype_2383_patch_262_250.0':58.5,('sample_3_genotype_2377_patch_379_250.0':22.0,(('sample_7_genotype_4679_patch_532_500.0':4.494131113710852,'sample_6_genotype_4679_patch_532_500.0':4.494131113710852),('sample_10_genotype_4803_patch_481_500.0':2.5,('sample_8_genotype_4703_patch_946_500.0':52.5,'sample_9_genotype_4788_patch_297_500.0':39.5):2.5):0.0):217.0):36.5):116.0):74.5):0.0;
+end;
