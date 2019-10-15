@@ -60,18 +60,23 @@ public class extractGenealogy {
         fillNodeMaps(nodeNames, nodeHeights, genotypeMap);
 
         List<Integer> genotypes = new ArrayList<>(new HashSet<>(sampledLineages));
-        //List<Integer> parentGenotypes = new ArrayList<>();
         List<Double> genotypeAge = new ArrayList<>();
 
 
-        genotypes.forEach(i -> genotypeAge.add(history.getBirth((Integer)i)));
+        Collections.sort(genotypes);
+        genotypes.forEach(i -> genotypeAge.add(history.getBirth(history.genotype.indexOf(i))));
 
-        System.out.println(genotypes);
-        System.out.println(genotypeAge);
 
-        genotypes.sort((Integer i1, Integer i2)->(int)(genotypeAge.get(genotypes.indexOf(i2))-genotypeAge.get(genotypes.indexOf(i1))));
+        genotypes.sort(Comparator.comparing((Integer i) -> genotypeAge.get(genotypes.indexOf(i))));
+        //genotypes.sort(Comparator.comparingDouble(genotypes::indexOf));
 
-        System.out.println(genotypes);
+                //(int)(genotypeAge.get(genotypes.indexOf(i2))-genotypeAge.get(genotypes.indexOf(i1))));
+
+        genotypes.forEach(g -> System.out.println(g+ " : "+history.getBirth(g)));
+
+
+//        Map<Integer, Integer> genotypeFrequency = new HashMap<>();
+//        genotypes.forEach(g -> genotypeFrequency.put(g, Collections.frequency(sampledLineages, g)));
 
 
         genotypes.forEach(g -> {
@@ -82,8 +87,7 @@ public class extractGenealogy {
             IntStream.range(0, sampledLineages.size()).
                     forEach(i -> {
                         if(g.equals(sampledLineages.get(i))) {
-                            times.add(params.runTime - sampleTimes.get(i));
-
+                            times.add(sampleTimes.get(i));
                         }
                     });
 
@@ -93,7 +97,7 @@ public class extractGenealogy {
             //double maxTime = Collections.max(times);
             //IntStream.range(0, times.size()).forEach(i -> times.set(i, maxTime-times.get(i)));
             List<Double> sample_times = new ArrayList<>(new HashSet<>(times));
-            Collections.sort(sample_times);
+            Collections.sort(sample_times, Comparator.comparingDouble(Double::intValue).reversed());
             //System.out.println(sample_times);
 
 
@@ -103,25 +107,34 @@ public class extractGenealogy {
                     .size()));
 
 
+
+
             if(nSampled.get(0) > 1 || sample_times.size() > 1) {
-                //System.out.println(g+" : "+nSampled);
-                //System.out.println(sample_times);
+                System.out.println(g+" : "+ nSampled);
+                System.out.println(sample_times);
+                double maxTime = Collections.max(sample_times);
+                IntStream.range(0, sample_times.size()).forEach(i -> sample_times.set(i, params.runTime-sample_times.get(i)));
+                System.out.println(sample_times);
+
                 int index = history.genotype.indexOf(g);
                 int patch = history.getPatch(index);
                 coalSim sim = new coalSim(N_per_patch_over_time.get(patch), tau, history);
                 //N_per_patch_over_time.get(patch), tau, nodeNames, nodeHeights);
-
                 sim.sampleTree(sample_times, nSampled, nodeNames, nodeHeights, genotypeMap, sampledLineages, sampleTimes, g, patch);
+                //genotypeFrequency.replace(g, 1);
+
             }
+
 
 
         });
         List<Integer> completeIndividuals = new ArrayList<>(sampledLineages);
         List<Double> completeSeqTimes = new ArrayList<>(sampleTimes);
 
-
         sampledLineages.removeAll(new ArrayList<>(Arrays.asList(-1)));
         sampleTimes.removeAll(new ArrayList<>(Arrays.asList(-1.0)));
+
+
 
         List<Integer> individualsSubList = new ArrayList<>(sampledLineages);
         List<Double> timesSubList = new ArrayList<>(sampleTimes);
@@ -131,7 +144,7 @@ public class extractGenealogy {
 
 
         b = new int[(n_lineages - 1)][2];
-        d = new double[2 * n_lineages - 1];
+        d = new double[2 * names.size() - 1];
 
 
         List<Integer> currIndividuals = new ArrayList<>(sampledLineages);
@@ -201,8 +214,8 @@ public class extractGenealogy {
             int d_index1 = individualsSubList.indexOf(coalDaughters[0]);
             int d_index2 = individualsSubList.indexOf(coalDaughters[1]);
 
-            d[d_index1] = Math.abs(completeSeqTimes.get(index1) - timeOfCoalescence);
-            d[d_index2] = Math.abs(completeSeqTimes.get(index2) - timeOfCoalescence);
+            d[index1] = Math.abs(completeSeqTimes.get(index1) - timeOfCoalescence);
+            d[index2] = Math.abs(completeSeqTimes.get(index2) - timeOfCoalescence);
 
 
             int[] children = new int[2];
@@ -252,7 +265,7 @@ public class extractGenealogy {
             individualsSubList.add(coal_parent);
             timesSubList.add(timeOfCoalescence);
             individualsSubList.set(d_index1, -1);
-            individualsSubList.set(d_index1, -1);
+            individualsSubList.set(d_index2, -1);
 
 
 
@@ -342,7 +355,7 @@ public class extractGenealogy {
             coalescedList.add(children[0]);
             coalescedList.add(children[1]);
 
-            double timeOfCoalescence = 50;
+            double timeOfCoalescence = 0;
 
             d[index1] = (completeSeqTimes.get(index1) - timeOfCoalescence);
             d[index2] = (completeSeqTimes.get(index2) - timeOfCoalescence);
@@ -375,7 +388,7 @@ public class extractGenealogy {
         System.out.println("names b: " + names.size());
 
 
-        d[d.length - 1] = 0;
+        d[d.length - 1] = -50;
 
 
         Collections.sort(coalescedList);
@@ -610,10 +623,12 @@ public class extractGenealogy {
 
         int interval = (int) Math.ceil((params.runTime - startTime) / (double)params.interval);
 
-        double t = startTime;
+        double t = 300;
+
+        List<Integer> n = new ArrayList<>(Arrays.asList(6,1));
+        int count = 0;
         while (t < params.runTime) {
 
-            t = t + params.runTime/2;
 
             System.out.println(t);
 
@@ -639,10 +654,13 @@ public class extractGenealogy {
             }
 
             //System.out.println(params.n_samples_per_time);
-            List<Integer> lineages_t = multinomSamp(n_Sampled, lineages, 5);
+            //List<Integer> lineages_t = multinomSamp(n_Sampled, lineages, n.get(count));//
+            List<Integer> lineages_t =  new ArrayList<>(Collections.nCopies(2, lineages.get((int)Math.floor(Math.random()*lineages.size()))));
             Collections.sort(lineages_t);
             sampledLineages.addAll(lineages_t);
             sampledTimes.addAll(Collections.nCopies(lineages_t.size(), t));
+            count++;
+            t = t + 50;
 
         }
 
@@ -659,12 +677,10 @@ public class extractGenealogy {
         List<Integer> sampledLineages = new ArrayList<>();
         List<Double> sampledTimes = new ArrayList<>();
 
-        int interval = (int) Math.ceil((params.runTime - startTime) / (double)params.interval);
+        int interval = (int) Math.ceil((params.runTime - 200.0) / (double)params.interval);
 
-        double t = startTime;
+        double t = 200.0;
         while (t < params.runTime) {
-
-            t = t + interval;
 
             System.out.println(t);
 
@@ -695,6 +711,7 @@ public class extractGenealogy {
             sampledLineages.addAll(lineages_t);
             sampledTimes.addAll(Collections.nCopies(lineages_t.size(), t));
 
+            t = t + interval;
         }
 
 //        Collections.sort(sampledLineages);
@@ -872,36 +889,6 @@ public class extractGenealogy {
                     node2 = nodeNames.get(child2);
                 }
 
-//                String[] partsNode1 = node1.split("_");
-//                String[] partsNode2 = node2.split("_");
-//                String[] partsParent = names.get(n_lineages + k).split("_");
-//
-//                String patchNode = "?";
-//                String patchNode1 = "?";
-//                String patchNode2 = "?";
-//
-//                if (partsNode1.length > 3 && partsNode2.length > 3) {
-//                    patchNode1 = partsNode1[3];
-//                    patchNode2 = partsNode2[3];
-//                }
-//
-//                if (partsNode1.length > 8 && partsNode2.length > 8) {
-//                    patchNode1 = partsNode1[7];
-//                    patchNode2 = partsNode2[7];
-//
-//
-//                }
-//
-//                if (partsParent.length > 3) {
-//                    patchNode = partsParent[3];
-//                } else if (partsParent.length > 8) {
-//                    patchNode = partsParent[7];
-//
-//
-//                } else {
-//                    patchNode = "-1";
-//                }
-
 
 
                 //System.out.println(partsNode1[1] + "\t" + partsNode2[1] + "\t" + names.get(n_lineages + k));
@@ -911,19 +898,22 @@ public class extractGenealogy {
 
                 if (child1 <= n_lineages) {
 
-                    node1_string = "(" + node1 + ":" + nodeTimes[child1 - 1] ; //+ "[&parent=" + names.get(n_lineages + k) + ",patch=\"" + patchNode1 + "\"]";//\",mutations="+mutations1+",rate="+rate1+"]";
-
+                    node1_string = "(" + node1 + ":" + nodeTimes[child1 - 1] + "[&parent=" + names.get(n_lineages + k) + "]";// ",patch=\"" + patchNode1 + "\"]";//\",mutations="+mutations1+",rate="+rate1+"]";
+                   // node1_string = "(" + node1 + ":" + nodeTimes[child1 - 1];
                 } else {
 
-                    node1_string = "(" + node1;//":"+nodeTimes[child1-1]+")"; //+"[&parent="+names.get(n_lineages+k)+",patch=\""+patchNode1+"\",mutations="+mutations1+",rate="+rate1+"]";
+                    node1_string = "(" + node1 + "[&parent=" + names.get(n_lineages + k) + "]";
+                    //node1_string = "(" + node1  ;//":"+nodeTimes[child1-1]+")"; //+"[&parent="+names.get(n_lineages+k)+",patch=\""+patchNode1+"\",mutations="+mutations1+",rate="+rate1+"]";
 
                 }
                 if (child2 <= n_lineages) {
-                    node2_string = node2 + ":" + nodeTimes[child2 - 1] + ")" ; //+ "[&parent=" + names.get(n_lineages + k) + ",patch=\"" + patchNode2 + "\"])";//\",mutations="+mutations2+",rate="+rate2+"])";
+
+                    node2_string = node2 + ":" + nodeTimes[child2 - 1] + "[&parent=" + names.get(n_lineages + k) + "])"; //+ ",patch=\"" + patchNode2 + "\"])";//\",mutations="+mutations2+",rate="+rate2+"])";
+                    //node2_string = node2 + ":" + nodeTimes[child2 - 1] + ")";
                     //")[&parent="+names.get(n_lineages+k)+",patch=\""+patchNode+"\",mutations="+mutations+",rate="+rate+"]";
 
                 } else {
-                    node2_string = node2 +")";//":"+nodeTimes[child2-1]+")" ;//+"[&parent="+names.get(n_lineages+k)+",patch=\""+patchNode2+"\",mutations="+mutations2+",rate="+rate2+"]";
+                    node2_string = node2 +"[&parent=" + names.get(n_lineages + k) + "])";//":"+nodeTimes[child2-1]+")" ;//+"[&parent="+names.get(n_lineages+k)+",patch=\""+patchNode2+"\",mutations="+mutations2+",rate="+rate2+"]";
 
                 }
 
@@ -931,7 +921,7 @@ public class extractGenealogy {
 //                        ","+node2+"[&parent="+names.get(n_lineages+k)+",patch=\""+patchNode2+"\",mutations="+mutations2+",rate="+rate2+"]:"+nodeTimes[child2-1]
 //                        +")[&parent="+names.get(n_lineages+k)+",patch=\""+patchNode+"\",mutations="+mutations+",rate="+rate+"]";
 
-                treeString = node1_string + "," + node2_string + ":" + nodeTimes[n_nodes + k]; //+ "[&parent=" + names.get(n_lineages + k) + ",patch=\"" + patchNode + "\"]";//\",mutations="+mutations+",rate="+rate+"]";
+                treeString = node1_string + "," + node2_string + ":" + nodeTimes[n_lineages + k];//"[&parent=" + names.get(n_lineages + k) +"]";//+ ",patch=\"" + patchNode + "\"]";//\",mutations="+mutations+",rate="+rate+"]";
                 ;
                 //System.out.println(nodeString);
 
@@ -943,7 +933,7 @@ public class extractGenealogy {
                 nodeNames.remove(child2);
 
                 nodeNames.put(node_key + k + 1, treeString);
-                nodeHeights.put(node_key + k + 1, nodeTimes[n_nodes + k - 1]);
+                nodeHeights.put(node_key + k + 1, nodeTimes[n_lineages + k - 1]);
 
                 k++;
             }
@@ -1075,7 +1065,7 @@ public class extractGenealogy {
         inputParams.c = Double.parseDouble(args[6]); //colonization
         inputParams.U = Double.parseDouble(args[7]);
 
-        inputParams.n_samples_per_time = (int)Math.ceil(10/(double)inputParams.interval);
+        inputParams.n_samples_per_time = (int)Math.ceil(50/(double)inputParams.interval);
 //
 //
         patchSim test = new patchSim();
@@ -1085,15 +1075,16 @@ public class extractGenealogy {
         double tau = test.tau;
         extractGenealogy genealogy = new extractGenealogy();
 
-        //genealogy.lineages = genealogy.getSampledLineages(infectionHistory, inputParams.startTime, tau);
+        genealogy.lineages = genealogy.getSampledLineages(infectionHistory, inputParams.startTime, tau);
         //test data
-        genealogy.lineages = genealogy.getTestSampledLineages(infectionHistory, inputParams.startTime, tau);
+        //genealogy.lineages = genealogy.getTestSampledLineages(infectionHistory, inputParams.startTime, tau);
 
 
         //genealogy.lineages =  genealogy.getSampledLineages(infectionHistory, 200);
 
         List<Integer> sampledLineages = new ArrayList<>();
         sampledLineages.addAll(genealogy.lineages.getSampledLineages());
+        System.out.println(sampledLineages);
 
         //genealogy.parentLineages = genealogy.getParentLineages(sampledLineages, infectionHistory);
 

@@ -135,6 +135,8 @@ public class onePatchCoalSim {
 
 
         List<Integer> indices = sortIndicesByAnotherList(sorting);
+        System.out.println("id "+indices);
+        System.out.println("so "+sorting);
 
         //lineage_change <- c(n_sampled, rep(-1, m))[sorting$ix]
 
@@ -142,6 +144,7 @@ public class onePatchCoalSim {
                 flatMap(x -> x.stream()).
                 collect(Collectors.toList()));
 
+        System.out.println("lc "+lineage_change);
 
 
         List<Integer> lineages = IntStream.range(0, lineage_change.size() - 1)
@@ -149,13 +152,25 @@ public class onePatchCoalSim {
                 .boxed()
                 .collect(Collectors.toList());
 
+        System.out.println("l "+lineages);
+
+
         List<Double> coalFactor = lineages.stream().map(i -> (double)i * (i - 1) / 2.0).collect(Collectors.toList());
+
+        System.out.println("cf "+coalFactor);
 
         //System.out.println(Arrays.asList(Stream.of(rep(l, 0), rep(m, 1)).toArray()));
         List<Integer> event = sortListByIndices(indices, Stream.of(rep(l, 0), rep(m, 1)).
                 flatMap(x -> x.stream()).
                 collect(Collectors.toList()));
 
+        System.out.println("ev "+event);
+
+//
+//        Collections.reverse(coalFactor);
+//        Collections.reverse(sorting);
+//        Collections.reverse(event);
+//        Collections.reverse(lineages);
 
 
         args2.setCoalFactor(coalFactor);
@@ -182,8 +197,17 @@ public class onePatchCoalSim {
                 boxed().
                 collect(Collectors.toList());
 
+        System.out.println(">"+indices);
+        System.out.println(">"+list);
+
+        //indices.sort((Integer i1, Integer i2)->(int)(list.get(indices.indexOf(i1))-list.get(indices.indexOf(i1))));
+
         Collections.sort(indices, Comparator.comparingDouble(list::get));
-        Collections.sort(list);
+
+        list.sort(Comparator.comparingDouble(Double::intValue));
+        System.out.println(">"+indices);
+        System.out.println(">"+list);
+
 
         return indices;
     }
@@ -212,11 +236,14 @@ public class onePatchCoalSim {
 
         List<Double> temp_times = new ArrayList(Collections.nCopies(gene.nSampled.get(0), gene.sampleTimes.get(0)));
 
+        System.out.println(temp_times);
         int initial_row = 1;
 
         args2 args2 = gen_INLA_args(gene.sampleTimes, gene.nSampled, gene.coalTimes);
 
-        System.out.println(gene.coalTimes);
+
+        System.out.println(args2.sorting);
+        System.out.println(args2.event);
 
         for (int j=1; j < args2.event.size(); j++) {
 
@@ -227,9 +254,12 @@ public class onePatchCoalSim {
 
                 List<Integer> ra = sample(tb, 2);
 
-                String new_label = "(" + temp_labels.get(ra.get(0)) + ":" + (s-temp_times.get(ra.get(0))) + ","
-                        + temp_labels.get(ra.get(1)) + ":" + (s-temp_times.get(ra.get(1))) + ")";
+                String new_label = "(" + temp_labels.get(ra.get(0)) + ":" + ((s-temp_times.get(ra.get(0)))) + ","
+                        + temp_labels.get(ra.get(1)) + ":" + ((s-temp_times.get(ra.get(1)))) + ")";
 
+                System.out.println(s);
+                System.out.println(temp_times.get(ra.get(0)));
+                System.out.println(temp_times.get(ra.get(1)));
 
                 temp_labels.set(ra.get(0), new_label);
                 temp_labels.remove((int)ra.get(1));
@@ -237,6 +267,7 @@ public class onePatchCoalSim {
                 temp_times.set(ra.get(0), s);
                 temp_times.remove((int) ra.get(1));
                 tb = tb - 1;
+
                 System.out.println(temp_labels.get(ra.get(0)));
 
             }
@@ -270,8 +301,8 @@ public class onePatchCoalSim {
         onePatchCoalSim a = new onePatchCoalSim();
 
 
-        List<Double> sampleTimes = new ArrayList<>(Arrays.asList(0.0,10.0,20.0));
-        List<Integer> nSampled = new ArrayList<>(Arrays.asList(10,10,10));
+        List<Double> sampleTimes = new ArrayList<>(Arrays.asList(0.0,100.0,200.0));
+        List<Integer> nSampled = new ArrayList<>(Arrays.asList(2,2,2));
         double lowerBound = 1.0;
 
         coalData gene = a.coalSim_thin(sampleTimes, nSampled, lowerBound);
