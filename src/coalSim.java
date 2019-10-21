@@ -6,19 +6,21 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-public class coalSim {
+public class
+coalSim {
 
     List<Integer> N_over_time_in_patch = new ArrayList<>();
     double tau;
     double lowerBound;
     infectionHistory history = new infectionHistory();
+    Integer genotype;
 
-    public coalSim(List<Integer> N_over_time_in_patch, double tau, infectionHistory history) {
+    public coalSim(Integer genotype, double tau, infectionHistory history) {
 
-        this.N_over_time_in_patch.addAll(N_over_time_in_patch);
         this.tau = tau;
         lowerBound = 1.0;
         this.history = history;
+        this.genotype = genotype;
 
 
     }
@@ -45,7 +47,7 @@ public class coalSim {
 
             time = time + Exponential.staticNextDouble(0.5 * active_lineages * (active_lineages - 1) / lowerBound);
             double r = Uniform.staticNextDouble();
-            if (curr < sampleTimes.size() - 1 && time >= sampleTimes.get(curr + 1)) {
+            if (curr < (sampleTimes.size() - 1) && time >= sampleTimes.get(curr + 1)) {
 
                 curr = curr + 1;
                 active_lineages = active_lineages + nSampled.get(curr);
@@ -172,20 +174,22 @@ public class coalSim {
                            Map<Integer, String> nodeNames, Map<Integer, Double> nodeHeights,
                            Map<Integer, Integer> genotypeMap,
                            List<Integer> completeSampleLineages, List<Double> completeSampleTimes,
-                           Integer genotype, Integer patch) {
+                           Integer patch) {
 
         coalData gene = coalSim_thin(sample_Times, nSampled, lowerBound);
+
+        List<Double> copyCompleteSampleTimes = new ArrayList<>();
+        copyCompleteSampleTimes.addAll(completeSampleTimes);
 
         int n = (gene.nSampled).stream().mapToInt(i -> i.intValue()).sum();
         int Nnode = n - 1;
 
         List<String> labels = new ArrayList<>();
-        //IntStream.range(0, n).forEach(i -> labels.add("t" + (i + 1)));
 
         Map<String, Integer> label_indices = new HashMap<>();
 
         List<Integer> nodeNames_keys = new ArrayList<>(nodeNames.keySet());
-        Collections.reverse(nodeNames_keys);
+        Collections.sort(nodeNames_keys, Comparator.comparingInt(Integer::intValue).reversed());
         for(Integer i: nodeNames_keys) {
 
 
@@ -199,7 +203,6 @@ public class coalSim {
         double s = 0; //time for branch lengths;
         List<String> temp_labels = new ArrayList<>();
         temp_labels.addAll(labels.subList(0, tb));
-        //System.out.println(">" + temp_labels);
 
         List<Double> temp_times = new ArrayList(Collections.nCopies(gene.nSampled.get(0), gene.sampleTimes.get(0)));
 
@@ -207,85 +210,73 @@ public class coalSim {
 
         args2 args2 = gen_INLA_args(gene.sampleTimes, gene.nSampled, gene.coalTimes);
 
-        Integer nodeName_key = Collections.max(nodeNames.keySet()) + 1;
-        //int sampleLineage_index = completeSampleLineages.size() + 1;
+
+        int g_index = history.genotype.indexOf(genotype);
+        Integer parent = history.parent.get(g_index);
 
         for (int j = 1; j < args2.event.size(); j++) {
 
-            //System.out.println("e " + j + ", " + args2.event.get(j));
             if (args2.event.get(j) == 1) {
 
                 s = args2.sorting.get(j);
 
                 List<Integer> ra = sample(tb, 2);
+                double currTime1 = params.runTime-temp_times.get(ra.get(0));//copyCompleteSampleTimes.get(label_indices.get(temp_labels.get(ra.get(0)))-1);
+                double currTime2 = params.runTime-temp_times.get(ra.get(1));//copyCompleteSampleTimes.get(label_indices.get(temp_labels.get(ra.get(1)))-1);
 
-                String new_label = "(" + temp_labels.get(ra.get(0)) + ":" + (s-temp_times.get(ra.get(0))) + ","
-                        + temp_labels.get(ra.get(1)) + ":" + (s-temp_times.get(ra.get(1)))+")";
+                double branchLength1 = s-temp_times.get(ra.get(0));
+                double branchLength2 = s-temp_times.get(ra.get(1));
 
-                System.out.println(label_indices.get(temp_labels.get(ra.get(0))));
-                //nodeNames.replace(label_indices.get(temp_labels.get(ra.get(0))), new_label);
-                nodeNames.remove(label_indices.get(temp_labels.get(ra.get(0))));
+
+                double nodeHeight1 = (currTime1-branchLength1);//(currTime-(s-temp_times.get(ra.get(0))));//(s-temp_times.get(ra.get(0)))-(currTime);//(params.runTime-temp_times.get(ra.get(0))+(s-temp_times.get(ra.get(0))));//Math.abs((params.runTime-temp_times.get(ra.get(0)))-(params.runTime-(s-temp_times.get(ra.get(0)))));
+                double nodeHeight2 = (currTime2-branchLength2);
+
+                if(nodeHeight1 < history.getBirth(genotype)) {
+
+                    nodeHeight1 = history.getBirth(genotype);
+                    branchLength1 = currTime1-nodeHeight1;
+                }
+                if(nodeHeight2 < history.getBirth(genotype)) {
+                    nodeHeight2 = history.getBirth(genotype);
+                    branchLength2 = currTime2-nodeHeight2;
+                }
+
+                String new_label = "(" + temp_labels.get(ra.get(0)) + ":" + branchLength1 +"[&parent=coal_N_"+ history.prevalence.get(g_index).get((int)(currTime1/tau)-1)+"_parent_"+genotype+"_origin_"+history.getBirth(genotype)+"_" + nodeHeight1 + "],"
+                        + temp_labels.get(ra.get(1)) + ":" + branchLength2+"[&parent=coal_N_"+history.prevalence.get(g_index).get((int)(currTime2/tau)-1)+"_parent_"+genotype+"_origin_"+history.getBirth(genotype)+"_" + nodeHeight2 + "])";
+
+
+                nodeNames.replace(label_indices.get(temp_labels.get(ra.get(0))), new_label);
                 nodeNames.remove(label_indices.get(temp_labels.get(ra.get(1))));
-                if(nodeNames.containsKey(nodeName_key)) {
-                    nodeNames.remove(nodeName_key, new_label);
-                }
-                else {
-                    nodeNames.put(nodeName_key, new_label);
-                }
 
-                //nodeHeights.replace(label_indices.get(temp_labels.get(ra.get(0))), s);
-                nodeHeights.remove(label_indices.get(temp_labels.get(ra.get(0))));
+                completeSampleLineages.set(label_indices.get(temp_labels.get(ra.get(0)))-1, genotype);
+                completeSampleLineages.set(label_indices.get(temp_labels.get(ra.get(1)))-1, -1);
+
+
+
+                nodeHeights.replace(label_indices.get(temp_labels.get(ra.get(0))), Math.min(nodeHeight1, nodeHeight2));
                 nodeHeights.remove(label_indices.get(temp_labels.get(ra.get(1))));
 
-                if(nodeHeights.containsKey(nodeName_key)) {
-                    nodeHeights.replace(nodeName_key, s);
-                }
-                else {
-                    nodeHeights.put(nodeName_key, s);
-                }
 
-
-                //label_indices.remove(temp_labels.get(ra.get(1)));
-
-
-                //genotypeMap.remove(label_indices.get(temp_labels.get(ra.get(1))));
-                //System.out.println("1 "+genotype+" "+completeSampleLineages);
-                //int index = completeSampleLineages.indexOf(genotype);
-                completeSampleLineages.set(label_indices.get(temp_labels.get(ra.get(0)))-1, -1);
-                completeSampleLineages.set(label_indices.get(temp_labels.get(ra.get(1)))-1, -1);
-                if(completeSampleLineages.size() != nodeName_key) {
-                    completeSampleLineages.add(history.parent.get(history.genotype.indexOf(genotype)));
-                }
-                //System.out.println("2 "+genotype+" "+completeSampleLineages);
-                completeSampleTimes.set(label_indices.get(temp_labels.get(ra.get(0)))-1, -1.0);
+                completeSampleTimes.set(label_indices.get(temp_labels.get(ra.get(0)))-1, nodeHeight1);
                 completeSampleTimes.set(label_indices.get(temp_labels.get(ra.get(1)))-1, -1.0);
-                if(completeSampleTimes.size() != nodeName_key) {
-                    completeSampleTimes.add(history.birth.get(history.genotype.indexOf(genotype)));
 
-                }
 
-                if(!genotypeMap.containsKey(nodeName_key)) {
-                    genotypeMap.put(nodeName_key, history.parent.get(history.genotype.indexOf(genotype)));
-                }
+                System.out.println(nodeHeight1 +" "+ nodeHeight2+ " "+new_label);
+
 
                 label_indices.put(new_label, label_indices.get(temp_labels.get(ra.get(0))));
-                label_indices.remove(temp_labels.get(ra.get(0)));
-                //sample_Times.remove(label_indices.get(temp_labels.get(ra.get(1))));
-
+                label_indices.remove(temp_labels.get(ra.get(1)));
 
                 temp_labels.set(ra.get(0), new_label);
                 temp_labels.remove((int) ra.get(1));
-
                 temp_times.set(ra.get(0), s);
                 temp_times.remove((int) ra.get(1));
 
 
-
                 tb = tb - 1;
-                System.out.println(new_label);
 
             } else {
-                //I will be adding samples at
+                //Adding samples at
                 s = args2.sorting.get(j);
 
                 if (gene.nSampled.get(initial_row) == 1) {
@@ -342,8 +333,25 @@ public class coalSim {
     private double getN(double time) {
 
         //System.out.println(time);
-        double t = roundToHalf(time);
-        return N_over_time_in_patch.get((int)(t/tau));
+        double t = roundToHalf((params.runTime-time));
+        double N = -1;
+        try {
+            if(t/tau < 1) {
+                t = tau;
+            }
+            N = history.prevalence.get(history.genotype.indexOf(genotype)).get((int) (t / tau) - 1);
+        }
+        catch (IndexOutOfBoundsException e) {
+            e.printStackTrace();
+            N = history.prevalence.get(history.genotype.indexOf(genotype)).get(0);
+            System.out.println(((int)(t / tau) - 1)+ " " + N+ " " + genotype);
+
+        }
+
+        //System.out.println(time+ " " + (params.runTime-time) + " " +N);
+        return N;
+
+
 
     }
 
