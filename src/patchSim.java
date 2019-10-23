@@ -89,35 +89,28 @@ public class patchSim {
         double t_curr = tau;
         double t_max = params.runTime;
         int Y_curr = params.I;
-        int X_curr = params.S;
         DoubleArrayList withinPatchRates = new DoubleArrayList();
         DoubleArrayList betweenPatchRates = new DoubleArrayList();
         List<Integer> curr_in_body = new ArrayList<>();
 
 
         int[] Y_curr_i = new int[params.Npatches];
-        //int[] X_curr_i = new int[params.Npatches];
         double[] beta_i = new double[params.Npatches];
-        double[] timeThreshold_curr_i = new double[params.Npatches];
         double[] timeRefactory_curr_i = new double[params.Npatches];
-        int[] daysRefactory_i = new int[params.Npatches];
         threshold_i = new int[params.Npatches];
 
 
         //initializing patches with number of infected and susceptible cells
 
         Arrays.fill(Y_curr_i, 0);
-        Arrays.fill(timeThreshold_curr_i, 0.0);
         Arrays.fill(timeRefactory_curr_i, 0);
-        Arrays.fill(daysRefactory_i, 5);
 
         double colonize = params.c;
         double extinct = params.nu;
         double death = 1.0;
 
 
-        Y_curr_i[0] += Y_curr;
-        //X_curr_i[0] -= Y_curr;
+        Y_curr_i[0] = Y_curr; // first patch initiated with Y_curr individuals
 
         initialiseHistory(patch_history, Y_curr_i, t_max, 1);
 
@@ -253,15 +246,12 @@ public class patchSim {
                         //occupyPatchList.remove((Integer)patch_index);
                         thresholdList.remove((Integer)patch_index);
                         emptyPatchList.add(patch_index);
+                        timeRefactory_curr_i[patch_index] = t_curr;
 
-
-                        //}
                         j++;
 
                     }
-                    //thresholdList.removeAll(emptyPatchList);
                     occupyPatchList.removeAll(emptyPatchList);
-
 
                 }
                 else{
@@ -284,75 +274,28 @@ public class patchSim {
 
                         int patch_index = emptyPatchList.get(r);
 
-                        //int probTimeRefactory = daysRefactory_i[patch_index]; // choose probabilistically how many days patch remains in refactory period (make a variable of the model)
+                        if(timeRefactory_curr_i[patch_index] > 0 && t_curr-timeRefactory_curr_i[patch_index] < 5) {
+                            break;
+                        }
 
-                        //if((t_curr-timeRefactory_curr_i[patch_index]) > (double)probTimeRefactory) {
-
-                        if(curr_in_body.size() == 0) {
+                        if(curr_in_body.size() == 0 || occupyPatchList.size() == 0) {
 
                             break;
                         }
 
                         int s = Uniform.staticNextIntFromTo(0, occupyPatchList.size()-1);
+                        if(occupyPatchList.size() == 0) {
+                            System.out.println();
+                        }
                         int source = occupyPatchList.get(s);
 
-                        // Negative frequency dependent selection of colonizing patch
 
-//                        Collections.sort(occupyPatchList, comparator1);
-//                        double[] prob = new double[occupyPatchList.size()];
-//                        double[] relProb = new double[occupyPatchList.size()];
-//
-//                        int a = 0;
-//                        for(Integer o: occupyPatchList) {
-//
-//                            double fitness = (double)(total_infected-Y_curr_i[o])/(double)total_infected;
-//                            prob[a] = fitness;
-//
-//                            if(a > 0) {
-//                                prob[a] = prob[a] + prob[a-1];
-//                            }
-//                            a++;
-//
-//                        }
-//
-//                        a = 0;
-//
-//                        double max = prob[prob.length-1];
-//                        for(double d: prob) {
-//
-//                            relProb[a] = d/max;
-//                            a++;
-//
-//                        }
-//
-//                        int index = 0;
-//                        double freq = relProb[index];
-//                        double rand = Uniform.staticNextDouble();
-//                        while(freq < rand) {
-//                            if (index == (relProb.length - 1)) {
-//                                break;
-//                            }
-//                            index++;
-//                            freq = relProb[index];
-//                        }
-//
-//                        int source = occupyPatchList.get(index);
-
-                        r = Uniform.staticNextIntFromTo(0, genotype_curr_per_patch.get(source).size()-1);
-
-                        //Collections.shuffle(curr_in_body);
-
-                        //timeRefactory_curr_i[patch_index] = 0.0;
 
                         int newInfections = Uniform.staticNextIntFromTo(1, 3);
 
                         Y_curr_i[patch_index] = newInfections;
-                        //X_curr_i[patch_index] -= newInfections;
 
-
-                        //r = Uniform.staticNextIntFromTo(0, curr_in_body.size()-1);
-
-                        Integer colonizing_genotype = genotype_curr_per_patch.get(source).get(r);  //curr_in_body.get(r);
+                        Integer colonizing_genotype = genotype_curr_per_patch.get(source).get(0);  //curr_in_body.get(r);
 
                         for (int i = 0; i < newInfections; i++) {
 
@@ -362,7 +305,6 @@ public class patchSim {
                         patch_history.logBirth(t_curr);
                         patch_history.logDeath(Double.POSITIVE_INFINITY);
                         patch_history.logGenotype(genotype);
-                        //patch_history.logFitness(1.0-(double)Y_curr_i[patch_index]/(double)N);
                         patch_history.logParent(colonizing_genotype);
                         patch_history.logPatch(patch_index);
 
@@ -372,15 +314,14 @@ public class patchSim {
                         patch_history.prevalence.add(new_prevalence);
                         genotype++;
 
-                        emptyPatchList.remove((Integer)patch_index);
+                        //emptyPatchList.remove((Integer)patch_index);
                         occupyPatchList.add(patch_index);
 
-                        //tempOccupyList.add(patch_index);
-                        //}
+                        timeRefactory_curr_i[patch_index] = 0.0;
+
                         j++;
                     }
-                    //emptyPatchList.removeAll(tempOccupyList);
-                    //occupyPatchList.addAll(tempOccupyList);
+                    emptyPatchList.removeAll(occupyPatchList);
 
 
 
@@ -425,6 +366,67 @@ public class patchSim {
 
                         while (j < min) {
 
+                            //determine number of mutations
+                            int mutations = Poisson.staticNextInt(params.U); //double check if rate vs mean
+
+
+                            if(mutations == 0) {
+                                int r = (int) Math.floor(Uniform.staticNextDouble() * genotype_curr.size());
+                                Integer chosen_genotype = genotype_curr.get(r);
+                                int genotype_index = patch_history.genotype.indexOf(chosen_genotype);
+
+                                int prevalence_curr = patch_history.prevalence.get(genotype_index).get(t - 1);
+                                int prevalence_next = patch_history.prevalence.get(genotype_index).get(t);
+
+                                Y_curr_i[patch_index] = Y_curr_i[patch_index] + 1;
+
+
+                                if (prevalence_next > 0) {
+
+                                    prevalence_curr = prevalence_next;
+                                }
+
+                                genotype_curr.add(chosen_genotype);
+                                patch_history.prevalence.get(genotype_index).set(t, prevalence_curr + 1);
+                            }
+                            else {
+
+                                //choose genotype
+                                int index = (int) Math.floor(Uniform.staticNextDouble() * genotype_curr.size());
+                                Integer chosen_genotype = genotype_curr.get(index);
+                                int parent_index = patch_history.genotype.indexOf(chosen_genotype);
+
+
+                                patch_history.logParent(chosen_genotype); // do we want to log parent index or genotype?
+                                patch_history.logGenotype(genotype);
+                                patch_history.logBirth(t_curr);
+                                patch_history.logDeath(Double.POSITIVE_INFINITY);
+                                patch_history.logPatch(patch_index);
+
+                                int prevalence_curr = patch_history.prevalence.get(parent_index).get(t - 1);
+                                int prevalence_next = patch_history.prevalence.get(parent_index).get(t);
+
+                                if (prevalence_next > 0) {
+
+                                    prevalence_curr = prevalence_next;
+                                }
+
+                                if((prevalence_curr-1)==0) {
+
+                                    patch_history.death.set(parent_index, t_curr);
+                                }
+                                patch_history.prevalence.get(parent_index).set(t, prevalence_curr - 1);
+
+                                List<Integer> new_prevalence = new ArrayList<>(Arrays.asList(new Integer[patch_history.prevalence.get(parent_index).size()]));
+                                Collections.fill(new_prevalence, 0);
+                                new_prevalence.set(t, 1);
+                                patch_history.prevalence.add(new_prevalence);
+
+                                genotype_curr.remove(chosen_genotype);
+                                genotype_curr.add(genotype);
+                                genotype++;
+
+                            }
 
                             if(Y_curr_i[patch_index] >= threshold_i[patch_index] && !thresholdList.contains(new Integer(patch_index))) {
 
@@ -450,29 +452,30 @@ public class patchSim {
                             int genotype_index = patch_history.genotype.indexOf(chosen_genotype);
 
                             int prevalence_curr = patch_history.prevalence.get(genotype_index).get(t);
-//                            int prevalence_next = prevalence.get(t);
-//
-//                            if (prevalence_next > 0) {
-//
-//                                prevalence_curr = prevalence_next;
-//                            }
 
 
                             patch_history.prevalence.get(genotype_index).set(t, prevalence_curr - 1);
                             genotype_curr.remove(chosen_genotype);
 
-                            if(Y_curr_i[patch_index] == 0) {
 
-                                patch_history.death.set(genotype_index, t_curr);
-                                occupyPatchList.remove((Integer)patch_index);
-                                thresholdList.remove((Integer)patch_index);
-                                emptyPatchList.add(patch_index);
+                            if(Y_curr_i[patch_index] < threshold_i[patch_index]) {
+
+                                if(thresholdList.contains(patch_index)) {
+                                    thresholdList.remove((Integer) patch_index);
+                                }
+
+                                if(Y_curr_i[patch_index] == 0) {
+
+                                    patch_history.death.set(genotype_index, t_curr);
+                                    emptyPatchList.add(patch_index);
+                                }
                             }
-
 
                             j++;
 
                         }
+                        occupyPatchList.removeAll(emptyPatchList);
+
 
                         if(Y_curr_i[patch_index] < threshold_i[patch_index]) {
                             thresholdList.remove((Integer)patch_index);
@@ -481,7 +484,8 @@ public class patchSim {
                     }
 
                     genotype_curr_per_patch.replace(patch_index, genotype_curr);
-                    
+
+
                 }
 
                 withinPatchRates.removeAll(withinPatchRates);
@@ -512,8 +516,6 @@ public class patchSim {
 
             if(Y_curr_i[i] > 0) {
                 history.logGenotype(genotype);
-                //patch_history.logFitness(1-(double)Y_curr_i[i]/(double)(params.S+params.I));
-                //history.logMutations(0);
                 history.logBirth(Double.NEGATIVE_INFINITY);
                 history.logDeath(Double.POSITIVE_INFINITY);
                 history.logParent((int) Double.NEGATIVE_INFINITY);
@@ -596,7 +598,7 @@ public class patchSim {
         Integer ancestor = commonAncestor(i1,i2);
         if(ancestor.intValue() != (int)Double.NEGATIVE_INFINITY) {
 
-            double ancestorDistance = patch_history.getBirth(ancestor);
+            double ancestorDistance= patch_history.getBirth(ancestor);
 
             if(Double.isInfinite(ancestorDistance)) {
                 ancestorDistance = 0;
@@ -615,16 +617,11 @@ public class patchSim {
     private double geneticDistance(Integer i1, Integer i2) {
 
         Integer ancestor = commonAncestor(i1,i2);
-        //if(ancestor.intValue() != (int)Double.NEGATIVE_INFINITY) {
 
         double distA = patch_history.getMutationsFromParent(i1, ancestor);
         double distB = patch_history.getMutationsFromParent(i2, ancestor);
         return distA + distB;
-//        }
-//        else{
-//            return 0;
-//
-//        }
+
     }
 
     public void updatePatchStatistics(FileWriter writer, double t_curr, String sim, boolean writeOutput) {
@@ -632,17 +629,12 @@ public class patchSim {
         total_infected = 0;
         total_genotypes = 0;
 
-        //for(Integer patch: genotype_curr_per_patch.keySet()) {
-
-
         for (Map.Entry<Integer, List<Integer>> entry : genotype_curr_per_patch.entrySet()) {
 
             Integer patch = entry.getKey();
 
             total_infected+=entry.getValue().size();
             total_genotypes+=(new HashSet<>(entry.getValue()).size());
-
-            //N_per_patch_over_time.get(patch).add(genotype_curr_per_patch.get(patch).size());
 
             if(writeOutput) {
 
@@ -870,3 +862,50 @@ public class patchSim {
 
 
 }
+// Negative frequency dependent selection of colonizing patch
+
+//                        Collections.sort(occupyPatchList, comparator1);
+//                        double[] prob = new double[occupyPatchList.size()];
+//                        double[] relProb = new double[occupyPatchList.size()];
+//
+//                        int a = 0;
+//                        for(Integer o: occupyPatchList) {
+//
+//                            double fitness = (double)(total_infected-Y_curr_i[o])/(double)total_infected;
+//                            prob[a] = fitness;
+//
+//                            if(a > 0) {
+//                                prob[a] = prob[a] + prob[a-1];
+//                            }
+//                            a++;
+//
+//                        }
+//
+//                        a = 0;
+//
+//                        double max = prob[prob.length-1];
+//                        for(double d: prob) {
+//
+//                            relProb[a] = d/max;
+//                            a++;
+//
+//                        }
+//
+//                        int index = 0;
+//                        double freq = relProb[index];
+//                        double rand = Uniform.staticNextDouble();
+//                        while(freq < rand) {
+//                            if (index == (relProb.length - 1)) {
+//                                break;
+//                            }
+//                            index++;
+//                            freq = relProb[index];
+//                        }
+//
+//                        int source = occupyPatchList.get(index);
+
+//r = Uniform.staticNextIntFromTo(0, genotype_curr_per_patch.get(source).size()-1);
+
+//Collections.shuffle(curr_in_body);
+
+//timeRefactory_curr_i[patch_index] = 0.0;

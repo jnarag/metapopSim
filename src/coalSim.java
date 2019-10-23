@@ -228,17 +228,18 @@ coalSim {
                 double branchLength2 = s-temp_times.get(ra.get(1));
 
 
+
                 double nodeHeight1 = (currTime1-branchLength1);//(currTime-(s-temp_times.get(ra.get(0))));//(s-temp_times.get(ra.get(0)))-(currTime);//(params.runTime-temp_times.get(ra.get(0))+(s-temp_times.get(ra.get(0))));//Math.abs((params.runTime-temp_times.get(ra.get(0)))-(params.runTime-(s-temp_times.get(ra.get(0)))));
                 double nodeHeight2 = (currTime2-branchLength2);
 
                 if(nodeHeight1 < history.getBirth(genotype)) {
 
                     nodeHeight1 = history.getBirth(genotype);
-                    branchLength1 = currTime1-nodeHeight1;
+                    branchLength1 = Math.abs(currTime1-nodeHeight1);
                 }
                 if(nodeHeight2 < history.getBirth(genotype)) {
                     nodeHeight2 = history.getBirth(genotype);
-                    branchLength2 = currTime2-nodeHeight2;
+                    branchLength2 = Math.abs(currTime2-nodeHeight2);
                 }
 
                 String new_label = "(" + temp_labels.get(ra.get(0)) + ":" + branchLength1 +"[&parent=coal_N_"+ history.prevalence.get(g_index).get((int)(currTime1/tau)-1)+"_parent_"+genotype+"_origin_"+history.getBirth(genotype)+"_" + nodeHeight1 + "],"
@@ -253,7 +254,7 @@ coalSim {
 
 
 
-                nodeHeights.replace(label_indices.get(temp_labels.get(ra.get(0))), Math.min(nodeHeight1, nodeHeight2));
+                nodeHeights.replace(label_indices.get(temp_labels.get(ra.get(0))), nodeHeight1);
                 nodeHeights.remove(label_indices.get(temp_labels.get(ra.get(1))));
 
 

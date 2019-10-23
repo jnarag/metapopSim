@@ -716,7 +716,7 @@ public class extractGenealogy {
 
         int interval = 100; //(int) Math.ceil((params.runTime - 200.0) / (double)params.interval);
 
-        double t = 200.0;
+        double t = 100.0;
         while (t <= params.runTime) {
 
             System.out.println(t);
