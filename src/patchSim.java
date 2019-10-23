@@ -175,7 +175,7 @@ public class patchSim {
             update_curr_in_body(curr_in_body, t);
 
 
-            if(t_curr%10==0) {
+            if(t_curr%20==0) {
                 List<Double> globalDiversity = updateDiversity(curr_in_body, true);
                 double diversity = globalDiversity.get(0);
                 double tmrca = globalDiversity.get(1);
@@ -638,7 +638,7 @@ public class patchSim {
 
             if(writeOutput) {
 
-                if (t_curr % 10 == 0) {
+                if (t_curr % 20 == 0) {
                     List<Double> diversity_results = updateDiversity(genotype_curr_per_patch.get(patch), true);
 
                     double diversity = diversity_results.get(0);
