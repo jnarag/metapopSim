@@ -131,7 +131,7 @@ public class patchSim {
 
         if(params.het) {
 
-            IntStream.range(1, (int)0.01*params.Npatches+1).forEach(i -> r_i[i] = params.r/0.01);
+            IntStream.range(1, (int)0.5*params.Npatches+1).forEach(i -> r_i[i] = params.r/0.01);
         }
 
 
@@ -145,6 +145,9 @@ public class patchSim {
             //determine what is present currently across all patches
             update_curr_in_body(curr_in_body, t);
 
+            if(t_curr >= 500) {
+                extinct = params.nu/10;
+            }
 
             if(t_curr%20==0) {
 
