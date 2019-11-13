@@ -1,2 +1,5 @@
 *.tre
 *.txt
+/Users/jayna/Dropbox/java/metapopSim/src/patchSimMPI.java
+/Users/jayna/Dropbox/java/metapopSim/src/patchSimNoMutation.java
+/Users/jayna/Dropbox/java/metapopSim/src/Hello.java

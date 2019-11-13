@@ -8,53 +8,8 @@
   <component name="ChangeListManager">
     <list default="true" id="b69043b0-f2d7-4295-8253-5da82f4f758e" name="Default" comment="add gitignore">
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/extractGenealogy.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/extractGenealogy.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/patchSim.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/patchSim.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/patchSimMPI.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/piMPI.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/testMPI.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/commons_math3_3_6_javadoc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/commons_math3_3_6_javadoc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/de_ruedigermoeller_fst_2_57.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/extractGenealogy/extractGenealogy.iml" beforeDir="false" afterPath="$PROJECT_DIR$/extractGenealogy/extractGenealogy.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/metapopSim.iml" beforeDir="false" afterPath="$PROJECT_DIR$/metapopSim.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/metapopSim/coalSim$args2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/metapopSim/coalSim$args2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/metapopSim/coalSim$coalData.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/metapopSim/coalSim$coalData.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/metapopSim/coalSim.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/metapopSim/coalSim.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/metapopSim/extractGenealogy$coalescentEvent.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/metapopSim/extractGenealogy$coalescentEvent.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/metapopSim/extractGenealogy$sampledLineages.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/metapopSim/extractGenealogy$sampledLineages.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/metapopSim/extractGenealogy.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/metapopSim/extractGenealogy.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/metapopSim/onePatchCoalSim$args2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/metapopSim/onePatchCoalSim$args2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/metapopSim/onePatchCoalSim$coalData.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/metapopSim/onePatchCoalSim$coalData.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/metapopSim/onePatchCoalSim.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/metapopSim/onePatchCoalSim.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/metapopSim/params.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/metapopSim/params.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/metapopSim/patchSim$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/metapopSim/patchSim$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/metapopSim/patchSim.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/metapopSim/patchSim.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/metapopSim/patchSimMPI.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/metapopSim/patchSimMPI.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/metapopSim/patchSimNoMutation.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/metapopSim/patchSimNoMutation.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/patchSim_extinction_0.05_col_0.01_beta_1.0_Npatches_1000_patchSize_100.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/patchSim_extinction_0.05_col_0.05_beta_1.0_Npatches_1000_patchSize_100.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/patchSim_extinction_0.1_col_0.05_beta_1.0_Npatches_1000_patchSize_100.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/patchSim_extinction_0.1_col_0.1_beta_1.0_Npatches_1000_patchSize_100.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/patchSim_extinction_0.5_col_0.001_beta_1.0_Npatches_1000_patchSize_100.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/coalSim.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/coalSim.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/extractGenealogy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/extractGenealogy.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/params.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/params.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/patchSim.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/patchSim.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/patchSimMPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/patchSimMPI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/patchSimNoMutation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/patchSimNoMutation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/summary_patchSim_extinction_0.05_col_0.01_beta_1.0_Npatches_1000_patchSize_100 (Jaynas-MacBook-Air.local's conflicted copy 2019-10-08).txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/summary_patchSim_extinction_0.05_col_0.01_beta_1.0_Npatches_1000_patchSize_100.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/summary_patchSim_extinction_0.05_col_0.05_beta_1.0_Npatches_1000_patchSize_100.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/summary_patchSim_extinction_0.1_col_0.05_beta_1.0_Npatches_1000_patchSize_100.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/summary_patchSim_extinction_0.1_col_0.1_beta_1.0_Npatches_1000_patchSize_100.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/summary_patchSim_extinction_0.5_col_0.001_beta_1.0_Npatches_1000_patchSize_100.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test.tre" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test.tre.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tree_ext_0.05_col_0.01_Npatches_1000_patchSize_100_nlineages_ (Jaynas-MacBook-Air.local's conflicted copy 2019-10-08).tre" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tree_ext_0.05_col_0.01_Npatches_1000_patchSize_100_nlineages_.tre" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tree_ext_0.5_col_0.001_Npatches_1000_patchSize_100_nlineages_.tre" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -368,6 +323,19 @@
       <option name="ALTERNATIVE_JRE_PATH" />
       <method v="2" />
     </configuration>
+    <configuration default="true" type="JetRunConfigurationType" factoryName="Kotlin">
+      <module name="extractGenealogy" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="WORKING_DIRECTORY" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType" factoryName="Kotlin script">
       <option name="filePath" />
       <option name="vmParameters" />
@@ -626,7 +594,14 @@
       <option name="project" value="LOCAL" />
       <updated>1573601822076</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="add gitignore">
+      <created>1573603699387</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1573603699387</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TodoView">
