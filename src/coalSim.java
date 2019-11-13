@@ -242,6 +242,7 @@ coalSim {
                     branchLength2 = Math.abs(currTime2-nodeHeight2);
                 }
 
+
                 String new_label = "(" + temp_labels.get(ra.get(0)) + ":" + branchLength1 +"[&parent=coal_N_"+ history.prevalence.get(g_index).get((int)(currTime1/tau)-1)+"_parent_"+genotype+"_origin_"+history.getBirth(genotype)+"_" + nodeHeight1 + "],"
                         + temp_labels.get(ra.get(1)) + ":" + branchLength2+"[&parent=coal_N_"+history.prevalence.get(g_index).get((int)(currTime2/tau)-1)+"_parent_"+genotype+"_origin_"+history.getBirth(genotype)+"_" + nodeHeight2 + "])";
 

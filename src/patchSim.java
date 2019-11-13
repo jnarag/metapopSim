@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.IntStream;
 
+import org.eclipse.collections.impl.list.Interval;
+
 
 public class patchSim {
 
@@ -46,16 +48,17 @@ public class patchSim {
 
     public void runSim(params params) {
 
+
         double tau = params.tau;
-        boolean writeOutput = true;
+        boolean writeOutput = false;
 
         String outputfile = "patchSim_extinction_" + params.nu + "_col_" + params.c +
-                "_beta_" + params.beta + "_Npatches_" + params.Npatches +
+                "_r_" + params.r + "_Npatches_" + params.Npatches +
                 "_patchSize_" + (params.S + params.I + ".txt");
 
 
         String summaryFile = "summary_patchSim_extinction_" + params.nu + "_col_" + params.c +
-                "_beta_" + params.beta + "_Npatches_" + params.Npatches +
+                "_r_" + params.r + "_Npatches_" + params.Npatches +
                 "_patchSize_" + (params.S + params.I + ".txt");
 
         FileWriter writer1 = null;
@@ -63,10 +66,10 @@ public class patchSim {
         if(writeOutput) {
             try {
                 writer1 = new FileWriter(new File(outputfile));
-                writer1.write("Time\tPatch_no\tTotal_infected\tUnique_genotypes\tSim\n");
+                writer1.write("Time\tPatch_no\tTotal_infected\tUnique_genotypes\n");
 
                 writer2 = new FileWriter(new File(summaryFile));
-                writer2.write("Time\tTotal_infected\tUnique_genotypes\tOccupied_patches\tGenealogical_diversity\tTMRCA\tSim\n");
+                writer2.write("Time\tTotal_infected\tUnique_genotypes\tOccupied_patches\tGenealogical_diversity\tTMRCA\n");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -83,7 +86,7 @@ public class patchSim {
 
         //double[] beta_i = new double[params.Npatches];
         double[] timeRefactory_curr_i = new double[params.Npatches];
-        threshold = 0.5*N;
+        threshold = 0.25*N;
         r_i = new double[params.Npatches];
 
 
@@ -100,58 +103,58 @@ public class patchSim {
         initialiseHistory(patch_history, params.I, t_max);
 
 
-        IntStream.range(0, params.Npatches).forEach(i -> genotype_curr_per_patch.put(i, new ArrayList<>()));
+        //IntStream.range(0, params.Npatches).forEach(i -> genotype_curr_per_patch.put(i, new ArrayList<>()));
 
         for(Integer genotype: patch_history.genotype) {
             int genotype_index = patch_history.genotype.indexOf(genotype);
 
             int patch = patch_history.getPatch(genotype_index);
-            List<Integer> genotype_curr_i = new ArrayList<>();
-            genotype_curr_i.addAll(genotype_curr_per_patch.get(patch));
+            occupyPatchList.add(patch);
+            //List<Integer> genotype_curr_i = new ArrayList<>();
+            //genotype_curr_i.addAll(genotype_curr_per_patch.get(patch));
 
             List<Integer> Y_temp = new ArrayList<>( Arrays.asList(new Integer[patch_history.prevalence.get(genotype_index).get(0)]));
 
             Collections.fill(Y_temp, genotype);
 
-            genotype_curr_i.addAll(Y_temp);
-            genotype_curr_per_patch.replace(patch, genotype_curr_i);
+            //genotype_curr_i.addAll(Y_temp);
+            genotype_curr_per_patch.put(patch, Y_temp);
 
         }
 
 
-        for(int i = 0; i < params.Npatches; i++) {
+        emptyPatchList = Interval.fromTo(1, params.Npatches-1);
 
-            if(genotype_curr_per_patch.get(i).size() == 0) {
-                emptyPatchList.add(i);
-            }
-            else{
-                occupyPatchList.add(i);
-            }
-        }
+//        for(int i = 0; i < params.Npatches; i++) {
+//
+//            if(!genotype_curr_per_patch.containsKey(i)) {
+//                emptyPatchList.add(i);
+//            }
+//            else{
+//                occupyPatchList.add(i);
+//            }
+//        }
 
         if(params.het) {
 
             IntStream.range(1, (int)0.5*params.Npatches+1).forEach(i -> r_i[i] = params.r/0.01);
         }
 
+        String sim = "ext_"+ extinct+"_col_"+colonize+"_Npatch_"+params.Npatches+"_PatchSize_"+(N);
+
 
         for (int t = 1; t < (t_max / tau); t++) {
 
-            t_curr += tau;
 
 
-            String sim = "ext_"+ extinct+"_col_"+colonize+"_Npatch_"+params.Npatches+"_PatchSize_"+(params.S+params.I);
 
             //determine what is present currently across all patches
             update_curr_in_body(curr_in_body, t);
 
-            if(t_curr >= 500) {
-                extinct = params.nu/10;
-            }
 
-            if(t_curr%20==0) {
+            if(t_curr%5==0) {
 
-                updatePatchStatistics(writer1, t_curr, sim, writeOutput);
+                updatePatchStatistics(writer1, t_curr, writeOutput);
 
                 List<Double> globalDiversity = updateDiversity(curr_in_body, false);
                 double tmrca = globalDiversity.get(1);
@@ -163,7 +166,7 @@ public class patchSim {
                 if(writeOutput) {
 
 
-                    writeOutput(writer2, t_curr, total_infected, total_genotypes, occupyPatchList.size(), globalDiversity, sim);
+                    writeOutput(writer2, t_curr, total_infected, total_genotypes, occupyPatchList.size(), globalDiversity);
                 }
 
             }
@@ -227,12 +230,21 @@ public class patchSim {
                         min = Math.min(emptyPatchList.size(), num);
 
                         j = 0;
+
+                        Collections.shuffle(emptyPatchList);
+                        Collections.shuffle(occupyPatchList);
+
                         while (j < min) {
 
                             j++;
-                            int rand = Uniform.staticNextIntFromTo(0, emptyPatchList.size() - 1);
+                            //int rand = Uniform.staticNextIntFromTo(0, emptyPatchList.size() - 1);
 
-                            int patch_index = emptyPatchList.get(rand);
+                            int patch_index = emptyPatchList.get(0);
+
+                            if(!genotype_curr_per_patch.containsKey((Integer)patch_index)) {
+
+                                genotype_curr_per_patch.put(patch_index, new ArrayList<>());
+                            }
 
                             if (curr_in_body.size() == 0 || occupyPatchList.size() == 0) {
                                 break;
@@ -242,9 +254,9 @@ public class patchSim {
                                 continue;
                             }
 
-                            int s = Uniform.staticNextIntFromTo(0, occupyPatchList.size() - 1);
+                            //int s = Uniform.staticNextIntFromTo(0, occupyPatchList.size() - 1);
 
-                            int source = occupyPatchList.get(s);
+                            int source = occupyPatchList.get(0);
 
 
                             int newInfections = Uniform.staticNextIntFromTo(1, 3);
@@ -269,7 +281,7 @@ public class patchSim {
                             patch_history.prevalence.add(new_prevalence);
                             genotype++;
 
-                            emptyPatchList.remove(rand);
+                            emptyPatchList.remove(0);
                             occupyPatchList.add(patch_index);
 
                         }
@@ -281,6 +293,8 @@ public class patchSim {
             betweenPatchRates.clear();
 
             for (int p = 0; p < params.Npatches; p++) {
+
+                if(!genotype_curr_per_patch.containsKey((Integer)p)) continue;
 
                 List<Integer> genotype_curr = new ArrayList<>();
                 genotype_curr.addAll(genotype_curr_per_patch.get(p));
@@ -322,6 +336,7 @@ public class patchSim {
             }
 
             curr_in_body.clear();
+            t_curr += tau;
 
         }
 
@@ -342,12 +357,12 @@ public class patchSim {
         boolean writeOutput = false;
 
         String outputfile = "patchSim_extinction_" + params.nu + "_col_" + params.c +
-                "_beta_" + params.beta + "_Npatches_" + params.Npatches +
+                "_r_" + params.r + "_Npatches_" + params.Npatches +
                 "_patchSize_" + (params.S + params.I + ".txt");
 
 
         String summaryFile = "summary_patchSim_extinction_" + params.nu + "_col_" + params.c +
-                "_beta_" + params.beta + "_Npatches_" + params.Npatches +
+                "_r_" + params.r + "_Npatches_" + params.Npatches +
                 "_patchSize_" + (params.S + params.I + ".txt");
 
         FileWriter writer1 = null;
@@ -355,10 +370,10 @@ public class patchSim {
         if(writeOutput) {
             try {
                 writer1 = new FileWriter(new File(outputfile));
-                writer1.write("Time\tPatch_no\tTotal_infected\tUnique_genotypes\tGenealogical_diversity\tTMRA\tSim\n");
+                writer1.write("Time\tPatch_no\tTotal_infected\tUnique_genotypes\tGenealogical_diversity\tTMRCA\n");
 
                 writer2 = new FileWriter(new File(summaryFile));
-                writer2.write("Time\tTotal_infected\tUnique_genotypes\tOccupied_patches\tGenealogical_diversity\tTMRCA\tSim\n");
+                writer2.write("Time\tTotal_infected\tUnique_genotypes\tOccupied_patches\tGenealogical_diversity\tTMRCA\n");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -431,23 +446,20 @@ public class patchSim {
             }
         }
 
+        String sim = "ext_"+ extinct+"_col_"+colonize+"_Npatch_"+params.Npatches+"_PatchSize_"+(N);
 
         for (int t = 1; t < (t_max / tau); t++) {
 
             t_curr += tau;
 
 
-            String sim = "ext_"+ extinct+"_col_"+colonize+"_Npatch_"+params.Npatches+"_PatchSize_"+(params.S+params.I);
-
-
-
             //determine what is present currently across all patches
             update_curr_in_body(curr_in_body, t);
 
 
-            if(t_curr%20==0) {
+            if(t_curr%5==0) {
 
-                updatePatchStatistics(writer1, t_curr, sim, writeOutput);
+                updatePatchStatistics(writer1, t_curr, writeOutput);
 
                 List<Double> globalDiversity = updateDiversity(curr_in_body, false);
                 double tmrca = globalDiversity.get(1);
@@ -457,7 +469,7 @@ public class patchSim {
 
 
                 if(writeOutput) {
-                    writeOutput(writer2, t_curr, total_infected, total_genotypes, occupyPatchList.size(), globalDiversity, sim);
+                    writeOutput(writer2, t_curr, total_infected, total_genotypes, occupyPatchList.size(), globalDiversity);
                 }
 
             }
@@ -518,6 +530,7 @@ public class patchSim {
                             j++;
 
                         }
+                        break;
 
 
 
@@ -582,6 +595,7 @@ public class patchSim {
 
                             j++;
                         }
+                        break;
                 }
             }
 
@@ -682,10 +696,10 @@ public class patchSim {
         return copy;
     }
 
-    private void writeOutput(FileWriter writer, double t, int total_infected, int genotypes, int n_patches, List<Double> diversity, String sim) {
+    private void writeOutput(FileWriter writer, double t, int total_infected, int genotypes, int n_patches, List<Double> diversity) {
 
         try {
-            writer.write(t+"\t"+total_infected+"\t"+genotypes+"\t"+n_patches+"\t"+diversity.get(0)+"\t"+diversity.get(1)+ "\t"+sim+"\n");
+            writer.write(t+"\t"+total_infected+"\t"+genotypes+"\t"+n_patches+"\t"+diversity.get(0)+"\t"+diversity.get(1) +"\n");
             writer.flush();
         } catch (IOException e) {
             e.printStackTrace();
@@ -763,7 +777,7 @@ public class patchSim {
 
     }
 
-    public void updatePatchStatistics(FileWriter writer, double t_curr, String sim, boolean writeOutput) {
+    public void updatePatchStatistics(FileWriter writer, double t_curr, boolean writeOutput) {
 
         total_infected = 0;
         total_genotypes = 0;
@@ -794,7 +808,7 @@ public class patchSim {
 
                 try {
                     writer.write(t_curr + "\t" + (patch + 1) + "\t" + Y_i +
-                            "\t" + unique_genotypes + "\t" + sim + "\n");
+                            "\t" + unique_genotypes + "\n");
                     writer.flush();
                 } catch (IOException e) {
                     e.printStackTrace();

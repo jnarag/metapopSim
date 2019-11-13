@@ -733,7 +733,7 @@ public class patchSimNoMutation {
         inputParams.I = Integer.parseInt(args[4]);
         inputParams.nu = Double.parseDouble(args[5]);
         inputParams.c = Double.parseDouble(args[6]);
-        inputParams.U = Double.parseDouble(args[7]);
+//        inputParams.U = Double.parseDouble(args[7]);
         test.runSim(inputParams);
 
     }

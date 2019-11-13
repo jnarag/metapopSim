@@ -490,10 +490,10 @@ public class patchSimMPI {
                             while (j < min) {
 
                                 //determine number of mutations
-                                int mutations = Poisson.staticNextInt(params.U); //double check if rate vs mean
+//                                int mutations = Poisson.staticNextInt(params.U); //double check if rate vs mean
 
 
-                                if (mutations == 0) {
+//                                if (mutations == 0) {
                                     int r = (int) Math.floor(Uniform.staticNextDouble() * genotype_curr.size());
                                     Integer chosen_genotype = genotype_curr.get(r);
                                     int genotype_index = patch_history.genotype.indexOf(chosen_genotype);
@@ -520,51 +520,51 @@ public class patchSimMPI {
 
                                     genotype_curr.add(chosen_genotype);
                                     patch_history.prevalence.get(genotype_index).set(t, prevalence_curr + 1);
-                                }
-                                else {
-
-
-                                    //choose genotype
-                                    int index = (int) Math.floor(Uniform.staticNextDouble() * genotype_curr.size());
-                                    Integer chosen_genotype = genotype_curr.get(index);
-                                    int parent_index = patch_history.genotype.indexOf(chosen_genotype);
-
-
-                                    patch_history.logParent(chosen_genotype); // do we want to log parent index or genotype?
-                                    patch_history.logGenotype(genotype);
-                                    patch_history.logMutations(mutations);
-                                    patch_history.logBirth(t_curr);
-                                    patch_history.logDeath(Double.POSITIVE_INFINITY);
-                                    patch_history.logPatch(p);
-
-//                                List<Integer> prevalence = new ArrayList<>();
-//                                prevalence.addAll(patch_history.prevalence.get(parent_index));
-
-                                    //prevalence is bit off need to check this
-                                    int prevalence_curr = patch_history.prevalence.get(parent_index).get(t - 1);
-                                    int prevalence_next = patch_history.prevalence.get(parent_index).get(t);
-
-                                    if (prevalence_next > 0) {
-
-                                        prevalence_curr = prevalence_next;
-                                    }
-
-                                    if ((prevalence_curr - 1) == 0) {
-
-                                        patch_history.death.set(parent_index, t_curr);
-                                    }
-                                    patch_history.prevalence.get(parent_index).set(t, prevalence_curr - 1);
-
-                                    List<Integer> new_prevalence = new ArrayList<>(Arrays.asList(new Integer[patch_history.prevalence.get(parent_index).size()]));
-                                    Collections.fill(new_prevalence, 0);
-                                    new_prevalence.set(t, 1);
-                                    patch_history.prevalence.add(new_prevalence);
-
-                                    genotype_curr.remove(chosen_genotype);
-                                    genotype_curr.add(genotype);
-                                    genotype++;
-
-                                }
+//                                }
+//                                else {
+//
+//
+//                                    //choose genotype
+//                                    int index = (int) Math.floor(Uniform.staticNextDouble() * genotype_curr.size());
+//                                    Integer chosen_genotype = genotype_curr.get(index);
+//                                    int parent_index = patch_history.genotype.indexOf(chosen_genotype);
+//
+//
+//                                    patch_history.logParent(chosen_genotype); // do we want to log parent index or genotype?
+//                                    patch_history.logGenotype(genotype);
+//                                    patch_history.logMutations(mutations);
+//                                    patch_history.logBirth(t_curr);
+//                                    patch_history.logDeath(Double.POSITIVE_INFINITY);
+//                                    patch_history.logPatch(p);
+//
+////                                List<Integer> prevalence = new ArrayList<>();
+////                                prevalence.addAll(patch_history.prevalence.get(parent_index));
+//
+//                                    //prevalence is bit off need to check this
+//                                    int prevalence_curr = patch_history.prevalence.get(parent_index).get(t - 1);
+//                                    int prevalence_next = patch_history.prevalence.get(parent_index).get(t);
+//
+//                                    if (prevalence_next > 0) {
+//
+//                                        prevalence_curr = prevalence_next;
+//                                    }
+//
+//                                    if ((prevalence_curr - 1) == 0) {
+//
+//                                        patch_history.death.set(parent_index, t_curr);
+//                                    }
+//                                    patch_history.prevalence.get(parent_index).set(t, prevalence_curr - 1);
+//
+//                                    List<Integer> new_prevalence = new ArrayList<>(Arrays.asList(new Integer[patch_history.prevalence.get(parent_index).size()]));
+//                                    Collections.fill(new_prevalence, 0);
+//                                    new_prevalence.set(t, 1);
+//                                    patch_history.prevalence.add(new_prevalence);
+//
+//                                    genotype_curr.remove(chosen_genotype);
+//                                    genotype_curr.add(genotype);
+//                                    genotype++;
+//
+//                                }
                                 j++;
                             }
 
@@ -1048,7 +1048,7 @@ public class patchSimMPI {
         inputParams.I = Integer.parseInt(args[4]);
         inputParams.nu = Double.parseDouble(args[5]);
         inputParams.c = Double.parseDouble(args[6]);
-        inputParams.U = Double.parseDouble(args[7]);
+//        inputParams.U = Double.parseDouble(args[7]);
         MPI.Init(args);
         test.runSim(inputParams);
         MPI.Finalize();

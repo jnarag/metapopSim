@@ -508,38 +508,38 @@ public class extractGenealogy {
 
                     thisTimeOfCoalescence = Math.min(coalTime1, coalTime2);
 
-//                    if(currIndividuals.get(i).compareTo(currIndividuals.get(j)) == 0) {
-//
-//                        // two individuals belong to the same genotype - coalTime according to patch coalescence
-//
-//                        double time_i = curr_times.get(i);
-//                        double time_j = curr_times.get(j);
-//
-//                        double coalTime = Exponential.staticNextDouble(0.5*2);
-//
-//                        thisTimeOfCoalescence = Math.min(time_i, time_j) - coalTime;
-//                        if(thisTimeOfCoalescence < history.getBirth(currIndividuals.get(i))) {
-//                            thisTimeOfCoalescence = history.getBirth(currIndividuals.get(i));
-//                        }
-//                        double r = Uniform.staticNextDouble();
-//
-//                        double t = Math.round(thisTimeOfCoalescence * 2) / 2.0;
-//
-//                        double N = history.prevalence.get(history.genotype.indexOf(currIndividuals.get(i))).get((int)(t/0.5)-1);
-//
-//                        while(r > 1.0/N) {
-//
-//                            r = Uniform.staticNextDouble();
-//                            coalTime = Exponential.staticNextDouble(0.5*2);
-//                            thisTimeOfCoalescence = Math.min(time_i, time_j) - coalTime;
-//                            if(thisTimeOfCoalescence < history.getBirth(currIndividuals.get(i))) {
-//                                thisTimeOfCoalescence = history.getBirth(currIndividuals.get(i));
-//                            }
-//                            t = Math.round(thisTimeOfCoalescence * 2) / 2.0;
-//                            N = history.prevalence.get(history.genotype.indexOf(currIndividuals.get(i))).get((int)(t/0.5)-1);
-//                        }
-//
-//                    }
+                    if(currIndividuals.get(i).compareTo(currIndividuals.get(j)) == 0) {
+
+                        // two individuals belong to the same genotype - coalTime according to patch coalescence
+
+                        double time_i = curr_times.get(i);
+                        double time_j = curr_times.get(j);
+
+                        double coalTime = Exponential.staticNextDouble(params.tau*2);
+
+                        thisTimeOfCoalescence = Math.min(time_i, time_j) - coalTime;
+                        if(thisTimeOfCoalescence < history.getBirth(currIndividuals.get(i))) {
+                            thisTimeOfCoalescence = history.getBirth(currIndividuals.get(i));
+                        }
+                        double r = Uniform.staticNextDouble();
+
+                        double t = Math.round(thisTimeOfCoalescence * 2) / 2.0;
+
+                        double N = history.prevalence.get(history.genotype.indexOf(currIndividuals.get(i))).get((int)(t/params.tau)-1);
+
+                        while(r > 1.0/N) {
+
+                            r = Uniform.staticNextDouble();
+                            coalTime = Exponential.staticNextDouble(params.tau*2);
+                            thisTimeOfCoalescence = Math.min(time_i, time_j) - coalTime;
+                            if(thisTimeOfCoalescence < history.getBirth(currIndividuals.get(i))) {
+                                thisTimeOfCoalescence = history.getBirth(currIndividuals.get(i));
+                            }
+                            t = Math.round(thisTimeOfCoalescence * 2) / 2.0;
+                            N = history.prevalence.get(history.genotype.indexOf(currIndividuals.get(i))).get((int)(t/params.tau)-1);
+                        }
+
+                    }
 
 
                     if (thisTimeOfCoalescence > mostRecentTimeOfCoalescence) {
@@ -716,7 +716,7 @@ public class extractGenealogy {
 
         int interval = 100; //(int) Math.ceil((params.runTime - 200.0) / (double)params.interval);
 
-        double t = 100.0;
+        double t = 100;
         while (t <= params.runTime) {
 
             System.out.println(t);
@@ -724,7 +724,7 @@ public class extractGenealogy {
             List<Integer> n_Sampled = new ArrayList<>();
             List<Integer> lineages = new ArrayList<>();
 
-            for (int i = 0; i < history.getCompleteBirths().size(); i++) {
+            for (int i = 0; i < history.birth.size(); i++) {
 
                 if (history.getBirth(i) <= t && history.getDeath(i) > t && history.getBirth(i) > startTime) {
 
@@ -1081,12 +1081,13 @@ public class extractGenealogy {
 
         inputParams.Npatches = Integer.parseInt(args[2]);
         inputParams.S = Integer.parseInt(args[3]);
-
         inputParams.I = Integer.parseInt(args[4]);
-        inputParams.nu = Double.parseDouble(args[5]); //extinction
 
+        inputParams.nu = Double.parseDouble(args[5]); //extinction
         inputParams.c = Double.parseDouble(args[6]); //colonization
-        inputParams.U = Double.parseDouble(args[7]);
+        inputParams.r = Double.parseDouble(args[7]); //colonization
+
+        inputParams.het = Boolean.parseBoolean(args[8]); //heterogeneity
 
 
 
@@ -1098,7 +1099,7 @@ public class extractGenealogy {
 
         test.runSim(inputParams);
         infectionHistory infectionHistory =  test.getInfectionHistory();
-        double tau = test.tau;
+        double tau = inputParams.tau;
         extractGenealogy genealogy = new extractGenealogy();
 
         genealogy.lineages = genealogy.getSampledLineages(infectionHistory, inputParams.startTime, tau);
@@ -1115,9 +1116,13 @@ public class extractGenealogy {
         //genealogy.parentLineages = genealogy.getParentLineages(sampledLineages, infectionHistory);
 
         genealogy.getGenealogy(infectionHistory, tau);
+
+        String het_string = "het";
+
+        if(!params.het) het_string = "uni";
 //
         genealogy.writeNexusTree(genealogy.b, genealogy.d, genealogy.names,
-                new File("tree_ext_"+ params.nu +"_col_"+ params.c +"_Npatches_"+ params.Npatches +"_patchSize_"+(params.S + params.I)+"_nlineages_"+".tre"));
+                new File("tree_ext_"+ params.nu +"_col_"+ params.c +"_Npatches_"+ params.Npatches +"_patchSize_"+(params.S + params.I)+"_r_"+params.r+"_"+het_string+".tre"));
 
 
 

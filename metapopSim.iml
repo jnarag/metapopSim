@@ -10,7 +10,18 @@
     <orderEntry type="library" exported="" name="colt" level="project" />
     <orderEntry type="library" exported="" name="mpi" level="project" />
     <orderEntry type="library" exported="" name="commons-lang3-3.9" level="project" />
-    <orderEntry type="library" name="de.ruedigermoeller:fst:2.57" level="project" />
     <orderEntry type="library" name="commons-math3-3.6-javadoc" level="project" />
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../eclipse-collections-api-10.0.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="library" exported="" name="eclipse-collections-api-10.0.0" level="application" />
+    <orderEntry type="library" exported="" name="eclipse-collections-10.0.0" level="application" />
+    <orderEntry type="library" name="fst-2.57" level="application" />
   </component>
 </module>
