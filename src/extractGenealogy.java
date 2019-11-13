@@ -1,17 +1,13 @@
 import cern.jet.random.*;
-import cern.jet.random.engine.MersenneTwister;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.security.cert.CollectionCertStoreParameters;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
-import java.util.stream.LongStream;
+
+import utils.*;
 
 
 public class extractGenealogy {
@@ -169,8 +165,8 @@ public class extractGenealogy {
                 break;
             }
 
-            List<Integer> indiv1_index = find(completeIndividuals, coalDaughters[0]);
-            List<Integer> indiv2_index = find(completeIndividuals, coalDaughters[1]);
+            List<Integer> indiv1_index = utils.find(completeIndividuals, coalDaughters[0]);
+            List<Integer> indiv2_index = utils.find(completeIndividuals, coalDaughters[1]);
 
             List<Integer> non_coalescedList1 = new ArrayList<>();
             List<Integer> non_coalescedList2 = new ArrayList<>();
@@ -294,8 +290,8 @@ public class extractGenealogy {
             coalDaughters[0] = currIndividuals.get(index_1);
             coalDaughters[1] = currIndividuals.get(index_2);
 
-            List<Integer> indiv1_index = find(completeIndividuals, coalDaughters[0]);
-            List<Integer> indiv2_index = find(completeIndividuals, coalDaughters[1]);
+            List<Integer> indiv1_index = utils.find(completeIndividuals, coalDaughters[0]);
+            List<Integer> indiv2_index = utils.find(completeIndividuals, coalDaughters[1]);
 
             List<Integer> non_coalescedList1 = new ArrayList<Integer>();
             List<Integer> non_coalescedList2 = new ArrayList<Integer>();
@@ -458,7 +454,7 @@ public class extractGenealogy {
                 Integer indiv_i = currIndividuals.get(i);
                 Integer indiv_j = currIndividuals.get(j);
 
-                List<Integer> parentsInCommon = intersect(parentLineages.get(indiv_i), parentLineages.get(indiv_j));
+                List<Integer> parentsInCommon = utils.intersect(parentLineages.get(indiv_i), parentLineages.get(indiv_j));
 
                 if (!parentsInCommon.isEmpty()) {
 
@@ -579,22 +575,22 @@ public class extractGenealogy {
 
     }
 
-    private List<Integer> intersect(List<Integer> list1, List<Integer> list2) {
-
-
-        Set<Integer> set1 = new HashSet<Integer>();
-        Set<Integer> set2 = new HashSet<Integer>();
-
-        set1.addAll(list1);
-        set2.addAll(list2);
-        //Collections.copy(newList, list1);
-
-        set1.retainAll(set2);
-
-        List<Integer> intersectList = new ArrayList<Integer>();
-        intersectList.addAll(set1);
-        return intersectList;
-    }
+//    private List<Integer> intersect(List<Integer> list1, List<Integer> list2) {
+//
+//
+//        Set<Integer> set1 = new HashSet<Integer>();
+//        Set<Integer> set2 = new HashSet<Integer>();
+//
+//        set1.addAll(list1);
+//        set2.addAll(list2);
+//        //Collections.copy(newList, list1);
+//
+//        set1.retainAll(set2);
+//
+//        List<Integer> intersectList = new ArrayList<Integer>();
+//        intersectList.addAll(set1);
+//        return intersectList;
+//    }
 
     public sampledLineages getSampledGenotypes(infectionHistory history, double startTime) {
 
@@ -743,7 +739,7 @@ public class extractGenealogy {
             }
 
             //System.out.println(params.n_samples_per_time);
-            List<Integer> lineages_t = multinomSamp(n_Sampled, lineages, params.n_samples_per_time);
+            List<Integer> lineages_t = utils.multinomSamp(n_Sampled, lineages, params.n_samples_per_time);
             Collections.sort(lineages_t);
             sampledLineages.addAll(lineages_t);
             sampledTimes.addAll(Collections.nCopies(lineages_t.size(), t));
@@ -827,38 +823,27 @@ public class extractGenealogy {
         return names;
     }
 
-    private List<Integer> find(List<Integer> list, int value) {
-
-//        List<Integer> indices = new ArrayList<Integer>();
+//    private List<Integer> find(List<Integer> list, int value) {
 //
-//        List<Integer> copyList = new ArrayList<Integer>();
-
-        List<Integer> indices = IntStream.range(0, list.size())
-                .filter(i -> list.get(i)==value)
-                .boxed()
-                .collect(Collectors.toList());
-
-//        while (copyList.contains(value)) {
 //
-//            int index = copyList.indexOf(value);
-//            indices.add(index);
-//            copyList.set(index, (int) Double.NEGATIVE_INFINITY);
-//            //copyList.remove(index);
+//        List<Integer> indices = IntStream.range(0, list.size())
+//                .filter(i -> list.get(i)==value)
+//                .boxed()
+//                .collect(Collectors.toList());
 //
-//        }
-
-        return indices;
-
-    }
-
-    public List<Integer> getIndices(List list) {
-
-        List<Integer> indices = IntStream.range(0, list.size())
-                .boxed()
-                .collect(Collectors.toList());
-
-        return indices;
-    }
+//
+//        return indices;
+//
+//    }
+//
+//    public List<Integer> getIndices(List list) {
+//
+//        List<Integer> indices = IntStream.range(0, list.size())
+//                .boxed()
+//                .collect(Collectors.toList());
+//
+//        return indices;
+//    }
 
     public void writeNexusTree(int[][] coalescentEvents, double[] nodeTimes, List<String> names, File treeFile) {
 
@@ -1028,47 +1013,47 @@ public class extractGenealogy {
 
     }
 
-    public List<Integer> multinomSamp(List<Integer> weights, List<Integer> lineages, int N) {
-
-//        System.out.println(weights);
-//        System.out.println(lineages);
-
-        List<Integer> sample = new ArrayList<>();
-
-        int sum = weights.stream().mapToInt(Integer::intValue).sum();
-
-        double[] pdf = new double[weights.size()];
-
-        weights.forEach(s -> {
-            pdf[weights.indexOf(s)] = s / (double) sum;
-            weights.set(weights.indexOf(s), -1);
-        });
-
-
-        for(int i=1; i < pdf.length; i++) {
-
-            pdf[i] = pdf[i]+pdf[i-1];
-
-        }
-
-        for(int i=0; i < N; i++) {
-
-            double random = Uniform.staticNextDouble();
-
-            int count = 0;
-            Integer chosen = lineages.get(count);
-            while(random >= pdf[count]) {
-
-                count++;
-                chosen = lineages.get(count);
-
-            }
-            sample.add(chosen);
-
-        }
-
-        return sample;
-    }
+//    public List<Integer> multinomSamp(List<Integer> weights, List<Integer> lineages, int N) {
+//
+////        System.out.println(weights);
+////        System.out.println(lineages);
+//
+//        List<Integer> sample = new ArrayList<>();
+//
+//        int sum = weights.stream().mapToInt(Integer::intValue).sum();
+//
+//        double[] pdf = new double[weights.size()];
+//
+//        weights.forEach(s -> {
+//            pdf[weights.indexOf(s)] = s / (double) sum;
+//            weights.set(weights.indexOf(s), -1);
+//        });
+//
+//
+//        for(int i=1; i < pdf.length; i++) {
+//
+//            pdf[i] = pdf[i]+pdf[i-1];
+//
+//        }
+//
+//        for(int i=0; i < N; i++) {
+//
+//            double random = Uniform.staticNextDouble();
+//
+//            int count = 0;
+//            Integer chosen = lineages.get(count);
+//            while(random >= pdf[count]) {
+//
+//                count++;
+//                chosen = lineages.get(count);
+//
+//            }
+//            sample.add(chosen);
+//
+//        }
+//
+//        return sample;
+//    }
 
 
     public static void main(String[] args) {
