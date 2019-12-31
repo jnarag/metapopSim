@@ -7,6 +7,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 import utils.*;
 
 
@@ -19,12 +20,15 @@ public class extractGenealogy {
     double[] d;
     Map<Integer, String> nodeNames;
     Map<Integer, Double> nodeHeights;
+    DescriptiveStatistics T_meta;
+
 
     public extractGenealogy() {
 
         names = new ArrayList<>();
         nodeNames = new HashMap<>();
         nodeHeights = new HashMap<>();
+        T_meta = new DescriptiveStatistics();
 
     }
 
@@ -46,7 +50,7 @@ public class extractGenealogy {
 //        Map<Integer, Double> nodeHeights = new HashMap<>();
         Map<Integer, Integer> genotypeMap = new HashMap<>();
 
-        List<String> names = createNames(history);
+        //List<String> names = createNames(history);
 
         //int n_lineages = sampledLineages.size();
 
@@ -61,15 +65,8 @@ public class extractGenealogy {
 
 
         genotypes.sort(Comparator.comparing((Integer i) -> genotypeAge.get(genotypes.indexOf(i))));
-        //genotypes.sort(Comparator.comparingDouble(genotypes::indexOf));
 
-                //(int)(genotypeAge.get(genotypes.indexOf(i2))-genotypeAge.get(genotypes.indexOf(i1))));
-
-        genotypes.forEach(g -> System.out.println(g+ " : "+history.getBirth(g)));
-
-
-//        Map<Integer, Integer> genotypeFrequency = new HashMap<>();
-//        genotypes.forEach(g -> genotypeFrequency.put(g, Collections.frequency(sampledLineages, g)));
+//        genotypes.forEach(g -> System.out.println(g+ " : "+history.getBirth(g)));
 
 
         genotypes.forEach(g -> {
@@ -165,6 +162,7 @@ public class extractGenealogy {
                 break;
             }
 
+
             List<Integer> indiv1_index = utils.find(completeIndividuals, coalDaughters[0]);
             List<Integer> indiv2_index = utils.find(completeIndividuals, coalDaughters[1]);
 
@@ -203,6 +201,9 @@ public class extractGenealogy {
             d[index1] = Math.abs(completeSeqTimes.get(index1) - timeOfCoalescence);
             d[index2] = Math.abs(completeSeqTimes.get(index2) - timeOfCoalescence);
 
+            if(completeSeqTimes.get(index1) > 100 || completeSeqTimes.get(index2) > 100) {
+                T_meta.addValue(Math.min(d[index1], d[index2]));
+            }
 
             int[] children = new int[2];
 
@@ -380,6 +381,17 @@ public class extractGenealogy {
 
 
         Collections.sort(coalescedList);
+        System.out.println();
+        double Tmeta_mean = T_meta.getMean();
+        double Tmeta_meang = T_meta.getGeometricMean();
+        double Tmeta_med = T_meta.getPercentile(50);
+
+        System.out.println("mean "+ Tmeta_mean);
+        System.out.println("g_mean "+ Tmeta_meang);
+        System.out.println("median "+ Tmeta_med);
+
+        System.out.println("L5: "+(T_meta.getPercentile(5))+ ", U5: "+ (T_meta.getPercentile(95)));
+        System.out.println();
 
 
     }
@@ -480,8 +492,11 @@ public class extractGenealogy {
 
                     } else {
 
-                        int parent_index = history.genotype.indexOf(this_parent);
-                        coalTime1 = births.get(parent_index);//parentLineages.get(indiv_i).get(loc1-1));
+                        int parent_index = history.genotype.indexOf(parentLineages.get(indiv_i).get(loc1 - 1));
+                        coalTime1 = births.get(parent_index); //parentLineages.get(indiv_j).get(loc2-1));
+
+//                        int parent_index = history.genotype.indexOf(this_parent);
+//                        coalTime1 = births.get(parent_index);//parentLineages.get(indiv_i).get(loc1-1));
                     }
 
                     if (currIndividuals.get(j).compareTo(this_parent)==0) {
@@ -513,7 +528,8 @@ public class extractGenealogy {
 
                         double coalTime = Exponential.staticNextDouble(params.tau*2);
 
-                        thisTimeOfCoalescence = Math.min(time_i, time_j) - coalTime;
+                        double minTime = Math.min(time_i, time_j);
+                        thisTimeOfCoalescence = minTime - coalTime;
                         if(thisTimeOfCoalescence < history.getBirth(currIndividuals.get(i))) {
                             thisTimeOfCoalescence = history.getBirth(currIndividuals.get(i));
                         }
@@ -521,8 +537,17 @@ public class extractGenealogy {
 
                         double t = Math.round(thisTimeOfCoalescence * 2) / 2.0;
 
-                        double N = history.prevalence.get(history.genotype.indexOf(currIndividuals.get(i))).get((int)(t/params.tau)-1);
 
+                        double N;
+
+                        if((t/params.tau)==0) {
+                            N = history.prevalence.get(history.genotype.indexOf(currIndividuals.get(i))).get(0);
+
+                        }
+                        else {
+                            N = history.prevalence.get(history.genotype.indexOf(currIndividuals.get(i))).get((int) (t / params.tau));
+
+                        }
                         while(r > 1.0/N) {
 
                             r = Uniform.staticNextDouble();
@@ -532,7 +557,14 @@ public class extractGenealogy {
                                 thisTimeOfCoalescence = history.getBirth(currIndividuals.get(i));
                             }
                             t = Math.round(thisTimeOfCoalescence * 2) / 2.0;
-                            N = history.prevalence.get(history.genotype.indexOf(currIndividuals.get(i))).get((int)(t/params.tau)-1);
+                            if((t/params.tau)==0) {
+                                N = history.prevalence.get(history.genotype.indexOf(currIndividuals.get(i))).get(0);
+
+                            }
+                            else {
+                                N = history.prevalence.get(history.genotype.indexOf(currIndividuals.get(i))).get((int) (t / params.tau));
+
+                            }
                         }
 
                     }
@@ -542,15 +574,15 @@ public class extractGenealogy {
 
                         //if (!currIndividuals.get(i).equals(currIndividuals.get(j))) {
 
-                            //thisTimeOfCoalescence = Double.NEGATIVE_INFINITY;
+                        //thisTimeOfCoalescence = Double.NEGATIVE_INFINITY;
 
-                            coalDaughters = new int[2];
-                            coalDaughters[0] = currIndividuals.get(i);
-                            coalDaughters[1] = currIndividuals.get(j);
-                            coalParent = this_parent;
-                            mostRecentTimeOfCoalescence = thisTimeOfCoalescence;
+                        coalDaughters = new int[2];
+                        coalDaughters[0] = currIndividuals.get(i);
+                        coalDaughters[1] = currIndividuals.get(j);
+                        coalParent = this_parent;
+                        mostRecentTimeOfCoalescence = thisTimeOfCoalescence;
 
-                            //System.out.println("coalesced "+ coalDaughters[0]+ " "+coalDaughters[1]+"\n");
+                        //System.out.println("coalesced "+ coalDaughters[0]+ " "+coalDaughters[1]+"\n");
 
                         //}
 
@@ -574,23 +606,6 @@ public class extractGenealogy {
         return coalescentEvent;
 
     }
-
-//    private List<Integer> intersect(List<Integer> list1, List<Integer> list2) {
-//
-//
-//        Set<Integer> set1 = new HashSet<Integer>();
-//        Set<Integer> set2 = new HashSet<Integer>();
-//
-//        set1.addAll(list1);
-//        set2.addAll(list2);
-//        //Collections.copy(newList, list1);
-//
-//        set1.retainAll(set2);
-//
-//        List<Integer> intersectList = new ArrayList<Integer>();
-//        intersectList.addAll(set1);
-//        return intersectList;
-//    }
 
     public sampledLineages getSampledGenotypes(infectionHistory history, double startTime) {
 
@@ -676,10 +691,10 @@ public class extractGenealogy {
                     lineages.add(genotype);
 
                     //lineagesMap.put(genotype+"_"+t, t);
-                    n_Sampled.add(history.prevalence.get(i).get((int) (t / tau) - 1));
+                    n_Sampled.add(history.prevalence.get(i).get((int) (t / tau)));
                     //n_Sampled.add(history.getPrevalenceAtTimet(genotype, (int)(t/tau)));
 
-                    if (history.prevalence.get(i).get((int) (t / tau) - 1) == 0) {
+                    if (history.prevalence.get(i).get((int) (t / tau)) == 0) {
                         System.out.println("> " + genotype + ", " + history.getBirth(i) + ", " + history.getDeath(i) + ", " + t);
                     }
 
@@ -705,15 +720,13 @@ public class extractGenealogy {
     // this method samples lineages proportional to their prevalence
     public sampledLineages getSampledLineages(infectionHistory history, double startTime, double tau) {
 
-        Map<String, Double> lineagesMap = new HashMap<>();
-
         List<Integer> sampledLineages = new ArrayList<>();
         List<Double> sampledTimes = new ArrayList<>();
 
         int interval = 100; //(int) Math.ceil((params.runTime - 200.0) / (double)params.interval);
 
-        double t = 100;
-        while (t <= params.runTime) {
+        double t = startTime;
+        while (t < params.runTime) {
 
             System.out.println(t);
 
@@ -722,16 +735,16 @@ public class extractGenealogy {
 
             for (int i = 0; i < history.birth.size(); i++) {
 
-                if (history.getBirth(i) <= t && history.getDeath(i) > t && history.getBirth(i) > startTime) {
+                if (history.getBirth(i) <= t && history.getDeath(i) > t) {
 
                     Integer genotype = history.genotype.get(i);
                     lineages.add(genotype);
 
                     //lineagesMap.put(genotype+"_"+t, t);
-                    n_Sampled.add(history.prevalence.get(i).get((int) (t / tau) - 1));
+                    n_Sampled.add(history.prevalence.get(i).get((int) (t / tau)));
                     //n_Sampled.add(history.getPrevalenceAtTimet(genotype, (int)(t/tau)));
 
-                    if (history.prevalence.get(i).get((int) (t / tau) - 1) == 0) {
+                    if (history.prevalence.get(i).get((int) (t / tau)) == 0) {
                         System.out.println("> " + genotype + ", " + history.getBirth(i) + ", " + history.getDeath(i) + ", " + t);
                     }
 
@@ -816,40 +829,16 @@ public class extractGenealogy {
         for (int i = 0; i < sampledLineages.size(); i++) {
 
             int index = history.genotype.indexOf(sampledLineages.get(i));
+//            String name = "sample_" + (i+1) + "_genotype_"+ history.getId(index)+"_patch_" + (history.getPatch(index)+1) + "_beta_" + history.getBeta(index) + "_" + sampleTimes.get(i);
             String name = "sample_" + (i+1) + "_genotype_"+ history.getId(index)+"_patch_" + (history.getPatch(index)+1) + "_" + sampleTimes.get(i);
+
             names.add(name);
         }
 
         return names;
     }
 
-//    private List<Integer> find(List<Integer> list, int value) {
-//
-//
-//        List<Integer> indices = IntStream.range(0, list.size())
-//                .filter(i -> list.get(i)==value)
-//                .boxed()
-//                .collect(Collectors.toList());
-//
-//
-//        return indices;
-//
-//    }
-//
-//    public List<Integer> getIndices(List list) {
-//
-//        List<Integer> indices = IntStream.range(0, list.size())
-//                .boxed()
-//                .collect(Collectors.toList());
-//
-//        return indices;
-//    }
-
     public void writeNexusTree(int[][] coalescentEvents, double[] nodeTimes, List<String> names, File treeFile) {
-
-//        Map<Integer, String> nodeNames = new HashMap<Integer, String>();
-//        Map<Integer, Double> nodeHeights = new HashMap<Integer, Double>();
-//        Map<Integer, Integer> genotypeMap = new HashMap<Integer, Integer>();
 
         int node_key = Collections.max(nodeNames.keySet());
 
@@ -900,16 +889,21 @@ public class extractGenealogy {
                 }
 
 
+                String [] parts1 = node1.split("_");
+                String [] parts2 = node1.split("_");
+
+
 
                 //System.out.println(partsNode1[1] + "\t" + partsNode2[1] + "\t" + names.get(n_lineages + k));
 
                 String node1_string = "";
                 String node2_string = "";
 
+
                 if (child1 <= n_lineages) {
 
                     node1_string = "(" + node1 + ":" + nodeTimes[child1 - 1] + "[&parent=" + names.get(n_lineages + k) + "]";// ",patch=\"" + patchNode1 + "\"]";//\",mutations="+mutations1+",rate="+rate1+"]";
-                   // node1_string = "(" + node1 + ":" + nodeTimes[child1 - 1];
+                    // node1_string = "(" + node1 + ":" + nodeTimes[child1 - 1];
                 } else {
 
                     node1_string = "(" + node1 + "[&parent=" + names.get(n_lineages + k) + "]";
@@ -989,76 +983,106 @@ public class extractGenealogy {
         }
     }
 
-    class sampledLineages {
 
-        List<Integer> lineages;
-        List<Double> times;
+    private void runSel(params inputParams) {
 
-        sampledLineages(List<Integer> lineages, List<Double> times) {
 
-            this.lineages = lineages;
-            this.times = times;
 
+        int i = 0;
+
+        while(i < inputParams.n_sims) {
+            patchSimSel sim = new patchSimSel();
+
+            String outputfile = "patchSim_extinction_" + params.nu +
+                    "_beta_" + params.beta + "_Npatches_" + params.Npatches +
+                    "_patchSize_" + (params.S + params.I) +
+                    "_mu_"+params.mu+"_sb_"+params.s_b+ "_sim_"+(i+1)+".txt";
+
+
+            String summaryFile = "summary_patchSim_extinction_" + params.nu +
+                    "_beta_" + params.beta + "_Npatches_" + params.Npatches +
+                    "_patchSize_" + (params.S + params.I) +
+                    "_mu_"+params.mu+"_sb_"+params.s_b+ "_sim_"+(i+1)+".txt";
+
+
+            //sim.setFileNames(outputfile, summaryFile);
+
+            sim.run(inputParams);
+            infectionHistory infectionHistory = sim.getInfectionHistory();
+            double tau = inputParams.tau;
+            extractGenealogy genealogy = new extractGenealogy();
+
+            genealogy.lineages = new sampledLineages(sim.sampledLineages, sim.sampledTimes);
+
+            for (int s = 0; s < sim.sampledLineages.size(); s++) {
+
+                int index = infectionHistory.genotype.indexOf(sim.sampledLineages.get(s));
+            String name = "sample_" + (s+1) + "_genotype_"+ infectionHistory.getId(index)+"_patch_" + (infectionHistory.getPatch(index)+1) + "_beta_" + infectionHistory.getBeta(index) + "_" + sim.sampledTimes.get(s);
+
+                genealogy.names.add(name);
+            }
+
+            genealogy.getGenealogy(infectionHistory, tau);
+            genealogy.writeNexusTree(genealogy.b, genealogy.d, genealogy.names,
+                    new File("tree_ext_" + params.nu + "_Npatches_" + params.Npatches + "_patchSize_" + (params.S + params.I) +
+                            "_beta_" + params.beta + "_mu_"+params.mu+"_sb_"+params.s_b+"_sd_"+params.s_d+ "_sim_"+(i+1)+".tre"));
+
+
+            i++;
         }
-
-        private List<Integer> getSampledLineages() {
-
-            return this.lineages;
-        }
-
-        private List<Double> getSampledTimes() {
-
-            return this.times;
-        }
-
     }
 
-//    public List<Integer> multinomSamp(List<Integer> weights, List<Integer> lineages, int N) {
-//
-////        System.out.println(weights);
-////        System.out.println(lineages);
-//
-//        List<Integer> sample = new ArrayList<>();
-//
-//        int sum = weights.stream().mapToInt(Integer::intValue).sum();
-//
-//        double[] pdf = new double[weights.size()];
-//
-//        weights.forEach(s -> {
-//            pdf[weights.indexOf(s)] = s / (double) sum;
-//            weights.set(weights.indexOf(s), -1);
-//        });
-//
-//
-//        for(int i=1; i < pdf.length; i++) {
-//
-//            pdf[i] = pdf[i]+pdf[i-1];
-//
-//        }
-//
-//        for(int i=0; i < N; i++) {
-//
-//            double random = Uniform.staticNextDouble();
-//
-//            int count = 0;
-//            Integer chosen = lineages.get(count);
-//            while(random >= pdf[count]) {
-//
-//                count++;
-//                chosen = lineages.get(count);
-//
-//            }
-//            sample.add(chosen);
-//
-//        }
-//
-//        return sample;
-//    }
+    private void runNeutral(params inputParams) {
 
 
-    public static void main(String[] args) {
+
+        int i = 0;
+
+        while(i < inputParams.n_sims) {
+            patchSim sim = new patchSim();
+
+            String outputfile = "patchSim_extinction_" + params.nu +
+                    "_beta_" + params.beta + "_Npatches_" + params.Npatches +
+                    "_patchSize_" + (params.S + params.I) + "_sim_"+(i+1)+".txt";
 
 
+            String summaryFile = "summary_patchSim_extinction_" + params.nu +
+                    "_beta_" + params.beta + "_Npatches_" + params.Npatches +
+                    "_patchSize_" + (params.S + params.I) + "_sim_"+(i+1)+".txt";
+
+            //sim.setFileNames(outputfile, summaryFile);
+
+            sim.run(inputParams);
+            infectionHistory infectionHistory = sim.getInfectionHistory();
+            double tau = inputParams.tau;
+            extractGenealogy genealogy = new extractGenealogy();
+
+//            genealogy.lineages = genealogy.getSampledLineages(infectionHistory, params.startTime, tau);
+            genealogy.lineages = new sampledLineages(sim.sampledLineages, sim.sampledTimes);
+
+
+            for (int s = 0; s < sim.sampledLineages.size(); s++) {
+
+                int index = infectionHistory.genotype.indexOf(sim.sampledLineages.get(s));
+//            String name = "sample_" + (i+1) + "_genotype_"+ history.getId(index)+"_patch_" + (history.getPatch(index)+1) + "_beta_" + history.getBeta(index) + "_" + sampleTimes.get(i);
+                String name = "sample_" + (s+1) + "_genotype_"+ infectionHistory.getId(index)+"_patch_" + (infectionHistory.getPatch(index)+1) + "_" + sim.sampledTimes.get(s);
+
+                genealogy.names.add(name);
+            }
+
+
+            List<Integer> sampledLineages = new ArrayList<>();
+            sampledLineages.addAll(genealogy.lineages.getSampledLineages());
+
+            genealogy.getGenealogy(infectionHistory, tau);
+            genealogy.writeNexusTree(genealogy.b, genealogy.d, genealogy.names,
+                    new File("tree_ext_" + params.nu + "_Npatches_" + params.Npatches + "_patchSize_" + (params.S + params.I) + "_beta_" + params.beta + "_sim_" + (i+1) + ".tre"));
+
+            i++;
+        }
+    }
+
+    private params setParams(String [] args) {
 
         params inputParams = new params();
         inputParams.runTime = Double.parseDouble(args[0]);
@@ -1069,47 +1093,24 @@ public class extractGenealogy {
         inputParams.I = Integer.parseInt(args[4]);
 
         inputParams.nu = Double.parseDouble(args[5]); //extinction
-        inputParams.c = Double.parseDouble(args[6]); //colonization
-        inputParams.r = Double.parseDouble(args[7]); //colonization
-
-        inputParams.het = Boolean.parseBoolean(args[8]); //heterogeneity
-
-
-
+        inputParams.beta = Double.parseDouble(args[6]);
+        if(args.length > 7) {
+            inputParams.n_sims = Integer.parseInt(args[7]);
+        }
         inputParams.n_samples_per_time = 20; //(int)Math.ceil(50/(double)inputParams.interval);
 
         inputParams.print();
+        return inputParams;
+    }
 
-        patchSim test = new patchSim();
 
-        test.runSim(inputParams);
-        infectionHistory infectionHistory =  test.getInfectionHistory();
-        double tau = inputParams.tau;
+
+    public static void main(String[] args) {
+
+
         extractGenealogy genealogy = new extractGenealogy();
-
-        genealogy.lineages = genealogy.getSampledLineages(infectionHistory, inputParams.startTime, tau);
-        //test data
-        //genealogy.lineages = genealogy.getTestSampledLineages(infectionHistory, inputParams.startTime, tau);
-
-
-        //genealogy.lineages =  genealogy.getSampledLineages(infectionHistory, 200);
-
-        List<Integer> sampledLineages = new ArrayList<>();
-        sampledLineages.addAll(genealogy.lineages.getSampledLineages());
-        System.out.println(sampledLineages);
-
-        //genealogy.parentLineages = genealogy.getParentLineages(sampledLineages, infectionHistory);
-
-        genealogy.getGenealogy(infectionHistory, tau);
-
-        String het_string = "het";
-
-        if(!params.het) het_string = "uni";
-//
-        genealogy.writeNexusTree(genealogy.b, genealogy.d, genealogy.names,
-                new File("tree_ext_"+ params.nu +"_col_"+ params.c +"_Npatches_"+ params.Npatches +"_patchSize_"+(params.S + params.I)+"_r_"+params.r+"_"+het_string+".tre"));
-
-
+        params inputParams = genealogy.setParams(args);
+        genealogy.runSel(inputParams);
 
     }
 }
