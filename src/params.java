@@ -8,15 +8,21 @@ import cern.jet.random.engine.RandomEngine;
  */
 public class params {
 
+
+    static int n_sims;
     static double tau;
     static double runTime;
     static double startTime;
     static int Npatches; // number of patches
     static int I; //
     static int S;
+    static String whModel; // 0 - logistic; 1 - SI model with death; 2 - SI model w/o death;
     static double beta; // infectivity rate (1-20 per day in Lythgoe 2016)
     static double death; // infected death rate (1-20 per day in Lythgoe 2016)
-    static double r; // infected death rate (1-20 per day in Lythgoe 2016)
+    static double r; //
+    static double mu; // mutation rate per cell infection
+    static double s_b; // beneficial fitness effect;
+    static double s_d; // deleterious fitness effect;
 
     static double nu; // patch extinction rate
     static double c; // patch colonization rate
@@ -28,29 +34,32 @@ public class params {
     static int seed;
     static RandomEngine randomGenerator;
 
-    static boolean het; //heterogeneity in patch growth rates;
-
 
     public params() {
 
-        tau = 0.25;
+        n_sims = 1;
+        tau = 1.0;
         runTime = 5000;
-        startTime = 0;
+        startTime = 1000;
         Npatches = 3;
         I = 5; // infected cells
         S = 45; // susceptible cells
         nu = 0.5; //patch extinction rate;
         c = 0.01; // patch colonization rate;
 
-        beta = 1.; // transmission rate;
-        death = 1.; // death rate of infected cells;
+        beta = 0.1; // transmission rate;
+        death = 1.0; // death rate of infected cells;
         r = 0.1; // within-patch growth rate;
 
         seed = (int)Math.ceil(Math.random()*1000000000);
         randomGenerator = new MersenneTwister(seed);
         n_samples_per_time = 10;
         interval = 10;
-        het = false;
+        whModel = "BSI_death";
+
+        mu = 0.01; //~0.00005*2000*0.3/3 rate at which beneficial mutations appear at amino acid changing sites in envelope
+        s_b = 0.02;
+        s_d = 0.0;
     }
 
     public void print() {
@@ -59,9 +68,11 @@ public class params {
         System.out.println("N patches "+params.Npatches);
         System.out.println("patch size "+(params.S+params.I));
         System.out.println("extinction rate "+params.nu);
-        System.out.println("colonization rate "+params.c);
-        System.out.println("within patch growth rate "+params.r);
-        System.out.println("patch heterogeneity "+params.het);
+        //System.out.println("colonization rate "+params.c);
+        System.out.println("beta "+params.beta);
+        System.out.println("whModel "+params.whModel);
+        System.out.println("n_sims "+params.n_sims);
+
 
 
     }
