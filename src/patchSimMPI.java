@@ -5,8 +5,6 @@
 import cern.colt.list.DoubleArrayList;
 import cern.jet.random.Poisson;
 import cern.jet.random.Uniform;
-import com.sun.xml.internal.messaging.saaj.util.ByteInputStream;
-import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
 import mpi.MPI;
 import mpi.MPIException;
 import mpi.Status;
@@ -941,7 +939,7 @@ public class patchSimMPI {
         list.add(patch_history.parent);
         list.add(patch_history.prevalence);
         list.add(patch_history.patch);
-        list.add(patch_history.fitness);
+        list.add(patch_history.beta);
         list.add(genotype);
         list.add(timeThreshold_curr_i);
         list.add(timeRefactory_curr_i);
@@ -1020,7 +1018,7 @@ public class patchSimMPI {
         this.patch_history.parent = ((ArrayList<Integer>) x.get(10));
         this.patch_history.prevalence = ((ArrayList<List<Integer>>) x.get(11));
         this.patch_history.patch = ((ArrayList<Integer>) x.get(12));
-        this.patch_history.fitness = ((ArrayList<Double>) x.get(13));
+        this.patch_history.beta = ((ArrayList<Double>) x.get(13));
         this.genotype = (Integer) x.get(14);
         this.timeThreshold_curr_i = ((ArrayList<Double>) x.get(15));
         this.timeRefactory_curr_i = ((ArrayList<Double>) x.get(16));
@@ -1076,7 +1074,7 @@ public class patchSimMPI {
             List<Integer> prevalence1 = patch_history.prevalence.get(o1);
             List<Integer> prevalence2 = patch_history.prevalence.get(o2);
 
-            double diff = patch_history.getFitness(o1) - patch_history.getFitness(o2);
+            double diff = patch_history.getBeta(o1) - patch_history.getBeta(o2);
             if(diff == 0) {
 
                 return 0;

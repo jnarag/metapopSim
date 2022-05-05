@@ -3,7 +3,6 @@
  */
 
 import cern.colt.list.DoubleArrayList;
-import cern.jet.random.Exponential;
 import cern.jet.random.Poisson;
 import cern.jet.random.Uniform;
 
@@ -758,7 +757,7 @@ public class patchSimNoMutation {
             List<Integer> prevalence1 = patch_history.prevalence.get(o1);
             List<Integer> prevalence2 = patch_history.prevalence.get(o2);
 
-            double diff = patch_history.getFitness(o1) - patch_history.getFitness(o2);
+            double diff = patch_history.getBeta(o1) - patch_history.getBeta(o2);
             if(diff == 0) {
 
                 return 0;

@@ -723,7 +723,7 @@ public class extractGenealogy {
         List<Integer> sampledLineages = new ArrayList<>();
         List<Double> sampledTimes = new ArrayList<>();
 
-        int interval = 100; //(int) Math.ceil((params.runTime - 200.0) / (double)params.interval);
+        int interval = 250; //(int) Math.ceil((params.runTime - 200.0) / (double)params.interval);
 
         double t = startTime;
         while (t < params.runTime) {
@@ -926,7 +926,6 @@ public class extractGenealogy {
 //                        +")[&parent="+names.get(n_lineages+k)+",patch=\""+patchNode+"\",mutations="+mutations+",rate="+rate+"]";
 
                 treeString = node1_string + "," + node2_string + ":" + nodeTimes[n_lineages + k];//"[&parent=" + names.get(n_lineages + k) +"]";//+ ",patch=\"" + patchNode + "\"]";//\",mutations="+mutations+",rate="+rate+"]";
-                ;
                 //System.out.println(nodeString);
 
 
@@ -987,10 +986,9 @@ public class extractGenealogy {
     private void runSel(params inputParams) {
 
 
-
         int i = 0;
 
-        while(i < inputParams.n_sims) {
+        while(i < params.n_sims) {
             patchSimSel sim = new patchSimSel();
 
             String outputfile = "patchSim_extinction_" + params.nu +
@@ -1009,7 +1007,7 @@ public class extractGenealogy {
 
             sim.run(inputParams);
             infectionHistory infectionHistory = sim.getInfectionHistory();
-            double tau = inputParams.tau;
+            double tau = params.tau;
             extractGenealogy genealogy = new extractGenealogy();
 
             genealogy.lineages = new sampledLineages(sim.sampledLineages, sim.sampledTimes);
@@ -1038,7 +1036,7 @@ public class extractGenealogy {
 
         int i = 0;
 
-        while(i < inputParams.n_sims) {
+        while(i < params.n_sims) {
             patchSim sim = new patchSim();
 
             String outputfile = "patchSim_extinction_" + params.nu +
@@ -1050,11 +1048,10 @@ public class extractGenealogy {
                     "_beta_" + params.beta + "_Npatches_" + params.Npatches +
                     "_patchSize_" + (params.S + params.I) + "_sim_"+(i+1)+".txt";
 
-            //sim.setFileNames(outputfile, summaryFile);
 
             sim.run(inputParams);
             infectionHistory infectionHistory = sim.getInfectionHistory();
-            double tau = inputParams.tau;
+            double tau = params.tau;
             extractGenealogy genealogy = new extractGenealogy();
 
 //            genealogy.lineages = genealogy.getSampledLineages(infectionHistory, params.startTime, tau);
@@ -1064,7 +1061,6 @@ public class extractGenealogy {
             for (int s = 0; s < sim.sampledLineages.size(); s++) {
 
                 int index = infectionHistory.genotype.indexOf(sim.sampledLineages.get(s));
-//            String name = "sample_" + (i+1) + "_genotype_"+ history.getId(index)+"_patch_" + (history.getPatch(index)+1) + "_beta_" + history.getBeta(index) + "_" + sampleTimes.get(i);
                 String name = "sample_" + (s+1) + "_genotype_"+ infectionHistory.getId(index)+"_patch_" + (infectionHistory.getPatch(index)+1) + "_" + sim.sampledTimes.get(s);
 
                 genealogy.names.add(name);
@@ -1085,19 +1081,34 @@ public class extractGenealogy {
     private params setParams(String [] args) {
 
         params inputParams = new params();
-        inputParams.runTime = Double.parseDouble(args[0]);
-        inputParams.startTime = Double.parseDouble(args[1]);
+        params.runTime = Double.parseDouble(args[0]);
+        params.startTime = Double.parseDouble(args[1]);
 
-        inputParams.Npatches = Integer.parseInt(args[2]);
-        inputParams.S = Integer.parseInt(args[3]);
-        inputParams.I = Integer.parseInt(args[4]);
+        params.Npatches = Integer.parseInt(args[2]);
+        params.S = Integer.parseInt(args[3]);
+        params.I = Integer.parseInt(args[4]);
 
-        inputParams.nu = Double.parseDouble(args[5]); //extinction
-        inputParams.beta = Double.parseDouble(args[6]);
+        params.nu = Double.parseDouble(args[5]); //extinction
+        params.beta = Double.parseDouble(args[6])/params.Npatches;
         if(args.length > 7) {
-            inputParams.n_sims = Integer.parseInt(args[7]);
+            params.n_sims = Integer.parseInt(args[7]);
         }
-        inputParams.n_samples_per_time = 20; //(int)Math.ceil(50/(double)inputParams.interval);
+        String [] model_string = args[8].split(",");
+
+        if(model_string[0].trim().equals("sel")) {
+
+            params.mu = Double.parseDouble(model_string[1].trim());
+            params.s_b = Double.parseDouble(model_string[2].trim());
+            params.s_d = Double.parseDouble(model_string[3].trim());
+            params.benDFE.setState(1./ params.s_b);
+            params.delDFE.setState(1./ params.s_d);
+
+        }
+        else{
+            params.mu = Double.parseDouble(model_string[1].trim());
+
+        }
+        params.n_samples_per_time = 20; //(int)Math.ceil(50/(double)inputParams.interval);
 
         inputParams.print();
         return inputParams;

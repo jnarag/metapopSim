@@ -833,9 +833,9 @@ public class patchSim {
         inputParams.S = Integer.parseInt(args[3]);
         inputParams.I = Integer.parseInt(args[4]);
         inputParams.nu = Double.parseDouble(args[5]);
-        inputParams.c = Double.parseDouble(args[6]);
-        inputParams.beta = Double.parseDouble(args[7]);
+        inputParams.beta = Double.parseDouble(args[6]);
 
+        inputParams.print();
         test.run(inputParams);
 
     }

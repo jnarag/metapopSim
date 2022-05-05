@@ -21,8 +21,10 @@ public class params {
     static double death; // infected death rate (1-20 per day in Lythgoe 2016)
     static double r; //
     static double mu; // mutation rate per cell infection
-    static double s_b; // beneficial fitness effect;
-    static double s_d; // deleterious fitness effect;
+    static Exponential benDFE; // beneficial fitness effect;
+    static Exponential delDFE; // deleterious fitness effect;
+    static double s_b;
+    static double s_d;
 
     static double nu; // patch extinction rate
     static double c; // patch colonization rate
@@ -48,18 +50,23 @@ public class params {
         c = 0.01; // patch colonization rate;
 
         beta = 0.1; // transmission rate;
-        death = 1.0; // death rate of infected cells;
+        death = 0.01; // death rate of infected cells;
         r = 0.1; // within-patch growth rate;
 
         seed = (int)Math.ceil(Math.random()*1000000000);
         randomGenerator = new MersenneTwister(seed);
         n_samples_per_time = 10;
         interval = 10;
-        whModel = "BSI_death";
+        whModel = "BSI";
 
-        mu = 0.01; //~0.00005*2000*0.3/3 rate at which beneficial mutations appear at amino acid changing sites in envelope
-        s_b = 0.02;
-        s_d = 0.0;
+        //convert mutation rate into per envelope gene per day (how many replications per day, how many errors per replication cycle)
+        mu = 0.005; //0.005 = ~0.00005*2000*0.3/3 rate at which beneficial mutations appear at amino acid changing sites in envelope
+
+
+        s_b = 0.01;
+        s_d = 0.01;
+        benDFE = new Exponential(1./s_b, randomGenerator);
+        delDFE = new Exponential(1./s_d, randomGenerator);
     }
 
     public void print() {
@@ -71,6 +78,10 @@ public class params {
         //System.out.println("colonization rate "+params.c);
         System.out.println("beta "+params.beta);
         System.out.println("whModel "+params.whModel);
+        System.out.println("mu " +params.mu);
+        System.out.println("s_b " +params.s_b);
+        System.out.println("s_d " +params.s_d);
+
         System.out.println("n_sims "+params.n_sims);
 
 

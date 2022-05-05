@@ -1,5 +1,4 @@
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,21 +14,29 @@ public class infectionHistory implements Serializable {
     List<Integer> parent = null;
     List<List<Integer>> prevalence = null;
     List<Integer> patch = null;
-    List<Double> fitness = null;
+    List<Double> beta = null;
+    List<Integer> clade = null;
+
 
     public infectionHistory () {
 
         genotype = new ArrayList<>();
+        clade = new ArrayList<>();
         mutationsFromParent = new ArrayList<>();
         birth = new ArrayList<>();
         death = new ArrayList<>();
         parent = new ArrayList<>();
         prevalence = new ArrayList<>();
         patch = new ArrayList<>();
-        fitness = new ArrayList<>();
+        beta = new ArrayList<>();
 
     }
 
+    public void logClade(Integer clade) {
+
+        this.clade.add(clade);
+
+    }
     public void logGenotype(Integer genotype) {
 
         this.genotype.add(genotype);
@@ -70,9 +77,9 @@ public class infectionHistory implements Serializable {
 
         this.prevalence.get(index).add(prevalence);
     }
-    public void logFitness(Double fitness) {
+    public void logBeta(Double beta) {
 
-        this.fitness.add(fitness);
+        this.beta.add(beta);
 
     }
 
@@ -138,15 +145,40 @@ public class infectionHistory implements Serializable {
         return this.patch.get(index);
     }
 
-    public Double getFitness(int index) {
+    public Integer getClade(int index) {
 
-        return this.fitness.get(index);
+        return this.clade.get(index);
+    }
+
+    public Integer getClade(Integer genotype) {
+
+        int index = this.genotype.indexOf(genotype);
+        return this.clade.get(index);
+    }
+
+    public Double getBeta(int index) {
+
+        return this.beta.get(index);
+    }
+
+
+    public Double getBeta(Integer genotype) {
+
+        int index = this.genotype.indexOf(genotype);
+        return this.beta.get(index);
     }
 
     public Integer getParent(Integer genotype) {
 
         int index = this.genotype.indexOf(genotype);
         return this.parent.get(index);
+    }
+
+    public void setBeta(Integer genotype, Double beta) {
+
+        int index = this.genotype.indexOf(genotype);
+        this.beta.set(index, beta);
+
     }
 
     public void copyInfectionHistory(infectionHistory history) {
@@ -163,8 +195,10 @@ public class infectionHistory implements Serializable {
         this.patch.addAll(history.patch);
         this.mutationsFromParent = new ArrayList<>();
         this.mutationsFromParent.addAll(history.mutationsFromParent);
-        this.fitness = new ArrayList<>();
-        this.fitness.addAll(history.fitness);
+        this.beta = new ArrayList<>();
+        this.beta.addAll(history.beta);
+        this.clade = new ArrayList<>();
+        this.clade.addAll(history.clade);
     }
 
 
@@ -176,76 +210,6 @@ public class infectionHistory implements Serializable {
     }
 
 
-//    public byte[] serializaData() {
-//
-//        ArrayList<Object> x = new ArrayList<>();
-//        x.add(genotype);
-//        x.add(mutationsFromParent);
-//        x.add(birth);
-//        x.add(death);
-//        x.add(parent);
-//        x.add(prevalence);
-//        x.add(patch);
-//        x.add(fitness);
-//
-//        byte[] bytes = null;
-//        try {
-//            //FileOutputStream fileOut = new FileOutputStream("history.ser");
-//            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-//            //bos.writeTo(fileOut);
-//            ObjectOutputStream out = new ObjectOutputStream(bos);
-//            out.flush();
-//            out.writeObject(x);
-//            bytes = bos.toByteArray();
-//            out.close();
-//            bos.close();
-//            //System.out.println("Serialized data is saved in bytes "+bytes.length);
-//            return bytes;
-//        } catch (IOException i) {
-//            i.printStackTrace();
-//        }
-//
-//        return null;
-//
-//
-//    }
-//
-//    public void deserializaData(byte[] bytes) {
-//
-//        //ArrayList<Object> deserialized = null;
-//        // Deserialize in to new class object
-//        Object deserialized = null;
-//
-//        try {
-//            ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
-//
-//            //FileInputStream fileIn = new FileInputStream("history.ser");
-//
-//            ObjectInputStream in = new ObjectInputStream(bis);
-//            deserialized = in.readObject();
-//            in.close();
-//            bis.close();
-//        }
-//        catch(IOException i){
-//            i.printStackTrace();
-//        } catch(ClassNotFoundException c){
-//            c.printStackTrace();
-//        }
-//
-//        ArrayList<Object> x = (ArrayList<Object>)deserialized;
-//        this.genotype = ((ArrayList<Integer>)x.get(0));
-//        this.mutationsFromParent = ((ArrayList<Integer>)x.get(1));
-//        this.birth = ((ArrayList<Double>)x.get(2));
-//        this.death = ((ArrayList<Double>)x.get(3));
-//        this.parent = ((ArrayList<Integer>)x.get(4));
-//        this.prevalence = ((ArrayList<List<Integer>>)x.get(5));
-//        this.patch = ((ArrayList<Integer>)x.get(6));
-//        this.fitness = ((ArrayList<Double>)x.get(7));
-//
-//
-//    }
-//
-//
 
 
 

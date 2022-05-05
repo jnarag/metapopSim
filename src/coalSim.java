@@ -242,10 +242,23 @@ coalSim {
                     branchLength2 = Math.abs(currTime2-nodeHeight2);
                 }
 
+                String new_label = "";
+                try {
+                    new_label = "(" + temp_labels.get(ra.get(0)) + ":" + branchLength1 + "[&parent=coal_N_" + history.prevalence.get(g_index).get((int) (currTime1 / tau)) + "_parent_" + genotype + "_origin_" + history.getBirth(genotype) + "_" + nodeHeight1 + "],"
+                            + temp_labels.get(ra.get(1)) + ":" + branchLength2 + "[&parent=coal_N_" + history.prevalence.get(g_index).get((int) (currTime2 / tau)) + "_parent_" + genotype + "_origin_" + history.getBirth(genotype) + "_" + nodeHeight2 + "])";
+                }
+                catch (IndexOutOfBoundsException e) {
+                    e.printStackTrace();
+                    System.out.println(currTime1);
+                    System.out.println(currTime2);
+                    System.out.println(temp_times.get(ra.get(0)));
+                    System.out.println(temp_times.get(ra.get(1)));
+                    System.out.println(temp_labels.get(ra.get(0)));
+                    System.out.println(temp_labels.get(ra.get(1)));
+                    System.out.println(ra.get(0));
+                    System.out.println(ra.get(1));
 
-                String new_label = "(" + temp_labels.get(ra.get(0)) + ":" + branchLength1 +"[&parent=coal_N_"+ history.prevalence.get(g_index).get((int)(currTime1/tau)-1)+"_parent_"+genotype+"_origin_"+history.getBirth(genotype)+"_" + nodeHeight1 + "],"
-                        + temp_labels.get(ra.get(1)) + ":" + branchLength2+"[&parent=coal_N_"+history.prevalence.get(g_index).get((int)(currTime2/tau)-1)+"_parent_"+genotype+"_origin_"+history.getBirth(genotype)+"_" + nodeHeight2 + "])";
-
+                }
 
                 nodeNames.replace(label_indices.get(temp_labels.get(ra.get(0))), new_label);
                 nodeNames.remove(label_indices.get(temp_labels.get(ra.get(1))));
@@ -341,12 +354,12 @@ coalSim {
             if(t/tau < 1) {
                 t = tau;
             }
-            N = history.prevalence.get(history.genotype.indexOf(genotype)).get((int) (t / tau) - 1);
+            N = history.prevalence.get(history.genotype.indexOf(genotype)).get((int) (t / tau));
         }
         catch (IndexOutOfBoundsException e) {
             e.printStackTrace();
             N = history.prevalence.get(history.genotype.indexOf(genotype)).get(0);
-            System.out.println(((int)(t / tau) - 1)+ " " + N+ " " + genotype);
+            System.out.println(((int)(t / tau))+ " " + N+ " " + genotype);
 
         }
 
