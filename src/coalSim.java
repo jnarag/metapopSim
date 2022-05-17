@@ -224,6 +224,14 @@ coalSim {
                 double currTime1 = params.runTime-temp_times.get(ra.get(0));//copyCompleteSampleTimes.get(label_indices.get(temp_labels.get(ra.get(0)))-1);
                 double currTime2 = params.runTime-temp_times.get(ra.get(1));//copyCompleteSampleTimes.get(label_indices.get(temp_labels.get(ra.get(1)))-1);
 
+//                if(currTime1 < 0 ) {
+//                    System.out.print("1");
+//                    currTime1 = 0;
+//                }
+//                if(currTime2 < 0) {
+//                    System.out.print("2");
+//                    currTime2 = 0;
+//                }
                 double branchLength1 = s-temp_times.get(ra.get(0));
                 double branchLength2 = s-temp_times.get(ra.get(1));
 
@@ -244,8 +252,16 @@ coalSim {
 
                 String new_label = "";
                 try {
-                    new_label = "(" + temp_labels.get(ra.get(0)) + ":" + branchLength1 + "[&parent=coal_N_" + history.prevalence.get(g_index).get((int) (currTime1 / tau)) + "_parent_" + genotype + "_origin_" + history.getBirth(genotype) + "_" + nodeHeight1 + "],"
-                            + temp_labels.get(ra.get(1)) + ":" + branchLength2 + "[&parent=coal_N_" + history.prevalence.get(g_index).get((int) (currTime2 / tau)) + "_parent_" + genotype + "_origin_" + history.getBirth(genotype) + "_" + nodeHeight2 + "])";
+                    new_label = "(" + temp_labels.get(ra.get(0)) + ":" +
+                            branchLength1 +
+                            "[&parent=coal_N_" + history.prevalence.get(g_index).get((int) (currTime1 / tau)) +
+                            "_parent_" + genotype + "_origin_" + history.getBirth(genotype) + "_" +
+                            nodeHeight1 + "],"
+                            + temp_labels.get(ra.get(1)) + ":" +
+                            branchLength2 + "[&parent=coal_N_" +
+                            history.prevalence.get(g_index).get((int) (currTime2 / tau)) +
+                            "_parent_" + genotype + "_origin_" + history.getBirth(genotype) + "_" +
+                            nodeHeight2 + "])";
                 }
                 catch (IndexOutOfBoundsException e) {
                     e.printStackTrace();

@@ -40,7 +40,7 @@ public class params {
     public params() {
 
         n_sims = 1;
-        tau = 1.0;
+        tau = 0.5;
         runTime = 5000;
         startTime = 1000;
         Npatches = 3;
@@ -50,10 +50,10 @@ public class params {
         c = 0.01; // patch colonization rate;
 
         beta = 0.1; // transmission rate;
-        death = 0.01; // death rate of infected cells;
+        death = 0.0; // death rate of infected cells;
         r = 0.1; // within-patch growth rate;
 
-        seed = (int)Math.ceil(Math.random()*1000000000);
+        seed = (int)Math.ceil(Math.random()*1000);
         randomGenerator = new MersenneTwister(seed);
         n_samples_per_time = 10;
         interval = 10;

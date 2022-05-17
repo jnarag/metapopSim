@@ -42,8 +42,8 @@ public class utils {
             while (random >= pdf[count]) {
 
                 count++;
-                if(count == lineages.size()) {
-                    chosen = lineages.get(lineages.size()-1);
+                if (count == lineages.size()) {
+                    chosen = lineages.get(lineages.size() - 1);
                     break;
                 }
                 chosen = lineages.get(count);
@@ -57,10 +57,6 @@ public class utils {
     }
 
     public static Integer sample(List<Integer> weights, List<Integer> list) {
-
-
-
-//        List<Integer> sample = new ArrayList<>();
 
         double sum = weights.stream().mapToInt(Integer::intValue).sum();
 
@@ -81,34 +77,25 @@ public class utils {
 
         }
 
-        //for (int i = 0; i < N; i++) {
+        double random = Uniform.staticNextDouble();
 
-            double random = Uniform.staticNextDouble();
+        int count = 0;
+        Integer chosen = list.get(count);
+        while (random >= pdf[count]) {
 
-            int count = 0;
-            Integer chosen = list.get(count);
-            while (random >= pdf[count]) {
-
-                count++;
-                if(count == list.size()) {
-                    chosen = list.get(list.size()-1);
-                    break;
-                }
-                chosen = list.get(count);
-
+            count++;
+            if (count == list.size()) {
+                chosen = list.get(list.size() - 1);
+                break;
             }
-//            sample.add(chosen);
+            chosen = list.get(count);
 
-        //}
+        }
 
         return chosen;
     }
 
     public static int sample(List<Double> weights) {
-
-
-
-//        List<Integer> sample = new ArrayList<>();
 
         double sum = weights.stream().mapToDouble(Double::doubleValue).sum();
 
@@ -129,7 +116,43 @@ public class utils {
 
         }
 
-        //for (int i = 0; i < N; i++) {
+        double random = Uniform.staticNextDouble();
+
+        int count = 0;
+        //int chosen = list.get(count);
+        while (random >= pdf[count]) {
+
+            count++;
+            if (count == weights.size()) {
+                count = weights.size() - 1;
+                break;
+            }
+
+        }
+
+        return count;
+    }
+
+    public static int sampleIntegerWeights(List<Integer> weights) {
+
+        double sum = weights.stream().mapToDouble(Integer::intValue).sum();
+
+        double[] pdf = new double[weights.size()];
+
+        List<Integer> weights_copy = new ArrayList<>();
+        weights_copy.addAll(weights);
+
+        weights_copy.forEach(s -> {
+            pdf[weights_copy.indexOf(s)] = s / (double) sum;
+            weights_copy.set(weights_copy.indexOf(s), -1);
+        });
+
+
+        for (int i = 1; i < pdf.length; i++) {
+
+            pdf[i] = pdf[i] + pdf[i - 1];
+
+        }
 
         double random = Uniform.staticNextDouble();
 
@@ -138,18 +161,16 @@ public class utils {
         while (random >= pdf[count]) {
 
             count++;
-            if(count == weights.size()) {
-                count = weights.size()-1;
+            if (count == weights.size()) {
+                count = weights.size() - 1;
                 break;
             }
 
         }
-//            sample.add(chosen);
-
-        //}
 
         return count;
     }
+
 
 
     public static List<Integer> intersect(List<Integer> list1, List<Integer> list2) {
@@ -173,7 +194,7 @@ public class utils {
 
 
         List<Integer> indices = IntStream.range(0, list.size())
-                .filter(i -> list.get(i)==value)
+                .filter(i -> list.get(i) == value)
                 .boxed()
                 .collect(Collectors.toList());
 
@@ -195,7 +216,7 @@ public class utils {
 
         int i = 0;
         int sum = 0;
-        while(i < array.length) {
+        while (i < array.length) {
 
             sum += array[i];
             i++;
@@ -204,16 +225,15 @@ public class utils {
     }
 
 
-
-    public int chooseBin(double [] prob, double randomNo) {
+    public int chooseBin(double[] prob, double randomNo) {
 
         int bin = 0;
 
-        while(prob[bin] < randomNo) {
+        while (prob[bin] < randomNo) {
 
             bin++;
 
-            if(bin==prob.length){
+            if (bin == prob.length) {
                 break;
             }
 
@@ -222,6 +242,7 @@ public class utils {
         return bin;
 
     }
+
     private List<Integer> deepCopy(List<Integer> list) {
         List<Integer> copy = new ArrayList<Integer>(list.size());
         for (Integer element : list) {
@@ -230,7 +251,6 @@ public class utils {
         }
         return copy;
     }
-
 
 
 }

@@ -8,46 +8,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b69043b0-f2d7-4295-8253-5da82f4f758e" name="Default" comment="updated patchSimSel code">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/commons_math3_3_6.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/fst_2_57.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/sampledLineages.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/utils/utils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/extractGenealogy.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/extractGenealogy.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/patchSim.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/patchSim.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/commons_math3_3_6_javadoc.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Hello/src/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/Hello/src/META-INF/MANIFEST.MF" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/META-INF/MANIFEST.MF" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/extractGenealogy/extractGenealogy.iml" beforeDir="false" afterPath="$PROJECT_DIR$/extractGenealogy/extractGenealogy.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/extractGenealogy/src/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/extractGenealogy/src/META-INF/MANIFEST.MF" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/metapopSim.iml" beforeDir="false" afterPath="$PROJECT_DIR$/metapopSim.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/extractGenealogy/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/extractGenealogy/META-INF/MANIFEST.MF" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/metapopSim/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/metapopSim/META-INF/MANIFEST.MF" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/metapopSim/coalSim$args2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/metapopSim/coalSim$args2.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/metapopSim/coalSim$coalData.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/metapopSim/coalSim$coalData.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/metapopSim/coalSim.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/metapopSim/coalSim.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/metapopSim/extractGenealogy$coalescentEvent.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/metapopSim/extractGenealogy$coalescentEvent.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/metapopSim/extractGenealogy$sampledLineages.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/metapopSim/extractGenealogy.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/metapopSim/extractGenealogy.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/metapopSim/infectionHistory.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/metapopSim/infectionHistory.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/metapopSim/params.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/metapopSim/params.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/metapopSim/patchSim$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/metapopSim/patchSim$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/metapopSim/patchSim.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/metapopSim/patchSim.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/metapopSim/patchSimMPI$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/metapopSim/patchSimMPI$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/metapopSim/patchSimMPI.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/metapopSim/patchSimMPI.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/metapopSim/patchSimNoMutation$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/metapopSim/patchSimNoMutation$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/metapopSim/patchSimNoMutation.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/metapopSim/patchSimNoMutation.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/patchSimMPI/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/patchSimMPI/META-INF/MANIFEST.MF" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/patchSimMPI/src/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/patchSimMPI/src/META-INF/MANIFEST.MF" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/coalSim.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/coalSim.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/extractGenealogy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/extractGenealogy.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/infectionHistory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/infectionHistory.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/params.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/params.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/patchSim.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/patchSim.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/patchSimMPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/patchSimMPI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/patchSimNoMutation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/patchSimNoMutation.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/patchSimSel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/patchSimSel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/utils.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -147,63 +119,6 @@
     </key>
   </component>
   <component name="RunManager" selected="Application.extractGenealogy">
-    <configuration default="true" type="Applet">
-      <option name="HEIGHT" value="0" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="WIDTH" value="0" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="JUnitTestDiscovery" factoryName="JUnit Test Discovery" changeList="All">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <module name="" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="METHOD_NAME" />
-      <option name="TEST_OBJECT" value="class" />
-      <option name="VM_PARAMETERS" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
-      <envs />
-      <patterns />
-      <method />
-    </configuration>
-    <configuration default="true" type="TestNGTestDiscovery" factoryName="TestNG Test Discovery" changeList="All">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <module name="" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="SUITE_NAME" />
-      <option name="PACKAGE_NAME" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="METHOD_NAME" />
-      <option name="GROUP_NAME" />
-      <option name="TEST_OBJECT" value="CLASS" />
-      <option name="VM_PARAMETERS" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" />
-      <option name="OUTPUT_DIRECTORY" />
-      <option name="ANNOTATION_TYPE" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
-      <option name="USE_DEFAULT_REPORTERS" value="false" />
-      <option name="PROPERTIES_FILE" />
-      <envs />
-      <properties />
-      <listeners />
-      <method />
-    </configuration>
     <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android App">
       <option name="DEPLOY" value="true" />
       <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
@@ -262,6 +177,69 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration default="true" type="Applet">
+      <option name="HEIGHT" value="0" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="WIDTH" value="0" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JUnitTestDiscovery" factoryName="JUnit Test Discovery" changeList="All">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+      <method />
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="TestNGTestDiscovery" factoryName="TestNG Test Discovery" changeList="All">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="SUITE_NAME" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="GROUP_NAME" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="OUTPUT_DIRECTORY" />
+      <option name="ANNOTATION_TYPE" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <option name="USE_DEFAULT_REPORTERS" value="false" />
+      <option name="PROPERTIES_FILE" />
+      <envs />
+      <properties />
+      <listeners />
+      <method />
+    </configuration>
     <configuration name="Hello" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="ALTERNATIVE_JRE_PATH" value="/Library/Java/JavaVirtualMachines/jdk1.8.0_77.jdk/Contents/Home" />
       <option name="MAIN_CLASS_NAME" value="Hello" />
@@ -277,11 +255,11 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="extractGenealogy" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+    <configuration name="extractGenealogy" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="ALTERNATIVE_JRE_PATH" value="/Library/Java/JavaVirtualMachines/jdk1.8.0_77.jdk/Contents/Home" />
       <option name="MAIN_CLASS_NAME" value="extractGenealogy" />
       <module name="metapopSim" />
-      <option name="PROGRAM_PARAMETERS" value="1750 100 200 99 1 0.3 0.6 1 sel,0.001,0.01,0.005" />
+      <option name="PROGRAM_PARAMETERS" value="2110 100 150 199 1 0.1 0.6 1 sel,0.0001,0.05,0.001" />
       <option name="VM_PARAMETERS" value="-Xmx30000m" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -349,7 +327,7 @@
       <option name="ALTERNATIVE_JRE_PATH" value="/Library/Java/JavaVirtualMachines/jdk1.8.0_77.jdk/Contents/Home" />
       <option name="MAIN_CLASS_NAME" value="patchSimSel" />
       <module name="metapopSim" />
-      <option name="PROGRAM_PARAMETERS" value="1020 100 50 199 1 0.05 0.2 0.01 0.2 0.00" />
+      <option name="PROGRAM_PARAMETERS" value="1770 350 50 99 1 0.05 0.6 0.001 0.05 0.00" />
       <option name="VM_PARAMETERS" value="-ea -Xmx20000m" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -367,12 +345,6 @@
       <option name="JAR_PATH" value="$PROJECT_DIR$/../colt/lib/colt.jar" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <method v="2" />
-    </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
-      <option name="filePath" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
     </configuration>
     <configuration default="true" type="TestNG">
       <option name="TEST_OBJECT" value="CLASS" />
@@ -406,7 +378,6 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.extractGenealogy" />
         <item itemvalue="Application.patchSimSel" />
         <item itemvalue="Application.patchSimDD" />
         <item itemvalue="Application.patchSimMPI" />
@@ -670,7 +641,14 @@
       <option name="project" value="LOCAL" />
       <updated>1577799367515</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="updated patchSimSel code">
+      <created>1651762061555</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1651762061555</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="TodoView">
@@ -783,47 +761,47 @@
           <option name="timeStamp" value="204" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/coalSim.java</url>
-          <line>257</line>
-          <option name="timeStamp" value="382" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/extractGenealogy.java</url>
-          <line>853</line>
-          <option name="timeStamp" value="383" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/extractGenealogy.java</url>
-          <line>697</line>
+          <line>700</line>
           <option name="timeStamp" value="436" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/patchSimSel.java</url>
-          <line>638</line>
-          <option name="timeStamp" value="450" />
+          <url>file://$PROJECT_DIR$/src/coalSim.java</url>
+          <line>227</line>
+          <option name="timeStamp" value="495" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/coalSim.java</url>
+          <line>231</line>
+          <option name="timeStamp" value="496" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/extractGenealogy.java</url>
-          <line>891</line>
-          <option name="timeStamp" value="451" />
+          <line>556</line>
+          <option name="timeStamp" value="512" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/extractGenealogy.java</url>
-          <line>1012</line>
-          <option name="timeStamp" value="456" />
+          <line>595</line>
+          <option name="timeStamp" value="520" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/patchSimSel.java</url>
-          <line>191</line>
-          <option name="timeStamp" value="486" />
+          <line>281</line>
+          <option name="timeStamp" value="537" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/patchSimSel.java</url>
-          <line>438</line>
-          <option name="timeStamp" value="497" />
+          <line>349</line>
+          <option name="timeStamp" value="539" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="java.lang.Integer" memberName="value" />
+      </pinned-members>
+    </pin-to-top-manager>
   </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />

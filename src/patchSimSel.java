@@ -66,7 +66,7 @@ public class patchSimSel {
 
     public void run(params params) {
 
-
+        System.out.println("death_rate: " + params.death);
         occupyPatchList.ensureCapacity(params.Npatches);
         double tau = params.tau;
 
@@ -137,8 +137,14 @@ public class patchSimSel {
 
         System.out.println("T_curr\tTotal infected\tTotal genotypes\tPatch occupied\tTMRCA");
 
+        double seasonal_amp = 1;
         for (int t = 1; t < (t_max / tau); t++) {
 
+//            double z_t = 1 + seasonal_amp * Math.sin((2*Math.PI*t_curr)/(100));
+
+            double z_t = Math.signum((Math.sin(2 * Math.PI * t_curr / 30)));
+
+            z_t = 1.0;
 
             //determine what is present currently across all patches
             update_curr_in_body(t);
@@ -156,7 +162,7 @@ public class patchSimSel {
                 }
 
                 System.out.println(t_curr + "\t" + Math.log10(total_infected) + "\t" + total_genotypes +
-                        "\t" + N_occupied + "\t" + ((tmrca)));
+                        "\t" + N_occupied + "\t" + ((tmrca)) + "\t" + (t_curr-tmrca));
 
 
                 if (writeOutput) {
@@ -165,7 +171,7 @@ public class patchSimSel {
                     writeOutput(writer2, t_curr, total_infected, total_genotypes, N_occupied, globalDiversity);
                 }
 
-                if (t_curr % 350 == 0) {
+                if (t_curr % 300 == 0) {
 
                     Map<Integer, Integer> curr_clades = new HashMap<>();
 
@@ -178,7 +184,7 @@ public class patchSimSel {
                     for (Integer g : curr_genotypes_list) {
 
                         int index = patch_history.genotype.indexOf(g);
-                        int prevalence = patch_history.prevalence.get(index).get((int) (t / tau));
+                        int prevalence = patch_history.prevalence.get(index).get((int) (t_curr / tau));
 
                         weights.add(prevalence);
                         beta.add(patch_history.getBeta(index));
@@ -198,6 +204,7 @@ public class patchSimSel {
 
             betweenPatchRates.add(extinct * N_occupied);
             //betweenPatchRates.add(colonize * (params.Npatches - N_occupied));
+
 
             int noOfRates = betweenPatchRates.size();
 
@@ -220,9 +227,11 @@ public class patchSimSel {
 
                     // select patch randomly to go extinct - but I wonder if we should select by prevalence or time since colonization?
 
-                    int patch_index = Uniform.staticNextIntFromTo(0, (N_occupied - 1));
-                    Integer patch = occupyPatchList.get(patch_index);
+//                    int patch_index = Uniform.staticNextIntFromTo(0, (N_occupied - 1));
+//                    Integer patch = occupyPatchList.get(patch_index);
 
+                    List<Integer> patchWeights = getPatchWeightsByDuration(t_curr);
+                    Integer patch = utils.sampleIntegerWeights(patchWeights);
 
                     Set<Integer> unique_genotypes = new HashSet<>();
                     unique_genotypes.addAll(genotype_curr_per_patch.get(patch));
@@ -247,7 +256,6 @@ public class patchSimSel {
 
                     total_infected -= genotype_curr_per_patch.get(patch).size();
 
-
                     genotype_curr_per_patch.remove(patch);
                     occupyPatchList.remove(patch);
 
@@ -261,11 +269,21 @@ public class patchSimSel {
                     for (Integer gg : curr_genotypes_list) {
 
                         int index = patch_history.genotype.indexOf(gg);
-                        weights.add((double)patch_history.prevalence.get(index).get((int)(t/tau)));
+                        weights.add((double) patch_history.prevalence.get(index).get((int) (t_curr / tau)));
                         //weights.add(patch_history.getBeta(index));
                     }
 
-                    Integer colonizing_genotype = curr_genotypes_list.get(utils.sample(weights));//, curr_genotypes_list);
+
+                    Integer colonizing_genotype;
+
+                    if(params.Npatches == 1) {
+
+                        int r_index = Uniform.staticNextIntFromTo(0, unique_genotypes.size()-1);
+                        colonizing_genotype = (Integer)unique_genotypes.toArray()[r_index];
+                    }
+                    else {
+                        colonizing_genotype = curr_genotypes_list.get(utils.sample(weights));//, curr_genotypes_list);
+                    }
 
 
                     List<Integer> new_Y = new ArrayList<>(Arrays.asList(new Integer[newInfections]));
@@ -368,18 +386,22 @@ public class patchSimSel {
 
                     double rand = Math.random();
 
-                    if (rand <= 0.2) {
+                    if (rand <= 0.1) {
+//                    new_beta = new_beta * (1 + params.s_b * z_t);
                         new_beta = new_beta * (1 + params.benDFE.nextDouble());
                         patch_history.setBeta(chosen_genotype, new_beta);
-                    } else {
+                    }
+                    else {
 
                         if (params.s_d > 0) {
                             double delta_fitness = (1 - params.delDFE.nextDouble());
+//                            double delta_fitness = (1 - params.s_d);
+
                             if (delta_fitness < 0) {
                                 System.out.println("deleterious");
                                 delta_fitness = 0;
                             }
-
+//
                             new_beta = new_beta * delta_fitness;
                             patch_history.setBeta(chosen_genotype, new_beta);
 
@@ -390,12 +412,8 @@ public class patchSimSel {
                     if (prev_curr == 1) {
                         total_genotypes -= 1;
                         patch_history.death.set(genotype_index, t_curr);
-                        //unique_genotypes.remove(chosen_genotype);
                         curr_genotypes.remove(chosen_genotype);
-//                        if(unique_genotypes.isEmpty()) {
-//
-//                            break;
-//                        }
+
                     }
 
                     total_genotypes += 1;
@@ -413,48 +431,38 @@ public class patchSimSel {
                 Set<Integer> unique_genotypes = new HashSet<>(genotype_curr);
                 List<Integer> unique_genotype_list = new ArrayList<>(unique_genotypes);
 
-                Map<Integer, Integer> curr_clades = new HashMap<>();
-//                for (Integer g : curr_genotypes) {
-//
-//                    int index = patch_history.genotype.indexOf(g);
-//                    Integer prevalence = patch_history.prevalence.get(index).get((int) (t / tau));
-//
-//                    curr_clades.put(g, prevalence);
-//
-//                }
-//
-//                Map<Integer, Double> curr_clade_fitness = new HashMap<>();
-//                for (Integer g : curr_genotypes) {
-//
-//                    if (curr_clades.get(g) == null) {
-//
-//                        curr_clades.replace(g, 0);
-//                    }
-//                    double fitness = ((double) curr_clades.get(g)); //(double) total_infected);
-//
-//                    curr_clade_fitness.put(g, fitness);
-//                }
 
-
-//                double max_freq = Collections.max(curr_clade_fitness.values());
-
+                double sum_beta = 0.0;
+                double max_beta = 0.0;
 
                 for (Integer g : unique_genotype_list) {
 
-//                    double rel_fitness = curr_clade_fitness.get(g) / max_freq;
-//
+                    // need to rescale beta so adds up to beta = 0.3
                     double beta_g = patch_history.getBeta(g);
-//                    patch_history.setBeta(g, beta_g);
-                    infection_rate = beta_g * (N - Y_temp) * (Y_temp);
+
+                    sum_beta += beta_g;
+//                    infection_rate = beta_g * (N - Y_temp) * (Y_temp);
+//                    withinPatchRates.add(infection_rate);
+//                    withinPatchEvents.add("infection");
+
+                }
+
+                for (Integer g : unique_genotype_list) {
+
+                    double beta_g = patch_history.getBeta(g);
+                    double beta_rescaled = (beta_g/sum_beta)*params.beta;
+                    infection_rate = beta_rescaled * (N - Y_temp) * (Y_temp);
                     withinPatchRates.add(infection_rate);
                     withinPatchEvents.add("infection");
+
                 }
 
 
-//                death = params.death;
-//                death_rate = death * Y_temp;
-//                withinPatchRates.add(death_rate);
-//                withinPatchEvents.add("death");
+
+                death = params.death;
+                death_rate = death * Y_temp;
+                withinPatchRates.add(death_rate);
+                withinPatchEvents.add("death");
 
 
                 noOfRates = withinPatchRates.size();
@@ -571,7 +579,7 @@ public class patchSimSel {
                                     for (Integer gg : curr_genotype_list) {
 
                                         int g_index = patch_history.genotype.indexOf(gg);
-                                        weights.add((double)patch_history.prevalence.get(g_index).get((int)(t/tau)));
+                                        weights.add((double) patch_history.prevalence.get(g_index).get((int) (t_curr / tau)));
 //                                        weights.add(patch_history.getBeta(g_index));
                                     }
 
@@ -693,6 +701,26 @@ public class patchSimSel {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private List<Integer> getPatchWeightsByDuration(double t_curr) {
+
+        List<Integer> patchWeights = new ArrayList<>();
+
+        for (int patch = 0; patch < params.Npatches; patch++) {
+
+//            int index = patch_history.genotype.indexOf(genotype_curr_per_patch.get(patch));
+//            double patchBirth = patch_history.birth.get(index);
+//            patchWeights.add(t_curr - patchBirth);
+
+            int index = patch_history.genotype.indexOf(genotype_curr_per_patch.get(patch).get(0));
+            int prev = patch_history.prevalence.get(index).get((int) (t_curr / params.tau));
+            patchWeights.add(prev);
+
+        }
+
+        return patchWeights;
+
     }
 
     private int commonAncestor(Integer i1, Integer i2) {
@@ -856,7 +884,7 @@ public class patchSimSel {
 
         List<Integer> sampled_genotypes = new ArrayList<>();
         chosenPatches.forEach(i -> {
-            sampled_genotypes.add(genotype_curr_per_patch.get(i).get(0));
+            sampled_genotypes.addAll(genotype_curr_per_patch.get(i));
 
             ;
         });
@@ -876,7 +904,10 @@ public class patchSimSel {
         }
 
 
-        for (int i = 0; i < sampled_genotypes.size(); i++) {
+        Collections.shuffle(sampled_genotypes);
+
+//        for (int i = 0; i < sampled_genotypes.size(); i++) {
+        for (int i = 0; i < 100; i++) {
 
             Integer vA = sampled_genotypes.get(Uniform.staticNextIntFromTo(0, sampled_genotypes.size() - 1));
             Integer vB = sampled_genotypes.get(Uniform.staticNextIntFromTo(0, sampled_genotypes.size() - 1));

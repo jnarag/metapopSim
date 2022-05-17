@@ -156,7 +156,8 @@ public class extractGenealogy {
             double timeOfCoalescence = coalescentEvent.getTimeToCoalescence();
             Integer coal_parent = coalescentEvent.getCoalParent();
             int[] coalDaughters = coalescentEvent.getCoalDaughters();
-            System.out.println("coalesced "+ coalDaughters[0]+ " "+coalDaughters[1]+"\n");
+
+            System.out.println("coalesced "+ coalDaughters[0]+ " "+coalDaughters[1]+ " parent "+ coal_parent + "\n");
 
             if (timeOfCoalescence == Double.NEGATIVE_INFINITY) {
                 break;
@@ -200,6 +201,7 @@ public class extractGenealogy {
 
             d[index1] = Math.abs(completeSeqTimes.get(index1) - timeOfCoalescence);
             d[index2] = Math.abs(completeSeqTimes.get(index2) - timeOfCoalescence);
+
 
             if(completeSeqTimes.get(index1) > 100 || completeSeqTimes.get(index2) > 100) {
                 T_meta.addValue(Math.min(d[index1], d[index2]));
@@ -253,9 +255,8 @@ public class extractGenealogy {
 
             currIndividuals.remove((Integer) coalDaughters[0]);
             currIndividuals.remove((Integer) coalDaughters[1]);
+
             currIndividuals.add(coal_parent);
-
-
 
 
             n_lineages = currIndividuals.size();
@@ -344,7 +345,7 @@ public class extractGenealogy {
             coalescedList.add(children[0]);
             coalescedList.add(children[1]);
 
-            double timeOfCoalescence = 0;
+            double timeOfCoalescence = 0.0;
 
             d[index1] = (completeSeqTimes.get(index1) - timeOfCoalescence);
             d[index2] = (completeSeqTimes.get(index2) - timeOfCoalescence);
@@ -519,62 +520,64 @@ public class extractGenealogy {
 
                     thisTimeOfCoalescence = Math.min(coalTime1, coalTime2);
 
-                    if(currIndividuals.get(i).compareTo(currIndividuals.get(j)) == 0) {
-
-                        // two individuals belong to the same genotype - coalTime according to patch coalescence
-
-                        double time_i = curr_times.get(i);
-                        double time_j = curr_times.get(j);
-
-                        double coalTime = Exponential.staticNextDouble(params.tau*2);
-
-                        double minTime = Math.min(time_i, time_j);
-                        thisTimeOfCoalescence = minTime - coalTime;
-                        if(thisTimeOfCoalescence < history.getBirth(currIndividuals.get(i))) {
-                            thisTimeOfCoalescence = history.getBirth(currIndividuals.get(i));
-                        }
-                        double r = Uniform.staticNextDouble();
-
-                        double t = Math.round(thisTimeOfCoalescence * 2) / 2.0;
-
-
-                        double N;
-
-                        if((t/params.tau)==0) {
-                            N = history.prevalence.get(history.genotype.indexOf(currIndividuals.get(i))).get(0);
-
-                        }
-                        else {
-                            N = history.prevalence.get(history.genotype.indexOf(currIndividuals.get(i))).get((int) (t / params.tau));
-
-                        }
-                        while(r > 1.0/N) {
-
-                            r = Uniform.staticNextDouble();
-                            coalTime = Exponential.staticNextDouble(params.tau*2);
-                            thisTimeOfCoalescence = Math.min(time_i, time_j) - coalTime;
-                            if(thisTimeOfCoalescence < history.getBirth(currIndividuals.get(i))) {
-                                thisTimeOfCoalescence = history.getBirth(currIndividuals.get(i));
-                            }
-                            t = Math.round(thisTimeOfCoalescence * 2) / 2.0;
-                            if((t/params.tau)==0) {
-                                N = history.prevalence.get(history.genotype.indexOf(currIndividuals.get(i))).get(0);
-
-                            }
-                            else {
-                                N = history.prevalence.get(history.genotype.indexOf(currIndividuals.get(i))).get((int) (t / params.tau));
-
-                            }
-                        }
-
-                    }
+//                    if(currIndividuals.get(i).compareTo(currIndividuals.get(j)) == 0) {
+//
+//                        // two individuals belong to the same genotype - coalTime according to patch coalescence
+//
+//                        double time_i = curr_times.get(i);
+//                        double time_j = curr_times.get(j);
+//
+//                        double tau = params.tau; //Math.min(time_i, time_j);
+//                        double coalTime = Exponential.staticNextDouble(tau * 2 );
+//
+//                        double minTime = Math.min(time_i, time_j);
+//                        thisTimeOfCoalescence = minTime - coalTime;
+//
+//                        if(thisTimeOfCoalescence < history.getBirth(currIndividuals.get(i))) {
+//                            thisTimeOfCoalescence = history.getBirth(currIndividuals.get(i));
+//                        }
+//                        double r = Uniform.staticNextDouble();
+//
+//                        double t = Math.round(thisTimeOfCoalescence * 2) / 2.0;
+//
+//
+//                        double N;
+//
+//                        if((t/params.tau)==0) {
+//                            N = history.prevalence.get(history.genotype.indexOf(currIndividuals.get(i))).get(0);
+//
+//                        }
+//                        else {
+//                            N = history.prevalence.get(history.genotype.indexOf(currIndividuals.get(i))).get((int) (t / params.tau));
+//
+//                        }
+//
+//                        while(r > 1.0/N) {
+//
+//                            coalTime = Exponential.staticNextDouble(tau*2);
+//                            thisTimeOfCoalescence = Math.min(time_i, time_j) - coalTime;
+//                            if(thisTimeOfCoalescence < history.getBirth(currIndividuals.get(i))) {
+//                                thisTimeOfCoalescence = history.getBirth(currIndividuals.get(i));
+//                            }
+//
+//                            t = Math.round(thisTimeOfCoalescence * 2) / 2.0;
+//                            if((t/params.tau)==0) {
+//                                N = history.prevalence.get(history.genotype.indexOf(currIndividuals.get(i))).get(0);
+//
+//                            }
+//                            else {
+//                                N = history.prevalence.get(history.genotype.indexOf(currIndividuals.get(i))).get((int) (t / params.tau));
+//
+//                            }
+//
+//                            r = Uniform.staticNextDouble();
+//
+//                        }
+//
+//                    }
 
 
                     if (thisTimeOfCoalescence > mostRecentTimeOfCoalescence) {
-
-                        //if (!currIndividuals.get(i).equals(currIndividuals.get(j))) {
-
-                        //thisTimeOfCoalescence = Double.NEGATIVE_INFINITY;
 
                         coalDaughters = new int[2];
                         coalDaughters[0] = currIndividuals.get(i);
@@ -943,6 +946,13 @@ public class extractGenealogy {
             //add the root node info:
             //treeString = treeString+"[&parent='root'"
 
+            if (treeString.length() == 0) {
+
+                List<Integer> keyList = new ArrayList<>();
+                keyList.addAll(nodeNames.keySet());
+                treeString = nodeNames.get(keyList.get(0));
+            }
+
             System.out.println("******");
             writer4.write("\t tree TREE1 = [&R] [&R=true]" + treeString + ";\n");
             writer4.write("end;\n");
@@ -988,19 +998,19 @@ public class extractGenealogy {
 
         int i = 0;
 
-        while(i < params.n_sims) {
+        while(i < inputParams.n_sims) {
             patchSimSel sim = new patchSimSel();
 
-            String outputfile = "patchSim_extinction_" + params.nu +
-                    "_beta_" + params.beta + "_Npatches_" + params.Npatches +
-                    "_patchSize_" + (params.S + params.I) +
-                    "_mu_"+params.mu+"_sb_"+params.s_b+ "_sim_"+(i+1)+".txt";
+            String outputfile = "patchSim_extinction_" + inputParams.nu +
+                    "_beta_" + inputParams.beta + "_Npatches_" + inputParams.Npatches +
+                    "_patchSize_" + (inputParams.S + inputParams.I) +
+                    "_mu_"+inputParams.mu+"_sb_"+inputParams.s_b+ "_sim_"+(i+1)+".txt";
 
 
-            String summaryFile = "summary_patchSim_extinction_" + params.nu +
-                    "_beta_" + params.beta + "_Npatches_" + params.Npatches +
-                    "_patchSize_" + (params.S + params.I) +
-                    "_mu_"+params.mu+"_sb_"+params.s_b+ "_sim_"+(i+1)+".txt";
+            String summaryFile = "summary_patchSim_extinction_" + inputParams.nu +
+                    "_beta_" + inputParams.beta + "_Npatches_" + inputParams.Npatches +
+                    "_patchSize_" + (inputParams.S + inputParams.I) +
+                    "_mu_"+inputParams.mu+"_sb_"+inputParams.s_b+ "_sim_"+(i+1)+".txt";
 
 
             //sim.setFileNames(outputfile, summaryFile);
@@ -1008,22 +1018,23 @@ public class extractGenealogy {
             sim.run(inputParams);
             infectionHistory infectionHistory = sim.getInfectionHistory();
             double tau = params.tau;
-            extractGenealogy genealogy = new extractGenealogy();
 
-            genealogy.lineages = new sampledLineages(sim.sampledLineages, sim.sampledTimes);
+                extractGenealogy genealogy = new extractGenealogy();
 
-            for (int s = 0; s < sim.sampledLineages.size(); s++) {
+                genealogy.lineages = new sampledLineages(sim.sampledLineages, sim.sampledTimes);
 
-                int index = infectionHistory.genotype.indexOf(sim.sampledLineages.get(s));
-            String name = "sample_" + (s+1) + "_genotype_"+ infectionHistory.getId(index)+"_patch_" + (infectionHistory.getPatch(index)+1) + "_beta_" + infectionHistory.getBeta(index) + "_" + sim.sampledTimes.get(s);
+                for (int s = 0; s < sim.sampledLineages.size(); s++) {
 
-                genealogy.names.add(name);
-            }
+                    int index = infectionHistory.genotype.indexOf(sim.sampledLineages.get(s));
+                    String name = "sample_" + (s+1) + "_genotype_"+ infectionHistory.getId(index)+"_patch_" + (infectionHistory.getPatch(index)+1) + "_beta_" + infectionHistory.getBeta(index) + "_" + sim.sampledTimes.get(s);
 
-            genealogy.getGenealogy(infectionHistory, tau);
-            genealogy.writeNexusTree(genealogy.b, genealogy.d, genealogy.names,
-                    new File("tree_ext_" + params.nu + "_Npatches_" + params.Npatches + "_patchSize_" + (params.S + params.I) +
-                            "_beta_" + params.beta + "_mu_"+params.mu+"_sb_"+params.s_b+"_sd_"+params.s_d+ "_sim_"+(i+1)+".tre"));
+                    genealogy.names.add(name);
+                }
+
+                genealogy.getGenealogy(infectionHistory, tau);
+                genealogy.writeNexusTree(genealogy.b, genealogy.d, genealogy.names,
+                        new File("tree_ext_" + params.nu + "_Npatches_" + params.Npatches + "_patchSize_" + (params.S + params.I) +
+                                "_beta_" + params.beta + "_mu_" + params.mu + "_sb_" + params.s_b + "_sd_" + params.s_d + "_sim_" + (i + 1) + ".tre"));
 
 
             i++;
@@ -1031,7 +1042,6 @@ public class extractGenealogy {
     }
 
     private void runNeutral(params inputParams) {
-
 
 
         int i = 0;
@@ -1089,7 +1099,8 @@ public class extractGenealogy {
         params.I = Integer.parseInt(args[4]);
 
         params.nu = Double.parseDouble(args[5]); //extinction
-        params.beta = Double.parseDouble(args[6])/params.Npatches;
+        params.beta = Double.parseDouble(args[6]);
+
         if(args.length > 7) {
             params.n_sims = Integer.parseInt(args[7]);
         }
@@ -1108,7 +1119,7 @@ public class extractGenealogy {
             params.mu = Double.parseDouble(model_string[1].trim());
 
         }
-        params.n_samples_per_time = 20; //(int)Math.ceil(50/(double)inputParams.interval);
+        params.n_samples_per_time = 30; //(int)Math.ceil(50/(double)inputParams.interval);
 
         inputParams.print();
         return inputParams;
@@ -1117,7 +1128,6 @@ public class extractGenealogy {
 
 
     public static void main(String[] args) {
-
 
         extractGenealogy genealogy = new extractGenealogy();
         params inputParams = genealogy.setParams(args);
